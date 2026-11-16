@@ -125,7 +125,8 @@ $("#form").onsubmit = (e) => {
   values.title = values.title.trim();
   if (!values.title) return;
   values.id = editing || crypto.randomUUID();
-  if (editing) posts = posts.map((p) => (p.id === editing ? values : p));
+  if (editing)
+    posts = posts.map((p) => (p.id === editing ? { ...p, ...values } : p));
   else posts.push(values);
   save();
   $("#editor").close();
@@ -205,5 +206,26 @@ $("#importFile").onchange = async (e) => {
     );
   }
   e.target.value = "";
+};
+// Existing browser records are only changed when the user requests it.
+$("#addScripts").onclick = () => {
+  const missing = suggestions.filter(
+    (script) =>
+      !posts.some(
+        (post) => post.id === script.id || post.source === script.source,
+      ),
+  );
+  if (!missing.length) {
+    alert("Os seis roteiros já estão no planejamento.");
+    return;
+  }
+  if (
+    confirm(
+      `Adicionar ${missing.length} roteiro(s) do PDF sem remover os posts atuais? As datas e horários são sugestões.`,
+    )
+  ) {
+    posts.push(...missing.map((script) => ({ ...script })));
+    save();
+  }
 };
 render();

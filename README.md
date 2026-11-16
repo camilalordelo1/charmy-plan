@@ -42,7 +42,9 @@ Não é necessário `npm install`: o projeto não usa dependências externas de 
 
 ## Funcionalidades e dados
 
-Calendário e lista, banco de ideias, criação/edição/exclusão de posts, filtros por canal e status, busca e importação/exportação JSON. As 15 sugestões iniciais são rascunhos com status Ideia.
+Calendário e lista, banco de ideias, criação/edição/exclusão de posts, filtros por canal e status, busca e importação/exportação JSON. O planejamento inicial contém os seis vídeos de `Roteiros charmy (1).pdf`, com roteiro no briefing e status Ideia. Datas sugeridas: 01/12 (Vibe de Dezembro), 08/12 (1 Peça, 3 Vibes), 10/12 (O Poder do Styling), 12/12 (GRWM: Rolê de Sábado), 17/12 (O Efeito Charmy) e 22/12 (Réveillon). Horário de 18h e Instagram/Reels são sugestões, sem validação por dados de audiência.
+
+Para um navegador com planejamento anterior, use **Adicionar roteiros do PDF**. Esse botão preserva os posts existentes e evita adicionar novamente roteiros identificados pela mesma origem.
 
 Dados são salvos no localStorage do navegador, sem sincronização entre dispositivos. A chave de armazenamento foi preservada nesta reorganização. Para manter os dados ao usar Live Server, mantenha o mesmo endereço e porta; se mudar a origem, exporte o JSON antes e importe depois.
 
