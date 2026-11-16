@@ -119,6 +119,8 @@ function openEditor(id, date) {
   $("#modalTitle").textContent = id ? "Editar post" : "Novo post";
   $("#delete").hidden = !id;
   $("#editor").showModal();
+  $("#editor").scrollTop = 0;
+  expandNotes();
 }
 $("#calendar").onclick = (e) => {
   const post = e.target.closest("[data-id]");
@@ -279,3 +281,13 @@ $("#addNotion").onclick = () => {
     save();
   }
 };
+
+function expandNotes() {
+  const notes = $("#form").elements.notes;
+  notes.style.height = "auto";
+  notes.style.height = `${notes.scrollHeight + 2}px`;
+}
+$("#form").elements.notes.addEventListener("input", expandNotes);
+window.addEventListener("resize", () => {
+  if ($("#editor").open) expandNotes();
+});

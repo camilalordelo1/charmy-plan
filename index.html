@@ -148,7 +148,7 @@
         ><input type="file" id="importFile" accept="application/json" hidden />
       </p>
     </main>
-    <dialog id="editor">
+    <dialog id="editor" aria-labelledby="modalTitle">
       <form id="form">
         <div class="dialoghead">
           <div>
@@ -164,57 +164,66 @@
             maxlength="120"
             placeholder="Qual é a ideia da vez?"
         /></label>
-        <div class="formrow">
-          <label
-            >Data<input
-              name="date"
-              type="date"
-              min="2026-12-01"
-              max="2026-12-31"
-              required /></label
-          ><label>Horário<input name="time" type="time" required /></label>
+        <div class="editor-layout">
+          <section class="editor-content" aria-label="Conteúdo do post">
+            <label
+              >Roteiro, legenda e briefing<span class="field-hint"
+                >Texto completo do post — edite o conteúdo abaixo.</span
+              ><textarea
+                name="notes"
+                rows="20"
+                placeholder="Objetivo, referências, legenda e chamada para ação…"
+              ></textarea>
+            </label>
+          </section>
+          <section class="editor-details" aria-labelledby="detailsTitle">
+            <h3 id="detailsTitle">Publicação</h3>
+            <div class="formrow">
+              <label
+                >Data<input
+                  name="date"
+                  type="date"
+                  min="2026-12-01"
+                  max="2026-12-31"
+                  required /></label
+              ><label>Horário<input name="time" type="time" required /></label>
+            </div>
+            <div class="formrow">
+              <label
+                >Canal<select name="channel">
+                  <option>Instagram</option>
+                  <option>TikTok</option>
+                  <option>WhatsApp</option>
+                </select></label
+              ><label
+                >Formato<select name="format">
+                  <option>Reels</option>
+                  <option>Carrossel</option>
+                  <option>Stories</option>
+                  <option>Vídeo</option>
+                  <option>Imagem</option>
+                </select></label
+              >
+            </div>
+            <div class="formrow">
+              <label
+                >Status<select name="status">
+                  <option>Ideia</option>
+                  <option>Em produção</option>
+                  <option>Aprovado</option>
+                  <option>Publicado</option>
+                </select></label
+              ><label
+                >Linha editorial<select name="pillar">
+                  <option>Estilo & identidade</option>
+                  <option>Comunidade</option>
+                  <option>Bastidores</option>
+                  <option>Produto</option>
+                </select></label
+              >
+            </div>
+          </section>
         </div>
-        <div class="formrow">
-          <label
-            >Canal<select name="channel">
-              <option>Instagram</option>
-              <option>TikTok</option>
-              <option>WhatsApp</option>
-            </select></label
-          ><label
-            >Formato<select name="format">
-              <option>Reels</option>
-              <option>Carrossel</option>
-              <option>Stories</option>
-              <option>Vídeo</option>
-              <option>Imagem</option>
-            </select></label
-          >
-        </div>
-        <div class="formrow">
-          <label
-            >Status<select name="status">
-              <option>Ideia</option>
-              <option>Em produção</option>
-              <option>Aprovado</option>
-              <option>Publicado</option>
-            </select></label
-          ><label
-            >Linha editorial<select name="pillar">
-              <option>Estilo & identidade</option>
-              <option>Comunidade</option>
-              <option>Bastidores</option>
-              <option>Produto</option>
-            </select></label
-          >
-        </div>
-        <label
-          >Briefing / legenda<textarea
-            name="notes"
-            rows="4"
-            placeholder="Objetivo, referências, legenda e chamada para ação…"
-          ></textarea>
-        </label>
         <div class="actions">
           <button type="button" id="delete">Excluir post</button
           ><button class="primary" type="submit">Salvar post ↗</button>

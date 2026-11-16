@@ -765,3 +765,86 @@ textarea {
   color: var(--muted);
   margin-bottom: 8px;
 }
+
+/* Give editorial text the primary reading area. */
+#editor {
+  width: 1100px;
+  padding: 28px 32px 0;
+  max-height: 92dvh;
+}
+#editor .dialoghead {
+  margin-bottom: 18px;
+}
+#editor label {
+  font-size: 13px;
+  gap: 9px;
+}
+#editor input,
+#editor select {
+  font-size: 14px;
+  padding: 11px 12px;
+}
+.editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 28px;
+  align-items: start;
+}
+.editor-content,
+.editor-details {
+  min-width: 0;
+}
+.editor-details {
+  background: #faf6fb;
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 10px;
+}
+.editor-details h3 {
+  margin: 0 0 20px;
+  font-size: 15px;
+}
+#editor .formrow {
+  gap: 12px;
+}
+#editor .field-hint {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+}
+#editor textarea {
+  width: 100%;
+  min-height: 440px;
+  padding: 18px;
+  font-size: 15px;
+  line-height: 1.8;
+  overflow: hidden;
+  resize: vertical;
+}
+#editor .actions {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  border-top: 1px solid var(--border);
+  padding: 16px 0;
+  margin-top: 16px;
+  z-index: 1;
+}
+@media (max-width: 760px) {
+  #editor {
+    padding: 22px 18px 0;
+    max-width: 96vw;
+  }
+  .editor-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  #editor textarea {
+    min-height: 360px;
+    font-size: 16px;
+    padding: 14px;
+  }
+  .editor-details {
+    padding: 16px;
+  }
+}
