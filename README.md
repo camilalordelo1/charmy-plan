@@ -71,3 +71,11 @@ As 25 imagens HEIC atuais possuem prévias JPEG pré-geradas em `src/assets/prev
 O workflow `.github/workflows/pages.yml` verifica o código, gera `dist/` e publica no GitHub Pages a cada push em `main`. Em **Settings → Pages**, selecione **GitHub Actions** como Source. Repositórios privados precisam de um plano GitHub que ofereça Pages para essa visibilidade. Não é necessário versionar `dist/` nem instalar dependências de build.
 
 O conteúdo estático publicado inclui as mídias da pasta `img/`. Dados editados no navegador permanecem no localStorage e não são sincronizados entre visitantes.
+
+## Acesso por senha no Pages
+
+A publicação usa AES-256-GCM com uma chave derivada da senha por PBKDF2-SHA-256 (600 mil iterações, salt e IVs aleatórios). HTML, scripts, dados e mídias são criptografados; somente a tela de desbloqueio, o manifesto e o service worker ficam legíveis na hospedagem. A senha deve existir exclusivamente no segredo de Actions `SITE_PASSWORD` (Settings → Secrets and variables → Actions). O workflow falha sem esse segredo e não publica uma versão desprotegida.
+
+O desbloqueio acontece no navegador por HTTPS. A chave fica na memória do service worker, não no HTML ou localStorage. O navegador pode solicitar novamente a senha ao encerrar o worker. Funciona como um documento criptografado: quem conhece a senha pode copiar o conteúdo desbloqueado. A força da proteção depende da senha escolhida.
+
+**Limite importante:** o repositório público e seu histórico continuam contendo os originais. Isso protege a versão do Pages, não o código ou as mídias disponíveis no GitHub. Dados editados anteriormente no localStorage continuam no navegador. O desenvolvimento local via Live Server permanece sem bloqueio; para gerar a publicação protegida, execute `npm run build` e `npm run protect` com a variável de ambiente `SITE_PASSWORD` definida.

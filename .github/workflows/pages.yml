@@ -30,7 +30,9 @@ jobs:
       - name: Check source
         run: npm run check
       - name: Build static site
-        run: npm run build
+        run: npm run build && node scripts/protect.mjs
+        env:
+          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site
