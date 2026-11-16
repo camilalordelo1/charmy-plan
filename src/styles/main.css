@@ -848,3 +848,53 @@ textarea {
     padding: 16px;
   }
 }
+
+#editor.reading input[name],
+#editor.reading select[name],
+#editor.reading textarea[name] {
+  display: none;
+}
+#editor .field-value {
+  display: block;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  user-select: text;
+  cursor: text;
+}
+#editor .notes-value {
+  min-height: 300px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fefcfe;
+  line-height: 1.85;
+}
+#editor label {
+  min-width: 0;
+  cursor: default;
+}
+#editor .editor-details .formrow {
+  grid-template-columns: minmax(0, 1fr);
+}
+#editor .editor-details input,
+#editor .editor-details select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.editor-buttons {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+  align-items: center;
+}
+#cancelEdit {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 12px;
+}

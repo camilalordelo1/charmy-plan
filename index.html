@@ -168,7 +168,7 @@
           <section class="editor-content" aria-label="Conteúdo do post">
             <label
               >Roteiro, legenda e briefing<span class="field-hint"
-                >Texto completo do post — edite o conteúdo abaixo.</span
+                >Texto completo do post.</span
               ><textarea
                 name="notes"
                 rows="20"
@@ -225,8 +225,15 @@
           </section>
         </div>
         <div class="actions">
-          <button type="button" id="delete">Excluir post</button
-          ><button class="primary" type="submit">Salvar post ↗</button>
+          <button type="button" id="delete">Excluir post</button>
+          <div class="editor-buttons">
+            <button type="button" id="cancelEdit">Cancelar edição</button
+            ><button class="primary" type="button" id="editPost">
+              Editar post</button
+            ><button class="primary" id="savePost" type="submit">
+              Salvar post ↗
+            </button>
+          </div>
         </div>
       </form>
     </dialog>

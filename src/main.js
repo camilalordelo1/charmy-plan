@@ -11,6 +11,7 @@ let ideas = false;
 let kpis = false;
 let media = false;
 let editing = null;
+let editEnabled = false;
 
 function save() {
   try {
@@ -116,7 +117,7 @@ function openEditor(id, date) {
     "notes",
   ])
     $("#form").elements[name].value = p[name];
-  $("#modalTitle").textContent = id ? "Editar post" : "Novo post";
+  setEditorMode(!id);
   $("#delete").hidden = !id;
   $("#editor").showModal();
   $("#editor").scrollTop = 0;
@@ -138,6 +139,7 @@ $("#new").onclick = () => openEditor();
 $("#close").onclick = () => $("#editor").close();
 $("#form").onsubmit = (e) => {
   e.preventDefault();
+  if (!editEnabled) return;
   const values = Object.fromEntries(new FormData(e.target));
   values.title = values.title.trim();
   if (!values.title) return;
@@ -291,3 +293,39 @@ $("#form").elements.notes.addEventListener("input", expandNotes);
 window.addEventListener("resize", () => {
   if ($("#editor").open) expandNotes();
 });
+
+function setEditorMode(enabled) {
+  editEnabled = enabled;
+  $("#editor").classList.toggle("reading", !enabled);
+  $("#modalTitle").textContent = enabled
+    ? editing
+      ? "Editar post"
+      : "Novo post"
+    : "Detalhes do post";
+  for (const field of $("#form").querySelectorAll(
+    "input[name], select[name], textarea[name]",
+  )) {
+    field.disabled = !enabled;
+    let display = field.parentElement.querySelector(".field-value");
+    if (!display) {
+      display = document.createElement("span");
+      display.className = "field-value";
+      field.parentElement.append(display);
+    }
+    display.textContent =
+      field.name === "date"
+        ? field.value.split("-").reverse().join("/")
+        : field.value || "Não informado";
+    display.classList.toggle("notes-value", field.name === "notes");
+    display.hidden = enabled;
+  }
+  $("#editPost").hidden = enabled;
+  $("#savePost").hidden = !enabled;
+  $("#cancelEdit").hidden = !enabled || !editing;
+  $("#delete").hidden = !enabled || !editing;
+}
+$("#editPost").onclick = () => {
+  setEditorMode(true);
+  expandNotes();
+};
+$("#cancelEdit").onclick = () => openEditor(editing);
