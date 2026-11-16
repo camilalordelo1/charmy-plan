@@ -70,8 +70,8 @@
       #togglePassword { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; background: transparent; color: #754477; width: 44px; height: 44px; padding: 10px; margin: 0; border-radius: 6px; }
       #togglePassword:hover { background: #f5eaf8; }
       #togglePassword svg { width: 22px; height: 22px; pointer-events: none; }
-      #togglePassword .eye-slash { display: none; }
-      #togglePassword[aria-pressed="true"] .eye-slash { display: block; }
+      #togglePassword .eye-slash { display: block; }
+      #togglePassword[aria-pressed="true"] .eye-slash { display: none; }
       #message {
         font-size: 13px;
         min-height: 42px;
@@ -99,6 +99,6 @@
         <p id="message" role="status" aria-live="polite"></p>
       </form>
     </main>
-    <script src="unlock.js?v=eye-2"></script>
+    <script src="unlock.js?v=eye-3"></script>
   </body>
 </html>
