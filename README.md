@@ -65,3 +65,9 @@ Para acrescentar esses registros a um calendário já salvo, clique em **Adicion
 Imagens `.heic` e `.heif` também são indexadas e exibidas no filtro Imagens. Quando o navegador não as abre diretamente, o site gera prévias JPEG no navegador com heic2any 0.0.4 (MIT, incluído em `src/vendor`), sem enviar os arquivos a um serviço externo. O original é preservado. Arquivos com codecs incompatíveis exibem um aviso e continuam disponíveis pelo link do original.
 
 As 25 imagens HEIC atuais possuem prévias JPEG pré-geradas em `src/assets/previews`, usadas diretamente na galeria sem conversão no navegador. Os links continuam apontando para os originais. Para novas fotos HEIC, execute `npm run previews` com ImageMagick instalado e suporte HEIC habilitado; envie as prévias e `src/data/media-previews.js` ao GitHub. Sem prévia gerada, a conversão no navegador permanece como alternativa.
+
+## GitHub Pages
+
+O workflow `.github/workflows/pages.yml` verifica o código, gera `dist/` e publica no GitHub Pages a cada push em `main`. Em **Settings → Pages**, selecione **GitHub Actions** como Source. Repositórios privados precisam de um plano GitHub que ofereça Pages para essa visibilidade. Não é necessário versionar `dist/` nem instalar dependências de build.
+
+O conteúdo estático publicado inclui as mídias da pasta `img/`. Dados editados no navegador permanecem no localStorage e não são sincronizados entre visitantes.
