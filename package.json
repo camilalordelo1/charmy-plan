@@ -1,0 +1,11 @@
+{
+  "name": "charmy-plan",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Calendário editorial da Charmy para dezembro de 2026",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node --check src/main.js && node --check src/data/posts.js && node --check src/services/storage.js && node --check src/views/post-card.js && node --check src/utils/html.js && node --check scripts/build.mjs"
+  }
+}

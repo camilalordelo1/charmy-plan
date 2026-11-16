@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Charmy — Dezembro em pauta</title>
+    <link rel="stylesheet" href="./src/styles/main.css" />
+  </head>
+  <body>
+    <aside>
+      <a class="brand" href="#">Charmy<span>CONTENT STUDIO ✳</span></a>
+      <div class="workspace">PLANEJAMENTO 2026</div>
+      <nav>
+        <button class="active" id="calendarNav">
+          ▦ <span>Calendário editorial</span></button
+        ><button id="ideasNav">✧ <span>Banco de ideias</span></button>
+      </nav>
+      <div class="sidebottom">
+        <span class="avatar">C</span>
+        <div>Projeto Charmy<small>Publicidade e Propaganda</small></div>
+      </div>
+    </aside>
+    <main>
+      <header>
+        <span>Seu conteúdo, com intenção.</span>
+        <div class="course">PUC MINAS <span>•</span> 2026</div>
+      </header>
+      <section class="hero">
+        <div>
+          <div class="eyebrow">PLANEJAR. CRIAR. CONECTAR.</div>
+          <h1>Dezembro <i>em pauta.</i><span class="star">✦</span></h1>
+          <p>Um mês de ideias para vestir histórias e criar conexões.</p>
+        </div>
+        <button class="primary" id="new">＋ Novo post</button>
+      </section>
+      <section class="stats">
+        <div>
+          <span>POSTS PLANEJADOS</span><strong id="total">0</strong
+          ><small>ideias ganhando forma</small>
+        </div>
+        <div>
+          <span>EM PRODUÇÃO</span><strong id="production">0</strong
+          ><small>criatividade em movimento</small>
+        </div>
+        <div>
+          <span>APROVADOS</span><strong id="approved">0</strong
+          ><small>prontos para brilhar ✧</small>
+        </div>
+        <div class="monthNote">
+          <i>O seu jeito.<br />A sua Charmy.</i
+          ><span>CONTEÚDO QUE APROXIMA ♡</span>
+        </div>
+      </section>
+      <section class="planner">
+        <div class="toolbar">
+          <div>
+            <h2 id="viewTitle">Calendário editorial</h2>
+            <p id="viewDescription">Cada post, uma nova conexão.</p>
+          </div>
+          <div class="views">
+            <button class="selected" id="gridView">▦ Mês</button
+            ><button id="listView">☷ Lista</button>
+          </div>
+        </div>
+        <div class="filters">
+          <div class="month">Dezembro <span>2026</span> <b>✧</b></div>
+          <div class="filterControls">
+            <input
+              id="search"
+              placeholder="Buscar conteúdo…"
+              aria-label="Buscar conteúdo"
+            /><select id="channel" aria-label="Filtrar por canal">
+              <option value="">Todos os canais</option>
+              <option>Instagram</option>
+              <option>TikTok</option>
+              <option>WhatsApp</option></select
+            ><select id="status" aria-label="Filtrar por status">
+              <option value="">Todos os status</option>
+              <option>Ideia</option>
+              <option>Em produção</option>
+              <option>Aprovado</option>
+              <option>Publicado</option>
+            </select>
+          </div>
+        </div>
+        <div id="calendar"></div>
+        <div class="legend">
+          <span><b class="dot idea"></b> Ideia</span
+          ><span><b class="dot prod"></b> Em produção</span
+          ><span><b class="dot approved"></b> Aprovado</span
+          ><span><b class="dot published"></b> Publicado</span
+          ><small>Clique em um dia para criar ou em um post para editar.</small>
+        </div>
+      </section>
+      <footer>
+        FEITO DE IDEIAS, ESTILO E PERSONALIDADE. <span>Charmy ♡</span>
+      </footer>
+      <p class="localnote">
+        Rascunhos de sugestão · Alterações salvas neste navegador. Exporte para
+        guardar uma cópia. <button id="export">Exportar JSON ↗</button
+        ><button id="import">Importar</button
+        ><input type="file" id="importFile" accept="application/json" hidden />
+      </p>
+    </main>
+    <dialog id="editor">
+      <form id="form">
+        <div class="dialoghead">
+          <div>
+            <div class="eyebrow">VAMOS CRIAR ALGO ESPECIAL?</div>
+            <h2 id="modalTitle">Novo post</h2>
+          </div>
+          <button type="button" id="close" aria-label="Fechar">×</button>
+        </div>
+        <label
+          >Título do conteúdo<input
+            name="title"
+            required
+            maxlength="120"
+            placeholder="Qual é a ideia da vez?"
+        /></label>
+        <div class="formrow">
+          <label
+            >Data<input
+              name="date"
+              type="date"
+              min="2026-12-01"
+              max="2026-12-31"
+              required /></label
+          ><label>Horário<input name="time" type="time" required /></label>
+        </div>
+        <div class="formrow">
+          <label
+            >Canal<select name="channel">
+              <option>Instagram</option>
+              <option>TikTok</option>
+              <option>WhatsApp</option>
+            </select></label
+          ><label
+            >Formato<select name="format">
+              <option>Reels</option>
+              <option>Carrossel</option>
+              <option>Stories</option>
+              <option>Vídeo</option>
+              <option>Imagem</option>
+            </select></label
+          >
+        </div>
+        <div class="formrow">
+          <label
+            >Status<select name="status">
+              <option>Ideia</option>
+              <option>Em produção</option>
+              <option>Aprovado</option>
+              <option>Publicado</option>
+            </select></label
+          ><label
+            >Linha editorial<select name="pillar">
+              <option>Estilo & identidade</option>
+              <option>Comunidade</option>
+              <option>Bastidores</option>
+              <option>Produto</option>
+            </select></label
+          >
+        </div>
+        <label
+          >Briefing / legenda<textarea
+            name="notes"
+            rows="4"
+            placeholder="Objetivo, referências, legenda e chamada para ação…"
+          ></textarea>
+        </label>
+        <div class="actions">
+          <button type="button" id="delete">Excluir post</button
+          ><button class="primary" type="submit">Salvar post ↗</button>
+        </div>
+      </form>
+    </dialog>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
