@@ -118,7 +118,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 40px 0 32px;
+  margin: 24px 0;
 }
 .eyebrow {
   font-size: 9px;
@@ -127,9 +127,9 @@ header {
   font-weight: 700;
 }
 h1 {
-  font-size: clamp(32px, 3.5vw, 55px);
-  letter-spacing: -2px;
-  margin: 12px 0;
+  font-size: clamp(26px, 2.5vw, 38px);
+  letter-spacing: -1px;
+  margin: 8px 0;
 }
 h1 i {
   font-family: "Playfair Display", Georgia, serif;
@@ -137,8 +137,8 @@ h1 i {
 }
 .star {
   color: var(--pink);
-  font-size: 45px;
-  margin-left: 18px;
+  font-size: 30px;
+  margin-left: 12px;
   display: inline-block;
   transform: rotate(12deg);
 }
@@ -588,11 +588,11 @@ textarea {
     height: 48px;
   }
   .hero {
-    margin: 26px 0;
+    margin: 20px 0;
     gap: 8px;
   }
   .hero h1 {
-    font-size: 32px;
+    font-size: 26px;
     letter-spacing: -1px;
   }
   .star {
