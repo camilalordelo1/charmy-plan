@@ -3,7 +3,7 @@ const form = document.querySelector("form"),
 const bytes = (value) => Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
 form.onsubmit = async (event) => {
   event.preventDefault();
-  const button = form.querySelector("button");
+  const button = form.querySelector('button[type="submit"]');
   button.disabled = true;
   message.textContent = "Desbloqueando…";
   try {
@@ -70,4 +70,14 @@ form.onsubmit = async (event) => {
         : "Não foi possível abrir. Use HTTPS e permita o funcionamento do site neste navegador.";
     button.disabled = false;
   }
+};
+
+const passwordInput = document.querySelector("#password");
+const togglePassword = document.querySelector("#togglePassword");
+togglePassword.onclick = () => {
+  const visible = passwordInput.type === "password";
+  passwordInput.type = visible ? "text" : "password";
+  togglePassword.textContent = visible ? "Ocultar senha" : "Mostrar senha";
+  togglePassword.setAttribute("aria-pressed", String(visible));
+  passwordInput.focus();
 };
