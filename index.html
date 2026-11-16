@@ -11,9 +11,17 @@
       <a class="brand" href="#">Charmy<span>CONTENT STUDIO ✳</span></a>
       <div class="workspace">PLANEJAMENTO 2026</div>
       <nav>
-        <button class="active" id="calendarNav">
+        <button
+          class="active"
+          id="calendarNav"
+          aria-label="Calendário editorial"
+          aria-current="page"
+        >
           ▦ <span>Calendário editorial</span></button
-        ><button id="ideasNav">✧ <span>Banco de ideias</span></button>
+        ><button id="kpisNav" aria-label="KPIs">◷ <span>KPIs</span></button
+        ><button id="ideasNav" aria-label="Banco de ideias">
+          ✧ <span>Banco de ideias</span>
+        </button>
       </nav>
       <div class="sidebottom">
         <span class="avatar">C</span>
@@ -33,25 +41,29 @@
         </div>
         <button class="primary" id="new">＋ Novo post</button>
       </section>
-      <section class="stats">
-        <div>
-          <span>POSTS PLANEJADOS</span><strong id="total">0</strong
-          ><small>ideias ganhando forma</small>
+      <section id="kpisPanel" aria-labelledby="kpisTitle" hidden>
+        <div class="toolbar">
+          <div>
+            <h2 id="kpisTitle">KPIs</h2>
+            <p>Indicadores do planejamento · Dezembro de 2026</p>
+          </div>
         </div>
-        <div>
-          <span>EM PRODUÇÃO</span><strong id="production">0</strong
-          ><small>criatividade em movimento</small>
-        </div>
-        <div>
-          <span>APROVADOS</span><strong id="approved">0</strong
-          ><small>prontos para brilhar ✧</small>
-        </div>
-        <div class="monthNote">
-          <i>O seu jeito.<br />A sua Charmy.</i
-          ><span>CONTEÚDO QUE APROXIMA ♡</span>
+        <div class="stats">
+          <div>
+            <span>POSTS PLANEJADOS</span><strong id="total">0</strong
+            ><small>ideias ganhando forma</small>
+          </div>
+          <div>
+            <span>APROVADOS</span><strong id="approved">0</strong
+            ><small>prontos para brilhar ✧</small>
+          </div>
+          <div class="monthNote">
+            <i>O seu jeito.<br />A sua Charmy.</i
+            ><span>CONTEÚDO QUE APROXIMA ♡</span>
+          </div>
         </div>
       </section>
-      <section class="planner">
+      <section class="planner" id="calendarPanel">
         <div class="toolbar">
           <div>
             <h2 id="viewTitle">Calendário editorial</h2>

@@ -6,6 +6,7 @@ const $ = (selector) => document.querySelector(selector);
 let posts = loadPosts(suggestions);
 let view = "grid";
 let ideas = false;
+let kpis = false;
 let editing = null;
 
 function save() {
@@ -32,10 +33,21 @@ function filtered() {
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 }
 function render() {
+  $("#kpisPanel").hidden = !kpis;
+  $("#calendarPanel").hidden = kpis;
+  $("#new").hidden = kpis;
+  $(".localnote").hidden = kpis;
+  for (const [id, active] of [
+    ["calendarNav", !ideas && !kpis],
+    ["ideasNav", ideas && !kpis],
+    ["kpisNav", kpis],
+  ]) {
+    const button = $("#" + id);
+    button.classList.toggle("active", active);
+    if (active) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+  }
   $("#total").textContent = posts.length;
-  $("#production").textContent = posts.filter(
-    (p) => p.status === "Em produção",
-  ).length;
   $("#approved").textContent = posts.filter(
     (p) => p.status === "Aprovado",
   ).length;
@@ -46,8 +58,6 @@ function render() {
   $("#viewDescription").textContent = ideas
     ? "Rascunhos para transformar em conteúdo."
     : "Cada post, uma nova conexão.";
-  $("#calendarNav").classList.toggle("active", !ideas);
-  $("#ideasNav").classList.toggle("active", ideas);
   $("#gridView").classList.toggle("selected", view === "grid" && !ideas);
   $("#listView").classList.toggle("selected", view === "list" || ideas);
   if (view === "list" || ideas) {
@@ -150,12 +160,19 @@ $("#listView").onclick = () => {
   render();
 };
 $("#ideasNav").onclick = () => {
+  kpis = false;
   ideas = true;
   render();
 };
 $("#calendarNav").onclick = () => {
+  kpis = false;
   ideas = false;
   view = "grid";
+  render();
+};
+$("#kpisNav").onclick = () => {
+  kpis = true;
+  ideas = false;
   render();
 };
 $("#export").onclick = () => {

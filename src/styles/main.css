@@ -160,7 +160,7 @@ h1 i {
 }
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr) 1.2fr;
+  grid-template-columns: repeat(2, 1fr) 1.2fr;
   gap: 16px;
   margin-bottom: 32px;
 }
@@ -608,7 +608,7 @@ textarea {
   }
   .stats {
     gap: 8px;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
   .stats > div {
     padding: 15px 10px;
@@ -673,4 +673,13 @@ textarea {
   .localnote {
     line-height: 1.8;
   }
+}
+
+/* Honor panel visibility even when component styles use flex or grid. */
+[hidden] {
+  display: none !important;
+}
+#kpisPanel > .toolbar {
+  padding-left: 0;
+  padding-top: 0;
 }
