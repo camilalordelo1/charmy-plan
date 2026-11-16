@@ -1,3 +1,4 @@
+import { mediaPreviews } from "../data/media-previews.js";
 import { esc } from "../utils/html.js";
 let files = [];
 let initialized = false;
@@ -48,6 +49,21 @@ const video = (name) => /\.(mp4|webm|mov|m4v|ogv)$/i.test(name);
 const supported = (name) =>
   /\.(jpe?g|png|gif|webp|avif|svg|heic|heif|mp4|webm|mov|m4v|ogv)$/i.test(name);
 const root = new URL("../../", import.meta.url);
+function previewUrl(file) {
+  const match = Object.entries(mediaPreviews).find(
+    ([original]) =>
+      new URL(original.split("/").map(encodeURIComponent).join("/"), root)
+        .href === file.url,
+  );
+  if (match) return new URL(match[1], root).href;
+  if (file.url.startsWith("blob:")) {
+    const matches = Object.entries(mediaPreviews).filter(
+      ([original]) => original.split("/").pop() === file.name,
+    );
+    if (matches.length === 1) return new URL(matches[0][1], root).href;
+  }
+  return file.url;
+}
 function renderMedia() {
   const query = document.querySelector("#mediaSearch").value.toLowerCase();
   const type = document.querySelector("#mediaType").value;
@@ -62,7 +78,7 @@ function renderMedia() {
     visible
       .map(
         (f) =>
-          `<article class="media-card">${video(f.name) ? `<video controls preload="metadata" src="${esc(f.url)}"></video>` : `<img loading="lazy" ${heic(f.name) ? `data-heic="${esc(f.url)}"` : ""} src="${esc(f.url)}" alt="${esc(f.name)}">`}<div>${heic(f.name) ? `<small class="media-preview-status">HEIC / HEIF</small>` : ""}<strong>${esc(f.name)}</strong><a href="${esc(f.url)}" target="_blank" rel="noopener">Abrir arquivo ↗</a></div></article>`,
+          `<article class="media-card">${video(f.name) ? `<video controls preload="metadata" src="${esc(f.url)}"></video>` : `<img loading="lazy" ${heic(f.name) ? `data-heic="${esc(f.url)}"` : ""} src="${esc(previewUrl(f))}" alt="${esc(f.name)}">`}<div>${heic(f.name) ? `<small class="media-preview-status">${previewUrl(f) !== f.url ? "Prévia JPEG · original HEIC / HEIF" : "HEIC / HEIF"}</small>` : ""}<strong>${esc(f.name)}</strong><a href="${esc(f.url)}" target="_blank" rel="noopener">Abrir arquivo ↗</a></div></article>`,
       )
       .join("") ||
     '<p class="empty">Nenhum arquivo encontrado. Atualize o índice da pasta img ou selecione a pasta local abaixo.</p>';
