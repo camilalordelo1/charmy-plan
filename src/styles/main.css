@@ -898,3 +898,15 @@ textarea {
   padding: 12px;
   font-size: 12px;
 }
+
+#editor .editor-details h3,
+#editor .editor-details label {
+  color: #754477;
+  font-weight: 700;
+}
+#editor .editor-details .field-value,
+#editor .editor-details input,
+#editor .editor-details select {
+  color: var(--ink);
+  font-weight: 400;
+}
