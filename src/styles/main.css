@@ -731,3 +731,30 @@ textarea {
   color: var(--muted);
   align-self: center;
 }
+
+/* Keep calendar filters and view controls in the heading row. */
+#calendarPanel > .toolbar {
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+.calendar-controls .views {
+  flex-shrink: 0;
+}
+@media (max-width: 760px) {
+  .calendar-controls {
+    width: 100%;
+    margin-left: 0;
+  }
+  .calendar-controls .filterControls {
+    width: auto;
+    flex: 1;
+    min-width: 220px;
+  }
+}

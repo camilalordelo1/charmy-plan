@@ -72,30 +72,29 @@
             <h2 id="viewTitle">Calendário editorial</h2>
             <p id="viewDescription">Cada post, uma nova conexão.</p>
           </div>
-          <div class="views">
-            <button class="selected" id="gridView">▦ Mês</button
-            ><button id="listView">☷ Lista</button>
-          </div>
-        </div>
-        <div class="filters">
-          <div class="month">Dezembro <span>2026</span> <b>✧</b></div>
-          <div class="filterControls">
-            <input
-              id="search"
-              placeholder="Buscar conteúdo…"
-              aria-label="Buscar conteúdo"
-            /><select id="channel" aria-label="Filtrar por canal">
-              <option value="">Todos os canais</option>
-              <option>Instagram</option>
-              <option>TikTok</option>
-              <option>WhatsApp</option></select
-            ><select id="status" aria-label="Filtrar por status">
-              <option value="">Todos os status</option>
-              <option>Ideia</option>
-              <option>Em produção</option>
-              <option>Aprovado</option>
-              <option>Publicado</option>
-            </select>
+          <div class="calendar-controls">
+            <div class="filterControls">
+              <input
+                id="search"
+                placeholder="Buscar conteúdo…"
+                aria-label="Buscar conteúdo"
+              /><select id="channel" aria-label="Filtrar por canal">
+                <option value="">Todos os canais</option>
+                <option>Instagram</option>
+                <option>TikTok</option>
+                <option>WhatsApp</option></select
+              ><select id="status" aria-label="Filtrar por status">
+                <option value="">Todos os status</option>
+                <option>Ideia</option>
+                <option>Em produção</option>
+                <option>Aprovado</option>
+                <option>Publicado</option>
+              </select>
+            </div>
+            <div class="views">
+              <button class="selected" id="gridView">▦ Mês</button
+              ><button id="listView">☷ Lista</button>
+            </div>
           </div>
         </div>
         <div id="calendar"></div>
