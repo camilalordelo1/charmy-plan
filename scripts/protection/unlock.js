@@ -77,7 +77,9 @@ const togglePassword = document.querySelector("#togglePassword");
 togglePassword.onclick = () => {
   const visible = passwordInput.type === "password";
   passwordInput.type = visible ? "text" : "password";
-  togglePassword.textContent = visible ? "Ocultar senha" : "Mostrar senha";
+  const label = visible ? "Ocultar senha" : "Mostrar senha";
+  togglePassword.setAttribute("aria-label", label);
+  togglePassword.title = label;
   togglePassword.setAttribute("aria-pressed", String(visible));
   passwordInput.focus();
 };

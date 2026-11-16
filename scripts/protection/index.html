@@ -65,7 +65,13 @@
       button:disabled {
         opacity: 0.6;
       }
-      #togglePassword { background: transparent; color: #754477; width: auto; padding: 8px 0; margin-top: 2px; font-size: 14px; }
+      .password-field { position: relative; margin-top: 10px; }
+      .password-field input { margin-top: 0; padding-right: 52px; }
+      #togglePassword { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; background: transparent; color: #754477; width: 44px; height: 44px; padding: 10px; margin: 0; border-radius: 6px; }
+      #togglePassword:hover { background: #f5eaf8; }
+      #togglePassword svg { width: 22px; height: 22px; pointer-events: none; }
+      #togglePassword .eye-slash { display: none; }
+      #togglePassword[aria-pressed="true"] .eye-slash { display: block; }
       #message {
         font-size: 13px;
         min-height: 42px;
@@ -82,17 +88,17 @@
       <h1>Charmy ✦</h1>
       <p>Digite a senha para abrir o planejamento.</p>
       <form>
-        <label for="password">Senha</label
-        ><input
-          id="password"
-          type="password"
-          autocomplete="current-password"
-          required
-          autofocus
-        /><button type="button" id="togglePassword" aria-controls="password" aria-pressed="false">Mostrar senha</button><button type="submit">Desbloquear</button>
+        <label for="password">Senha</label>
+        <div class="password-field">
+          <input id="password" type="password" autocomplete="current-password" required autofocus />
+          <button type="button" id="togglePassword" aria-controls="password" aria-pressed="false" aria-label="Mostrar senha" title="Mostrar senha">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg>
+          </button>
+        </div>
+        <button type="submit">Desbloquear</button>
         <p id="message" role="status" aria-live="polite"></p>
       </form>
     </main>
-    <script src="unlock.js"></script>
+    <script src="unlock.js?v=eye-2"></script>
   </body>
 </html>
