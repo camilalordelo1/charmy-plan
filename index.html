@@ -22,6 +22,9 @@
         ><button id="ideasNav" aria-label="Banco de ideias">
           ✧ <span>Banco de ideias</span>
         </button>
+        <button id="mediaNav" aria-label="Banco de imagens e vídeos">
+          ▧ <span>Banco de imagens/vídeos</span>
+        </button>
       </nav>
       <div class="sidebottom">
         <span class="avatar">C</span>
@@ -104,13 +107,47 @@
           ><small>Clique em um dia para criar ou em um post para editar.</small>
         </div>
       </section>
+      <section id="mediaPanel" hidden aria-labelledby="mediaTitle">
+        <div class="toolbar">
+          <div>
+            <h2 id="mediaTitle">Banco de imagens/vídeos</h2>
+            <p>Arquivos da pasta img para os conteúdos da Charmy.</p>
+          </div>
+          <button id="refreshMedia">Atualizar</button>
+        </div>
+        <div class="filterControls">
+          <input
+            id="mediaSearch"
+            aria-label="Buscar mídia"
+            placeholder="Buscar arquivo…"
+          /><select id="mediaType" aria-label="Tipo de mídia">
+            <option value="">Todas as mídias</option>
+            <option value="image">Imagens</option>
+            <option value="video">Vídeos</option></select
+          ><span id="mediaCount" aria-live="polite"></span>
+        </div>
+        <div id="mediaGrid" class="media-grid"></div>
+        <p class="localnote">
+          Se os arquivos não aparecerem, selecione sua pasta img para visualizar
+          neste navegador.
+          <button id="selectMediaFolder">Selecionar pasta img</button
+          ><input
+            id="mediaFolder"
+            type="file"
+            webkitdirectory
+            multiple
+            hidden
+          />
+        </p>
+      </section>
       <footer>
         FEITO DE IDEIAS, ESTILO E PERSONALIDADE. <span>Charmy ♡</span>
       </footer>
       <p class="localnote">
         Rascunhos de sugestão · Alterações salvas neste navegador. Exporte para
         guardar uma cópia.
-        <button id="addScripts">Adicionar roteiros do PDF</button
+        <button id="addNotion">Adicionar posts do Notion</button
+        ><button id="addScripts">Adicionar roteiros do PDF</button
         ><button id="export">Exportar JSON ↗</button
         ><button id="import">Importar</button
         ><input type="file" id="importFile" accept="application/json" hidden />

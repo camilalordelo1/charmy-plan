@@ -1,12 +1,15 @@
+import { notionPosts } from "./data/notion-posts.js";
+import { openMediaLibrary } from "./views/media-library.js";
 import { suggestions } from "./data/posts.js";
 import { loadPosts, savePosts } from "./services/storage.js";
 import { card } from "./views/post-card.js";
 
 const $ = (selector) => document.querySelector(selector);
-let posts = loadPosts(suggestions);
+let posts = loadPosts([...notionPosts, ...suggestions]);
 let view = "grid";
 let ideas = false;
 let kpis = false;
+let media = false;
 let editing = null;
 
 function save() {
@@ -34,13 +37,15 @@ function filtered() {
 }
 function render() {
   $("#kpisPanel").hidden = !kpis;
-  $("#calendarPanel").hidden = kpis;
-  $("#new").hidden = kpis;
-  $(".localnote").hidden = kpis;
+  $("#calendarPanel").hidden = kpis || media;
+  $("#mediaPanel").hidden = !media;
+  $("#new").hidden = kpis || media;
+  $("main > .localnote").hidden = kpis || media;
   for (const [id, active] of [
-    ["calendarNav", !ideas && !kpis],
-    ["ideasNav", ideas && !kpis],
+    ["calendarNav", !ideas && !kpis && !media],
+    ["ideasNav", ideas && !kpis && !media],
     ["kpisNav", kpis],
+    ["mediaNav", media],
   ]) {
     const button = $("#" + id);
     button.classList.toggle("active", active);
@@ -160,17 +165,20 @@ $("#listView").onclick = () => {
   render();
 };
 $("#ideasNav").onclick = () => {
+  media = false;
   kpis = false;
   ideas = true;
   render();
 };
 $("#calendarNav").onclick = () => {
+  media = false;
   kpis = false;
   ideas = false;
   view = "grid";
   render();
 };
 $("#kpisNav").onclick = () => {
+  media = false;
   kpis = true;
   ideas = false;
   render();
@@ -246,3 +254,28 @@ $("#addScripts").onclick = () => {
   }
 };
 render();
+
+$("#mediaNav").onclick = () => {
+  media = true;
+  kpis = false;
+  ideas = false;
+  render();
+  openMediaLibrary();
+};
+
+$("#addNotion").onclick = () => {
+  const missing = notionPosts.filter(
+    (item) =>
+      !posts.some((post) => post.id === item.id || post.source === item.source),
+  );
+  if (!missing.length)
+    return alert("Os posts do Notion já estão no calendário.");
+  if (
+    confirm(
+      `Adicionar ${missing.length} posts do Notion, preservando os posts atuais?`,
+    )
+  ) {
+    posts.push(...missing.map((item) => ({ ...item })));
+    save();
+  }
+};

@@ -49,3 +49,15 @@ Para um navegador com planejamento anterior, use **Adicionar roteiros do PDF**. 
 Dados são salvos no localStorage do navegador, sem sincronização entre dispositivos. A chave de armazenamento foi preservada nesta reorganização. Para manter os dados ao usar Live Server, mantenha o mesmo endereço e porta; se mudar a origem, exporte o JSON antes e importe depois.
 
 Nenhuma integração publica posts nas redes sociais. O site usa Google Fonts com fontes de fallback.
+
+## Banco de imagens e vídeos
+
+A aba **Banco de imagens/vídeos** lê imagens e vídeos da pasta `img/` na raiz, incluindo subpastas. No Live Server, clique em **Atualizar** após adicionar arquivos. Caso a listagem automática não esteja disponível, use **Selecionar pasta img** (visualização local, sem envio dos arquivos).
+
+Para gerar um índice persistente: `npm run media`. O build também atualiza esse índice e copia `img/` para `dist/img/`. Arquivos novos só entram na hospedagem depois de novo build e publicação. Vídeos dependem de codecs suportados pelo navegador; MP4/H.264 e WebM são recomendados.
+
+## Cronograma do Notion
+
+Os dois CSVs fornecidos contêm os mesmos 13 registros de 01 a 13/12, importados uma única vez. Cada briefing preserva a programação e a linha editorial originais, roteiro, legenda e CTA. O cartão representa a publicação no Instagram; canais adicionais permanecem descritos na programação original. O horário de 18h é sugestão, pois não veio no CSV. Os seis roteiros do PDF foram mantidos como propostas independentes; eventuais temas semelhantes podem ser conciliados na revisão editorial.
+
+Para acrescentar esses registros a um calendário já salvo, clique em **Adicionar posts do Notion**. Essa ação preserva edições existentes e evita reimportar o mesmo registro identificado por sua origem.
