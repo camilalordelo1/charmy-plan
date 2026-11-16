@@ -1,9 +1,52 @@
 import { esc } from "../utils/html.js";
 let files = [];
 let initialized = false;
+const previewCache = new Map();
+let conversionQueue = Promise.resolve();
+const heic = (name) => /\.(heic|heif)$/i.test(name);
+
+function attachHeicPreviews() {
+  for (const image of document.querySelectorAll("#mediaGrid img[data-heic]")) {
+    image.onerror = () => {
+      image.onerror = null;
+      const original = image.dataset.heic;
+      const card = image.closest(".media-card");
+      const label = card.querySelector(".media-preview-status");
+      label.textContent = "Preparando prévia…";
+      let preview = previewCache.get(original);
+      if (!preview) {
+        preview = conversionQueue.then(async () => {
+          const response = await fetch(original);
+          if (!response.ok) throw new Error("Arquivo indisponível");
+          const converted = await window.heic2any({
+            blob: await response.blob(),
+            toType: "image/jpeg",
+            quality: 0.8,
+          });
+          return URL.createObjectURL(
+            Array.isArray(converted) ? converted[0] : converted,
+          );
+        });
+        previewCache.set(original, preview);
+        conversionQueue = preview.catch(() => {});
+      }
+      preview
+        .then((url) => {
+          image.src = url;
+          label.textContent = "Prévia JPEG · original HEIC/HEIF preservado";
+        })
+        .catch(() => {
+          image.hidden = true;
+          label.textContent =
+            "Prévia indisponível para este arquivo. Abra ou baixe o original.";
+          previewCache.delete(original);
+        });
+    };
+  }
+}
 const video = (name) => /\.(mp4|webm|mov|m4v|ogv)$/i.test(name);
 const supported = (name) =>
-  /\.(jpe?g|png|gif|webp|avif|svg|mp4|webm|mov|m4v|ogv)$/i.test(name);
+  /\.(jpe?g|png|gif|webp|avif|svg|heic|heif|mp4|webm|mov|m4v|ogv)$/i.test(name);
 const root = new URL("../../", import.meta.url);
 function renderMedia() {
   const query = document.querySelector("#mediaSearch").value.toLowerCase();
@@ -19,10 +62,11 @@ function renderMedia() {
     visible
       .map(
         (f) =>
-          `<article class="media-card">${video(f.name) ? `<video controls preload="metadata" src="${esc(f.url)}"></video>` : `<img loading="lazy" src="${esc(f.url)}" alt="${esc(f.name)}">`}<div><strong>${esc(f.name)}</strong><a href="${esc(f.url)}" target="_blank" rel="noopener">Abrir arquivo ↗</a></div></article>`,
+          `<article class="media-card">${video(f.name) ? `<video controls preload="metadata" src="${esc(f.url)}"></video>` : `<img loading="lazy" ${heic(f.name) ? `data-heic="${esc(f.url)}"` : ""} src="${esc(f.url)}" alt="${esc(f.name)}">`}<div>${heic(f.name) ? `<small class="media-preview-status">HEIC / HEIF</small>` : ""}<strong>${esc(f.name)}</strong><a href="${esc(f.url)}" target="_blank" rel="noopener">Abrir arquivo ↗</a></div></article>`,
       )
       .join("") ||
     '<p class="empty">Nenhum arquivo encontrado. Atualize o índice da pasta img ou selecione a pasta local abaixo.</p>';
+  attachHeicPreviews();
 }
 async function directoryFiles(url, depth = 0) {
   if (depth > 8) return [];

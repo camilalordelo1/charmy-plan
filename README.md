@@ -61,3 +61,5 @@ Para gerar um índice persistente: `npm run media`. O build também atualiza ess
 Os dois CSVs fornecidos contêm os mesmos 13 registros de 01 a 13/12, importados uma única vez. Cada briefing preserva a programação e a linha editorial originais, roteiro, legenda e CTA. O cartão representa a publicação no Instagram; canais adicionais permanecem descritos na programação original. O horário de 18h é sugestão, pois não veio no CSV. Os seis roteiros do PDF foram mantidos como propostas independentes; eventuais temas semelhantes podem ser conciliados na revisão editorial.
 
 Para acrescentar esses registros a um calendário já salvo, clique em **Adicionar posts do Notion**. Essa ação preserva edições existentes e evita reimportar o mesmo registro identificado por sua origem.
+
+Imagens `.heic` e `.heif` também são indexadas e exibidas no filtro Imagens. Quando o navegador não as abre diretamente, o site gera prévias JPEG no navegador com heic2any 0.0.4 (MIT, incluído em `src/vendor`), sem enviar os arquivos a um serviço externo. O original é preservado. Arquivos com codecs incompatíveis exibem um aviso e continuam disponíveis pelo link do original.

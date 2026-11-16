@@ -9,7 +9,7 @@ export async function generateMedia() {
       const file = path.join(directory, entry.name);
       if (entry.isDirectory()) await scan(file);
       else if (
-        /\.(jpe?g|png|gif|webp|avif|svg|mp4|webm|mov|m4v|ogv)$/i.test(
+        /\.(jpe?g|png|gif|webp|avif|svg|heic|heif|mp4|webm|mov|m4v|ogv)$/i.test(
           entry.name,
         )
       )

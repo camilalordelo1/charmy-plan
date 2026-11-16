@@ -758,3 +758,10 @@ textarea {
     min-width: 220px;
   }
 }
+
+.media-preview-status {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
