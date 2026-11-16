@@ -7,7 +7,7 @@ import { card } from "./views/post-card.js";
 
 const $ = (selector) => document.querySelector(selector);
 let posts = loadPosts([...notionPosts, ...suggestions]);
-let view = "grid";
+let view = window.matchMedia("(max-width: 600px)").matches ? "list" : "grid";
 let ideas = false;
 let kpis = false;
 let media = false;
