@@ -41,7 +41,7 @@ async function scan(dir, relative = "") {
         await readFile(file),
       );
       const target =
-        "vault/" + createHash("sha256").update(name).digest("hex") + ".bin";
+        "vault/" + createHash("sha256").update(Buffer.from(data)).digest("hex") + ".bin";
       manifest.files[name] = {
         file: target,
         iv: Buffer.from(iv).toString("base64"),

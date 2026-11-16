@@ -31,7 +31,7 @@ form.onsubmit = async (event) => {
       ["decrypt"],
     );
     const entry = manifest.files["index.html"];
-    const encrypted = await (await fetch(entry.file)).arrayBuffer();
+    const encrypted = await (await fetch(entry.file, { cache: "no-store" })).arrayBuffer();
     try {
       await crypto.subtle.decrypt(
         { name: "AES-GCM", iv: bytes(entry.iv) },

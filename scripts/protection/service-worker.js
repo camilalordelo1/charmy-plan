@@ -40,7 +40,7 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     (async () => {
       try {
-        const response = await fetch(new URL(entry.file, base));
+        const response = await fetch(new URL(entry.file, base), { cache: "no-store" });
         const plain = await crypto.subtle.decrypt(
           { name: "AES-GCM", iv: bytes(entry.iv) },
           activeKey,
