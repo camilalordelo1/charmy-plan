@@ -1,3 +1,4 @@
+import { matchesPostCategory } from "./utils/post-filter.js";
 import { notionPosts } from "./data/notion-posts.js";
 import { openMediaLibrary } from "./views/media-library.js";
 import { suggestions } from "./data/posts.js";
@@ -28,7 +29,7 @@ function filtered() {
     .filter(
       (p) =>
         (!ideas || p.status === "Ideia") &&
-        (!$("#channel").value || p.channel === $("#channel").value) &&
+        matchesPostCategory(p, $("#channel").value) &&
         (!$("#status").value || p.status === $("#status").value) &&
         `${p.title} ${p.notes} ${p.pillar}`
           .toLowerCase()
