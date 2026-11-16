@@ -7,7 +7,7 @@ import { card } from "./views/post-card.js";
 
 const $ = (selector) => document.querySelector(selector);
 let posts = loadPosts([...notionPosts, ...suggestions]);
-let view = window.matchMedia("(max-width: 600px)").matches ? "list" : "grid";
+let view = "grid";
 let ideas = false;
 let kpis = false;
 let media = false;
@@ -81,7 +81,7 @@ function render() {
       const day = i,
         valid = day >= 1 && day <= 31;
       const date = `2026-12-${String(day).padStart(2, "0")}`;
-      html += `<div class="day ${valid ? "" : "outside"}" ${valid ? `data-date="${date}" tabindex="0" role="button" aria-label="Adicionar post em ${day} de dezembro"` : ""}><div class="number">${valid ? day : day === 0 ? 30 : day - 31}<em>＋</em></div>${
+      html += `<div class="day ${valid ? "" : "outside"}" ${valid ? `data-date="${date}" tabindex="0" role="button" aria-label="Adicionar post em ${day} de dezembro"` : ""}><div class="number">${valid ? day : day === 0 ? 30 : day - 31}<span class="mobile-weekday">${valid ? ["SEG", "TER", "QUA", "QUI", "SEX", "SÁB", "DOM"][i % 7] : ""}</span><em>＋</em></div>${
         valid
           ? data
               .filter((p) => p.date === date)
