@@ -1,3 +1,5 @@
+import { feedMarkup, coverUrl, postCaption } from "./views/instagram-feed.js";
+import { mediaPreviews } from "./data/media-previews.js";
 import { matchesPostCategory } from "./utils/post-filter.js";
 import { notionPosts } from "./data/notion-posts.js";
 import { openMediaLibrary } from "./views/media-library.js";
@@ -67,7 +69,10 @@ function render() {
     : "Cada post, uma nova conexão.";
   $("#gridView").classList.toggle("selected", view === "grid" && !ideas);
   $("#listView").classList.toggle("selected", view === "list" || ideas);
-  if (view === "list" || ideas) {
+  $("#feedView").classList.toggle("selected", view === "feed" && !ideas);
+  if (view === "feed" && !ideas) {
+    $("#calendar").innerHTML = feedMarkup(data);
+  } else if (view === "list" || ideas) {
     $("#calendar").innerHTML =
       `<div class="list">${data.length ? data.map((p) => card(p, true)).join("") : '<div class="empty">Nenhum post por aqui. Que tal criar uma nova ideia? ✧</div>'}</div>`;
   } else {
@@ -116,8 +121,10 @@ function openEditor(id, date) {
     "status",
     "pillar",
     "notes",
+    "cover",
   ])
-    $("#form").elements[name].value = p[name];
+    $("#form").elements[name].value = p[name] || "";
+  updatePostPreview(p);
   setEditorMode(!id);
   $("#delete").hidden = !id;
   $("#editor").showModal();
@@ -298,6 +305,7 @@ window.addEventListener("resize", () => {
 function setEditorMode(enabled) {
   editEnabled = enabled;
   $("#editor").classList.toggle("reading", !enabled);
+  $("#postPreview").hidden = enabled || !editing;
   $("#modalTitle").textContent = enabled
     ? editing
       ? "Editar post"
@@ -314,7 +322,7 @@ function setEditorMode(enabled) {
       field.parentElement.append(display);
     }
     display.textContent =
-      field.name === "date"
+      field.name === "cover" ? (field.selectedOptions[0]?.textContent || "Sem capa") : field.name === "date"
         ? field.value.split("-").reverse().join("/")
         : field.value || "Não informado";
     display.classList.toggle("notes-value", field.name === "notes");
@@ -330,3 +338,27 @@ $("#editPost").onclick = () => {
   expandNotes();
 };
 $("#cancelEdit").onclick = () => openEditor(editing);
+
+for (const original of Object.keys(mediaPreviews)) {
+  const option = document.createElement("option");
+  option.value = original;
+  option.textContent = original.split("/").pop();
+  $("#postCover").append(option);
+}
+$("#feedView").onclick = () => { view = "feed"; ideas = false; render(); };
+function updatePostPreview(post) {
+  const image = $("#postPreviewImage");
+  image.replaceChildren();
+  const url = coverUrl(post);
+  if (url) {
+    const img = document.createElement("img");
+    img.src = url; img.alt = post.title;
+    image.append(img);
+  } else {
+    const placeholder = document.createElement("div");
+    placeholder.className = "feed-placeholder";
+    placeholder.textContent = post.title + " · Escolha uma capa em Editar post";
+    image.append(placeholder);
+  }
+  $("#postPreviewCaption").textContent = postCaption(post) || "Legenda ainda não definida. O roteiro completo está disponível abaixo.";
+}

@@ -92,7 +92,7 @@
             </div>
             <div class="views">
               <button class="selected" id="gridView">▦ Mês</button
-              ><button id="listView">☷ Lista</button>
+              ><button id="listView">☷ Lista</button><button id="feedView">▦ Feed Instagram</button>
             </div>
           </div>
         </div>
@@ -167,6 +167,7 @@
             maxlength="120"
             placeholder="Qual é a ideia da vez?"
         /></label>
+        <section id="postPreview" hidden aria-label="Prévia do post"><div class="post-preview-account"><span class="profile-logo">C</span><strong>Charmy</strong><span>•••</span></div><div id="postPreviewImage"></div><div class="post-preview-body"><div class="preview-social" aria-hidden="true">♡　♧　⌁ <span>♧</span></div><p id="postPreviewCaption"></p><small>Simulação visual · Não publicado</small></div></section>
         <div class="editor-layout">
           <section class="editor-content" aria-label="Conteúdo do post">
             <label
@@ -180,7 +181,7 @@
             </label>
           </section>
           <section class="editor-details" aria-labelledby="detailsTitle">
-            <h3 id="detailsTitle">Publicação</h3>
+            <h3 id="detailsTitle">Publicação</h3><label>Capa do post<select name="cover" id="postCover"><option value="">Sem imagem selecionada</option></select></label>
             <div class="formrow">
               <label
                 >Data<input
