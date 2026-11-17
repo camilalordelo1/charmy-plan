@@ -24,6 +24,10 @@ const types = {
   svg: "image/svg+xml",
   webp: "image/webp",
   mp4: "video/mp4",
+  webm: "video/webm",
+  m4v: "video/mp4",
+  ogv: "video/ogg",
+  wasm: "application/wasm",
   mov: "video/quicktime",
   heic: "image/heic",
 };
@@ -40,7 +44,9 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     (async () => {
       try {
-        const response = await fetch(new URL(entry.file, base), { cache: "no-store" });
+        const response = await fetch(new URL(entry.file, base), {
+          cache: "no-store",
+        });
         const plain = await crypto.subtle.decrypt(
           { name: "AES-GCM", iv: bytes(entry.iv) },
           activeKey,

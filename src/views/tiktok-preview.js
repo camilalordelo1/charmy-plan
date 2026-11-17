@@ -38,7 +38,7 @@ export function tiktokPreviewMarkup(post) {
       <div class="tt-record" aria-hidden="true"><img src="src/assets/charmy-logo.png" alt=""></div>
     </div>
     <div class="tt-copy"><strong>@charmyclube</strong><p>${esc(caption)}</p><small>♫ Som original · Charmy</small></div>
-    <div class="tt-player"><button type="button" data-tt-play aria-label="Reproduzir vídeo">${icon("play", true)}</button><input type="range" data-tt-progress min="0" max="100" step="0.1" value="0" aria-label="Posição do vídeo"><button type="button" data-tt-mute aria-label="Silenciar vídeo">${icon("volume")}</button></div>
+    <div class="tt-status" data-tt-status role="status" aria-live="polite"></div><div class="tt-player"><button type="button" data-tt-play aria-label="Reproduzir vídeo">${icon("play", true)}</button><input type="range" data-tt-progress min="0" max="100" step="0.1" value="0" aria-label="Posição do vídeo"><button type="button" data-tt-mute aria-label="Silenciar vídeo">${icon("volume")}</button></div>
     <div class="tt-bottom" aria-hidden="true"><span>${icon("home", true)}<small>Início</small></span><span>${icon("people")}<small>Amigos</small></span><span class="tt-create">+</span><span>${icon("inbox")}<small>Mensagens</small></span><span>${icon("profile")}<small>Perfil</small></span></div>
   </div>`;
 }
@@ -89,6 +89,27 @@ export function mountTiktokPreview(preview, stage, post) {
     return;
   }
   video.controls = false;
+  const status = overlay.querySelector("[data-tt-status]");
+  const reportError = (message) => {
+    status.textContent = message;
+    preview.dispatchEvent(
+      new CustomEvent("media-playback-error", {
+        bubbles: true,
+        detail: { message },
+      }),
+    );
+  };
+  video.addEventListener("error", () =>
+    reportError(
+      "O navegador não conseguiu ler este vídeo. Use ‘Corrigir vídeo para MP4’ abaixo da prévia.",
+    ),
+  );
+  video.addEventListener("waiting", () => {
+    status.textContent = "Carregando vídeo…";
+  });
+  video.addEventListener("playing", () => {
+    status.textContent = "";
+  });
   const refresh = () => {
     play.innerHTML = icon(
       video.paused ? "play" : "pause",
@@ -112,8 +133,12 @@ export function mountTiktokPreview(preview, stage, post) {
     if (video.paused) {
       try {
         await video.play();
-      } catch {
-        play.setAttribute("aria-label", "Tentar reproduzir vídeo novamente");
+      } catch (error) {
+        reportError(
+          error.name === "NotAllowedError"
+            ? "Toque novamente no botão reproduzir para iniciar o vídeo."
+            : "Não foi possível reproduzir este arquivo. Use ‘Corrigir vídeo para MP4’ abaixo da prévia.",
+        );
       }
     } else video.pause();
     refresh();
@@ -128,5 +153,16 @@ export function mountTiktokPreview(preview, stage, post) {
   };
   for (const name of ["play", "pause", "ended", "timeupdate", "loadedmetadata"])
     video.addEventListener(name, refresh);
+  stage.onclick = (event) => {
+    if (
+      !preview.classList.contains("native-video-mode") &&
+      !event.target.closest("button, input, a")
+    )
+      play.click();
+  };
+  if (video.error)
+    reportError(
+      "Este vídeo não é compatível com o navegador. Use ‘Corrigir vídeo para MP4’.",
+    );
   refresh();
 }

@@ -2,6 +2,7 @@ import { mountTiktokPreview } from "./views/tiktok-preview.js";
 import {
   loadUploads,
   uploaded,
+  isVideoUpload,
   storeUpload,
   saveUploadToFolder,
 } from "./services/uploads.js";
@@ -27,6 +28,7 @@ let editEnabled = false;
 let draftUploadId = "";
 let storyPosts = [];
 let storyIndex = 0;
+let videoConversionController = null;
 
 function save() {
   try {
@@ -141,6 +143,7 @@ function openEditor(id, date) {
     $("#form").elements[name].value = p[name] || "";
   draftUploadId = p.uploadId || "";
   $("#saveMediaFolder").hidden = !uploaded(p);
+  refreshVideoActions(p);
   $("#postUploadStatus").textContent = uploaded(p)
     ? "Mídia salva neste navegador: " + uploaded(p).name
     : "Adicione a mídia aqui. Ela será salva neste navegador.";
@@ -389,15 +392,18 @@ function updatePostPreview(post) {
   $("#editor").classList.toggle("tiktok-dialog", view === "tiktok");
   $("#editor").classList.remove("tiktok-landscape");
   preview.classList.toggle("tiktok-preview", view === "tiktok");
+  preview.classList.remove("native-video-mode");
+  $("#nativePlayerButton").textContent = "Usar controles do navegador";
   preview
     .querySelectorAll(".tt-ratio-controls")
     .forEach((element) => element.remove());
   $("#postPreviewImage").querySelector("video")?.pause();
   const image = $("#postPreviewImage");
+  image.onclick = null;
   image.replaceChildren();
   const url = coverUrl(post);
   if (url) {
-    const isVideo = uploaded(post)?.type.startsWith("video/");
+    const isVideo = isVideoUpload(post);
     const img = document.createElement(isVideo ? "video" : "img");
     if (isVideo) {
       img.controls = true;
@@ -436,7 +442,7 @@ $("#postUploadFile").onchange = async (event) => {
   if (
     !file.type.startsWith("image/") &&
     !file.type.startsWith("video/") &&
-    !/\.(heic|heif)$/i.test(file.name)
+    !/\.(heic|heif|mp4|mov|m4v|webm|ogv|avi|mkv)$/i.test(file.name)
   ) {
     status.textContent = "Selecione uma imagem ou vídeo.";
     return;
@@ -470,6 +476,7 @@ $("#postUploadFile").onchange = async (event) => {
           notes: $("#form").elements.notes.value,
           uploadId: id,
         };
+    refreshVideoActions(current);
     updatePostPreview(current);
     $("#saveMediaFolder").hidden = false;
     status.textContent =
@@ -499,7 +506,7 @@ function showStory() {
   container.replaceChildren();
   const url = coverUrl(post);
   if (url) {
-    const video = uploaded(post)?.type.startsWith("video/");
+    const video = isVideoUpload(post);
     const element = document.createElement(video ? "video" : "img");
     element.src = url;
     if (video) {
@@ -554,4 +561,70 @@ $("#editStory").onclick = () => {
 
 $("#editor").addEventListener("close", () =>
   $("#postPreviewImage").querySelector("video")?.pause(),
+);
+
+function refreshVideoActions(post) {
+  const hasVideo = isVideoUpload(post);
+  $("#convertPostVideo").hidden = !hasVideo;
+  $("#nativePlayerButton").hidden = !hasVideo;
+}
+$("#nativePlayerButton").onclick = () => {
+  const video = $("#postPreviewImage").querySelector("video");
+  if (!video) return;
+  $("#postPreview").classList.toggle("native-video-mode");
+  video.controls = $("#postPreview").classList.contains("native-video-mode");
+  $("#nativePlayerButton").textContent = video.controls
+    ? "Voltar ao player TikTok"
+    : "Usar controles do navegador";
+};
+$("#postPreview").addEventListener("media-playback-error", (event) => {
+  $("#postUploadStatus").textContent = event.detail.message;
+});
+$("#convertPostVideo").onclick = async () => {
+  if (videoConversionController) return;
+  const item = uploaded({ uploadId: draftUploadId });
+  if (!item) return;
+  const controller = new AbortController();
+  videoConversionController = controller;
+  const status = $("#postUploadStatus");
+  $("#convertPostVideo").disabled = true;
+  $("#uploadPost").disabled = true;
+  $("#cancelVideoConversion").hidden = false;
+  $("#postPreviewImage").querySelector("video")?.pause();
+  try {
+    const { convertToMp4 } = await import("./services/video-conversion.js");
+    const converted = await convertToMp4(item.originalFile || item.file, {
+      signal: controller.signal,
+      onProgress: (message) => {
+        status.textContent = message;
+      },
+    });
+    if (controller.signal.aborted) return;
+    await storeUpload(item.id, converted, item.originalFile || item.file);
+    const current = editing
+      ? posts.find((post) => post.id === editing)
+      : {
+          title: $("#form").elements.title.value,
+          notes: $("#form").elements.notes.value,
+          uploadId: draftUploadId,
+        };
+    render();
+    updatePostPreview(current);
+    status.textContent =
+      "Vídeo convertido para MP4/H.264 e salvo neste navegador. Pressione reproduzir. O original foi preservado.";
+  } catch (error) {
+    status.textContent = controller.signal.aborted
+      ? "Conversão cancelada. O vídeo original foi preservado."
+      : error.message ||
+        "Não foi possível converter. Tente pelo computador ou use um MP4/H.264.";
+  } finally {
+    videoConversionController = null;
+    $("#convertPostVideo").disabled = false;
+    $("#uploadPost").disabled = false;
+    $("#cancelVideoConversion").hidden = true;
+  }
+};
+$("#cancelVideoConversion").onclick = () => videoConversionController?.abort();
+$("#editor").addEventListener("close", () =>
+  videoConversionController?.abort(),
 );

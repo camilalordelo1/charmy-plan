@@ -456,3 +456,41 @@
     aspect-ratio: 16 / 9;
   }
 }
+/* Leave the media itself clickable; only interactive controls intercept taps. */
+.tt-ui {
+  pointer-events: none;
+}
+.tt-player button {
+  width: 32px;
+  height: 30px;
+  flex: 0 0 32px;
+}
+#editor .tt-player input {
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.tt-status {
+  position: absolute;
+  left: 12px;
+  right: 62px;
+  top: 42px;
+  background: #090909d9;
+  border-radius: 6px;
+  padding: 8px;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.tt-status:empty {
+  display: none;
+}
+#postPreview.native-video-mode .tt-ui {
+  display: none;
+}
+#postPreview.native-video-mode #postPreviewImage {
+  cursor: auto;
+}

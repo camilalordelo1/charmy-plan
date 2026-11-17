@@ -27,7 +27,7 @@ export async function loadUploads() {
 export function uploaded(post) {
   return items.get(post.uploadId);
 }
-export async function storeUpload(id, file) {
+export async function storeUpload(id, file, originalFile = file) {
   if (!db) await database();
   await new Promise((resolve, reject) => {
     const tx = db.transaction("uploads", "readwrite");
@@ -36,6 +36,7 @@ export async function storeUpload(id, file) {
       file,
       name: file.name,
       type: file.type,
+      originalFile,
     });
     tx.oncomplete = resolve;
     tx.onerror = () => reject(tx.error);
@@ -49,6 +50,7 @@ export async function storeUpload(id, file) {
     name: file.name,
     type: file.type,
     url: URL.createObjectURL(file),
+    originalFile,
   };
   items.set(id, item);
   return item;
@@ -77,4 +79,13 @@ export async function saveUploadToFolder(item) {
   await stream.write(item.file);
   await stream.close();
   return "Arquivo salvo na pasta escolhida. Faça commit e push para enviá-lo ao GitHub.";
+}
+
+export function isVideoUpload(post) {
+  const item = uploaded(post);
+  return Boolean(
+    item &&
+      (item.type?.startsWith("video/") ||
+        /\.(mp4|mov|m4v|webm|ogv|avi|mkv)$/i.test(item.name)),
+  );
 }
