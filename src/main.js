@@ -1,3 +1,4 @@
+import { tiktokFeedMarkup } from "./views/tiktok-feed.js";
 import { feedMarkup, coverUrl, postCaption } from "./views/instagram-feed.js";
 import { mediaPreviews } from "./data/media-previews.js";
 import { matchesPostCategory } from "./utils/post-filter.js";
@@ -70,7 +71,10 @@ function render() {
   $("#gridView").classList.toggle("selected", view === "grid" && !ideas);
   $("#listView").classList.toggle("selected", view === "list" || ideas);
   $("#feedView").classList.toggle("selected", view === "feed" && !ideas);
-  if (view === "feed" && !ideas) {
+  $("#tiktokView").classList.toggle("selected", view === "tiktok" && !ideas);
+  if (view === "tiktok" && !ideas) {
+    $("#calendar").innerHTML = tiktokFeedMarkup(data);
+  } else if (view === "feed" && !ideas) {
     $("#calendar").innerHTML = feedMarkup(data);
   } else if (view === "list" || ideas) {
     $("#calendar").innerHTML =
@@ -347,6 +351,7 @@ for (const original of Object.keys(mediaPreviews)) {
 }
 $("#feedView").onclick = () => { view = "feed"; ideas = false; render(); };
 function updatePostPreview(post) {
+  $("#postPreview").classList.toggle("tiktok-preview", view === "tiktok");
   const image = $("#postPreviewImage");
   image.replaceChildren();
   const url = coverUrl(post);
@@ -362,3 +367,5 @@ function updatePostPreview(post) {
   }
   $("#postPreviewCaption").textContent = postCaption(post) || "Legenda ainda não definida. O roteiro completo está disponível abaixo.";
 }
+
+$("#tiktokView").onclick = () => { view = "tiktok"; ideas = false; render(); };
