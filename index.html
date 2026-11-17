@@ -92,7 +92,8 @@
             </div>
             <div class="views">
               <button class="selected" id="gridView">▦ Mês</button
-              ><button id="listView">☷ Lista</button><button id="feedView">▦ Feed Instagram</button>
+              ><button id="listView">☷ Lista</button
+              ><button id="feedView">▦ Feed Instagram</button>
             </div>
           </div>
         </div>
@@ -160,14 +161,30 @@
           </div>
           <button type="button" id="close" aria-label="Fechar">×</button>
         </div>
-        <label
+        <label class="post-title-field"
           >Título do conteúdo<input
             name="title"
             required
             maxlength="120"
             placeholder="Qual é a ideia da vez?"
         /></label>
-        <section id="postPreview" hidden aria-label="Prévia do post"><div class="post-preview-account"><span class="profile-logo">C</span><strong>Charmy</strong><span>•••</span></div><div id="postPreviewImage"></div><div class="post-preview-body"><div class="preview-social" aria-hidden="true">♡　♧　⌁ <span>♧</span></div><p id="postPreviewCaption"></p><small>Simulação visual · Não publicado</small></div></section>
+        <section id="postPreview" hidden aria-label="Prévia do post">
+          <div class="post-preview-account">
+            <img
+              class="profile-logo"
+              src="src/assets/charmy-logo.png"
+              alt="Logo Charmy"
+            /><strong>charmyclube</strong><span>•••</span>
+          </div>
+          <div id="postPreviewImage"></div>
+          <div class="post-preview-body">
+            <div class="preview-social" aria-hidden="true">
+              ♡　♧　⌁ <span>♧</span>
+            </div>
+            <p id="postPreviewCaption"></p>
+            <small>Simulação visual · Não publicado</small>
+          </div>
+        </section>
         <div class="editor-layout">
           <section class="editor-content" aria-label="Conteúdo do post">
             <label
@@ -181,7 +198,12 @@
             </label>
           </section>
           <section class="editor-details" aria-labelledby="detailsTitle">
-            <h3 id="detailsTitle">Publicação</h3><label>Capa do post<select name="cover" id="postCover"><option value="">Sem imagem selecionada</option></select></label>
+            <h3 id="detailsTitle">Publicação</h3>
+            <label
+              >Capa do post<select name="cover" id="postCover">
+                <option value="">Sem imagem selecionada</option>
+              </select></label
+            >
             <div class="formrow">
               <label
                 >Data<input
