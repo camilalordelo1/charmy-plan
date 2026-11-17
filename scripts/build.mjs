@@ -14,4 +14,5 @@ await writeFile(
   await readFile(path.join(root, "index.html")),
 );
 await cp(path.join(root, "img"), path.join(output, "img"), { recursive: true });
+await cp(path.join(root, "src/assets/charmy-logo.png"), path.join(output, "favicon.png"));
 console.log("Build concluído: dist/");

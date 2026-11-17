@@ -60,3 +60,6 @@ for (const file of ["index.html", "unlock.js", "service-worker.js"])
   await cp(new URL("scripts/protection/" + file, root), new URL(file, output));
 await writeFile(new URL(".nojekyll", output), "");
 console.log(`Encrypted ${encrypted.length} files with AES-256-GCM.`);
+
+// The brand icon is intentionally public on the password screen.
+await cp(new URL("src/assets/charmy-logo.png", root), new URL("favicon.png", output));
