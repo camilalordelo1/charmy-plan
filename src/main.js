@@ -1,3 +1,10 @@
+import {
+  loadUploads,
+  uploaded,
+  storeUpload,
+  saveUploadToFolder,
+} from "./services/uploads.js";
+await loadUploads();
 import { tiktokFeedMarkup } from "./views/tiktok-feed.js";
 import { feedMarkup, coverUrl, postCaption } from "./views/instagram-feed.js";
 import { mediaPreviews } from "./data/media-previews.js";
@@ -16,6 +23,9 @@ let kpis = false;
 let media = false;
 let editing = null;
 let editEnabled = false;
+let draftUploadId = "";
+let storyPosts = [];
+let storyIndex = 0;
 
 function save() {
   try {
@@ -128,6 +138,11 @@ function openEditor(id, date) {
     "cover",
   ])
     $("#form").elements[name].value = p[name] || "";
+  draftUploadId = p.uploadId || "";
+  $("#saveMediaFolder").hidden = !uploaded(p);
+  $("#postUploadStatus").textContent = uploaded(p)
+    ? "Mídia salva neste navegador: " + uploaded(p).name
+    : "Adicione a mídia aqui. Ela será salva neste navegador.";
   updatePostPreview(p);
   setEditorMode(!id);
   $("#delete").hidden = !id;
@@ -136,6 +151,16 @@ function openEditor(id, date) {
   expandNotes();
 }
 $("#calendar").onclick = (e) => {
+  const story = e.target.closest("[data-story]");
+  if (story) {
+    storyPosts = filtered()
+      .filter((p) => p.format === "Stories")
+      .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+    storyIndex = storyPosts.findIndex((p) => p.id === story.dataset.story);
+    showStory();
+    return;
+  }
+
   const post = e.target.closest("[data-id]");
   if (post) return openEditor(post.dataset.id);
   const day = e.target.closest("[data-date]");
@@ -153,6 +178,7 @@ $("#form").onsubmit = (e) => {
   e.preventDefault();
   if (!editEnabled) return;
   const values = Object.fromEntries(new FormData(e.target));
+  values.uploadId = draftUploadId;
   values.title = values.title.trim();
   if (!values.title) return;
   values.id = editing || crypto.randomUUID();
@@ -308,6 +334,7 @@ window.addEventListener("resize", () => {
 
 function setEditorMode(enabled) {
   editEnabled = enabled;
+  $("#briefingDetails").open = enabled;
   $("#editor").classList.toggle("reading", !enabled);
   $("#postPreview").hidden = enabled || !editing;
   $("#modalTitle").textContent = enabled
@@ -326,9 +353,11 @@ function setEditorMode(enabled) {
       field.parentElement.append(display);
     }
     display.textContent =
-      field.name === "cover" ? (field.selectedOptions[0]?.textContent || "Sem capa") : field.name === "date"
-        ? field.value.split("-").reverse().join("/")
-        : field.value || "Não informado";
+      field.name === "cover"
+        ? field.selectedOptions[0]?.textContent || "Sem capa"
+        : field.name === "date"
+          ? field.value.split("-").reverse().join("/")
+          : field.value || "Não informado";
     display.classList.toggle("notes-value", field.name === "notes");
     display.hidden = enabled;
   }
@@ -349,15 +378,26 @@ for (const original of Object.keys(mediaPreviews)) {
   option.textContent = original.split("/").pop();
   $("#postCover").append(option);
 }
-$("#feedView").onclick = () => { view = "feed"; ideas = false; render(); };
+$("#feedView").onclick = () => {
+  view = "feed";
+  ideas = false;
+  render();
+};
 function updatePostPreview(post) {
   $("#postPreview").classList.toggle("tiktok-preview", view === "tiktok");
   const image = $("#postPreviewImage");
   image.replaceChildren();
   const url = coverUrl(post);
   if (url) {
-    const img = document.createElement("img");
-    img.src = url; img.alt = post.title;
+    const isVideo = uploaded(post)?.type.startsWith("video/");
+    const img = document.createElement(isVideo ? "video" : "img");
+    if (isVideo) {
+      img.controls = true;
+      img.playsInline = true;
+      img.preload = "metadata";
+    }
+    img.src = url;
+    img.alt = post.title;
     image.append(img);
   } else {
     const placeholder = document.createElement("div");
@@ -365,7 +405,147 @@ function updatePostPreview(post) {
     placeholder.textContent = post.title + " · Escolha uma capa em Editar post";
     image.append(placeholder);
   }
-  $("#postPreviewCaption").textContent = postCaption(post) || "Legenda ainda não definida. O roteiro completo está disponível abaixo.";
+  $("#postPreview")
+    .querySelectorAll(".tiktok-overlay")
+    .forEach((el) => el.remove());
+  if (view === "tiktok") {
+    const overlay = document.createElement("div");
+    overlay.className = "tiktok-overlay";
+    const side = document.createElement("div");
+    side.className = "tiktok-rail";
+    side.textContent = "♡\n…\n▱\n↗";
+    const caption = document.createElement("div");
+    caption.className = "tiktok-overlay-caption";
+    caption.textContent = "@charmyclube\n" + (postCaption(post) || post.title);
+    overlay.append(side, caption);
+    image.append(overlay);
+  }
+  $("#postPreviewCaption").textContent =
+    postCaption(post) ||
+    "Legenda ainda não definida. O roteiro completo está disponível abaixo.";
 }
 
-$("#tiktokView").onclick = () => { view = "tiktok"; ideas = false; render(); };
+$("#tiktokView").onclick = () => {
+  view = "tiktok";
+  ideas = false;
+  render();
+};
+
+$("#uploadPost").onclick = () => $("#postUploadFile").click();
+$("#postUploadFile").onchange = async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const status = $("#postUploadStatus");
+  if (
+    !file.type.startsWith("image/") &&
+    !file.type.startsWith("video/") &&
+    !/\.(heic|heif)$/i.test(file.name)
+  ) {
+    status.textContent = "Selecione uma imagem ou vídeo.";
+    return;
+  }
+  status.textContent = "Salvando mídia…";
+  try {
+    let previewFile = file;
+    if (/\.(heic|heif)$/i.test(file.name)) {
+      const converted = await window.heic2any({
+        blob: file,
+        toType: "image/jpeg",
+        quality: 0.9,
+      });
+      previewFile = new File(
+        [Array.isArray(converted) ? converted[0] : converted],
+        file.name + ".jpg",
+        { type: "image/jpeg" },
+      );
+    }
+    const id = crypto.randomUUID();
+    await storeUpload(id, previewFile);
+    draftUploadId = id;
+    if (editing) {
+      posts = posts.map((p) => (p.id === editing ? { ...p, uploadId: id } : p));
+      save();
+    }
+    const current = editing
+      ? posts.find((p) => p.id === editing)
+      : {
+          title: $("#form").elements.title.value,
+          notes: $("#form").elements.notes.value,
+          uploadId: id,
+        };
+    updatePostPreview(current);
+    $("#saveMediaFolder").hidden = false;
+    status.textContent =
+      "Mídia salva neste navegador. Você também pode guardar uma cópia na pasta img.";
+  } catch {
+    status.textContent =
+      "Não foi possível salvar a mídia. Verifique espaço no navegador e o formato do arquivo.";
+  }
+  event.target.value = "";
+};
+$("#saveMediaFolder").onclick = async () => {
+  try {
+    const item = uploaded({ uploadId: draftUploadId });
+    if (item)
+      $("#postUploadStatus").textContent = await saveUploadToFolder(item);
+  } catch (error) {
+    if (error.name !== "AbortError")
+      $("#postUploadStatus").textContent =
+        "Não foi possível gravar. Verifique a permissão da pasta.";
+  }
+};
+function showStory() {
+  const post = storyPosts[storyIndex];
+  if (!post) return;
+  const container = $("#storyMedia");
+  container.replaceChildren();
+  const url = coverUrl(post);
+  if (url) {
+    const video = uploaded(post)?.type.startsWith("video/");
+    const element = document.createElement(video ? "video" : "img");
+    element.src = url;
+    if (video) {
+      element.controls = true;
+      element.playsInline = true;
+    } else element.alt = post.title;
+    container.append(element);
+  } else
+    container.textContent =
+      post.title + " · Adicione a mídia em detalhes do post";
+  $("#storyTitle").textContent =
+    post.title + " · " + post.date.slice(8) + "/12";
+  $("#prevStory").disabled = storyIndex === 0;
+  $("#nextStory").disabled = storyIndex === storyPosts.length - 1;
+  $(".story-progress").textContent = storyPosts
+    .map((_, i) => (i === storyIndex ? "━━━━" : "────"))
+    .join(" ");
+  if (!$("#storyViewer").open) $("#storyViewer").showModal();
+}
+$("#prevStory").onclick = () => {
+  if (storyIndex > 0) {
+    storyIndex--;
+    showStory();
+  }
+};
+$("#nextStory").onclick = () => {
+  if (storyIndex < storyPosts.length - 1) {
+    storyIndex++;
+    showStory();
+  }
+};
+$("#closeStory").onclick = () => {
+  $("#storyViewer").close();
+  $("#storyMedia").querySelector("video")?.pause();
+};
+$("#storyViewer").addEventListener("close", () =>
+  $("#storyMedia").querySelector("video")?.pause(),
+);
+$("#storyViewer").addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") $("#nextStory").click();
+  if (e.key === "ArrowLeft") $("#prevStory").click();
+});
+$("#editStory").onclick = () => {
+  const post = storyPosts[storyIndex];
+  $("#storyViewer").close();
+  openEditor(post.id);
+};

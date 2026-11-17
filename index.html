@@ -94,7 +94,8 @@
             <div class="views">
               <button class="selected" id="gridView">▦ Mês</button
               ><button id="listView">☷ Lista</button
-              ><button id="feedView">▦ Feed Instagram</button><button id="tiktokView">♪ Feed TikTok</button>
+              ><button id="feedView">▦ Feed Instagram</button
+              ><button id="tiktokView">♪ Feed TikTok</button>
             </div>
           </div>
         </div>
@@ -186,17 +187,36 @@
             <small>Simulação visual · Não publicado</small>
           </div>
         </section>
+        <div class="post-upload-actions">
+          <button type="button" id="uploadPost">
+            ＋ Adicionar foto ou vídeo</button
+          ><button type="button" id="saveMediaFolder" hidden>
+            Salvar na pasta img</button
+          ><input
+            id="postUploadFile"
+            type="file"
+            accept="image/*,video/*,.heic,.heif"
+            hidden
+          />
+          <p id="postUploadStatus" role="status">
+            Uploads ficam salvos neste navegador. Use a opção de pasta para
+            guardar uma cópia local.
+          </p>
+        </div>
         <div class="editor-layout">
           <section class="editor-content" aria-label="Conteúdo do post">
-            <label
-              >Roteiro, legenda e briefing<span class="field-hint"
-                >Texto completo do post.</span
-              ><textarea
-                name="notes"
-                rows="20"
-                placeholder="Objetivo, referências, legenda e chamada para ação…"
-              ></textarea>
-            </label>
+            <details id="briefingDetails">
+              <summary>Ver roteiro e briefing completo</summary>
+              <label
+                >Roteiro, legenda e briefing<span class="field-hint"
+                  >Texto completo do post.</span
+                ><textarea
+                  name="notes"
+                  rows="20"
+                  placeholder="Objetivo, referências, legenda e chamada para ação…"
+                ></textarea>
+              </label>
+            </details>
           </section>
           <section class="editor-details" aria-labelledby="detailsTitle">
             <h3 id="detailsTitle">Publicação</h3>
@@ -263,6 +283,25 @@
           </div>
         </div>
       </form>
+    </dialog>
+    <dialog id="storyViewer" aria-label="Visualização de Stories">
+      <div class="story-progress"></div>
+      <div class="story-header">
+        <strong>charmyclube</strong
+        ><button type="button" id="closeStory" aria-label="Fechar Stories">
+          ×
+        </button>
+      </div>
+      <div id="storyMedia"></div>
+      <div class="story-nav">
+        <button type="button" id="prevStory" aria-label="Story anterior">
+          ‹</button
+        ><button type="button" id="nextStory" aria-label="Próximo Story">
+          ›
+        </button>
+      </div>
+      <p id="storyTitle"></p>
+      <button type="button" id="editStory">Abrir detalhes do post</button>
     </dialog>
     <script src="./src/vendor/heic2any.min.js" defer></script>
     <script type="module" src="./src/main.js"></script>

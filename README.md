@@ -79,3 +79,7 @@ A publicação usa AES-256-GCM com uma chave derivada da senha por PBKDF2-SHA-25
 O desbloqueio acontece no navegador por HTTPS. A chave fica na memória do service worker, não no HTML ou localStorage. O navegador pode solicitar novamente a senha ao encerrar o worker. Funciona como um documento criptografado: quem conhece a senha pode copiar o conteúdo desbloqueado. A força da proteção depende da senha escolhida.
 
 **Limite importante:** o repositório público e seu histórico continuam contendo os originais. Isso protege a versão do Pages, não o código ou as mídias disponíveis no GitHub. Dados editados anteriormente no localStorage continuam no navegador. O desenvolvimento local via Live Server permanece sem bloqueio; para gerar a publicação protegida, execute `npm run build` e `npm run protect` com a variável de ambiente `SITE_PASSWORD` definida.
+
+## Uploads e prévias sociais
+
+Os feeds são exibidos em ordem decrescente de data/horário. Stories ficam nos círculos e abrem em um visualizador próprio. Uploads por post são armazenados em IndexedDB neste navegador e associados ao planejamento local; não sincronizam com outros dispositivos nem são incluídos no backup JSON. Use **Salvar na pasta img** para guardar uma cópia. O navegador pede acesso à pasta; sem File System Access, o arquivo é baixado. Para compartilhar a mídia no site, ainda é necessário commit/push e publicação. HEIC enviado pelo formulário é convertido para JPEG quando o conversor suporta o arquivo.
