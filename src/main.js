@@ -1,3 +1,4 @@
+import { mountTiktokPreview } from "./views/tiktok-preview.js";
 import {
   loadUploads,
   uploaded,
@@ -384,7 +385,14 @@ $("#feedView").onclick = () => {
   render();
 };
 function updatePostPreview(post) {
-  $("#postPreview").classList.toggle("tiktok-preview", view === "tiktok");
+  const preview = $("#postPreview");
+  $("#editor").classList.toggle("tiktok-dialog", view === "tiktok");
+  $("#editor").classList.remove("tiktok-landscape");
+  preview.classList.toggle("tiktok-preview", view === "tiktok");
+  preview
+    .querySelectorAll(".tt-ratio-controls")
+    .forEach((element) => element.remove());
+  $("#postPreviewImage").querySelector("video")?.pause();
   const image = $("#postPreviewImage");
   image.replaceChildren();
   const url = coverUrl(post);
@@ -408,18 +416,7 @@ function updatePostPreview(post) {
   $("#postPreview")
     .querySelectorAll(".tiktok-overlay")
     .forEach((el) => el.remove());
-  if (view === "tiktok") {
-    const overlay = document.createElement("div");
-    overlay.className = "tiktok-overlay";
-    const side = document.createElement("div");
-    side.className = "tiktok-rail";
-    side.textContent = "♡\n…\n▱\n↗";
-    const caption = document.createElement("div");
-    caption.className = "tiktok-overlay-caption";
-    caption.textContent = "@charmyclube\n" + (postCaption(post) || post.title);
-    overlay.append(side, caption);
-    image.append(overlay);
-  }
+  if (view === "tiktok") mountTiktokPreview(preview, image, post);
   $("#postPreviewCaption").textContent =
     postCaption(post) ||
     "Legenda ainda não definida. O roteiro completo está disponível abaixo.";
@@ -498,6 +495,7 @@ function showStory() {
   const post = storyPosts[storyIndex];
   if (!post) return;
   const container = $("#storyMedia");
+  container.querySelector("video")?.pause();
   container.replaceChildren();
   const url = coverUrl(post);
   if (url) {
@@ -512,6 +510,10 @@ function showStory() {
   } else
     container.textContent =
       post.title + " · Adicione a mídia em detalhes do post";
+  const dateText = post.date.split("-").reverse().join("/");
+  $("#storyDate").dateTime = post.date;
+  $("#storyDate").textContent = dateText + (post.time ? " · " + post.time : "");
+  $("#storyPosition").textContent = `${storyIndex + 1} de ${storyPosts.length}`;
   $("#storyTitle").textContent =
     post.title + " · " + post.date.slice(8) + "/12";
   $("#prevStory").disabled = storyIndex === 0;
@@ -549,3 +551,7 @@ $("#editStory").onclick = () => {
   $("#storyViewer").close();
   openEditor(post.id);
 };
+
+$("#editor").addEventListener("close", () =>
+  $("#postPreviewImage").querySelector("video")?.pause(),
+);

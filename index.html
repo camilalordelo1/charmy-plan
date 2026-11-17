@@ -6,6 +6,7 @@
     <title>CHARMY⭐</title>
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/styles/social-preview.css" />
   </head>
   <body>
     <aside>
@@ -287,7 +288,10 @@
     <dialog id="storyViewer" aria-label="Visualização de Stories">
       <div class="story-progress"></div>
       <div class="story-header">
-        <strong>charmyclube</strong
+        <div class="story-account">
+          <strong>charmyclube</strong><time id="storyDate"></time>
+        </div>
+        <span id="storyPosition" aria-live="polite"></span
         ><button type="button" id="closeStory" aria-label="Fechar Stories">
           ×
         </button>

@@ -6,7 +6,7 @@
   "description": "Calendário editorial da Charmy para dezembro de 2026",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check src/main.js && node --check src/data/posts.js && node --check src/services/storage.js && node --check src/views/post-card.js && node --check src/utils/html.js && node --check scripts/build.mjs && node --check scripts/media.mjs && node --check src/views/media-library.js && node --check scripts/protect.mjs && node --check scripts/protection/unlock.js && node --check scripts/protection/service-worker.js",
+    "check": "node --check src/main.js && node --check src/data/posts.js && node --check src/services/storage.js && node --check src/views/post-card.js && node --check src/utils/html.js && node --check scripts/build.mjs && node --check scripts/media.mjs && node --check src/views/media-library.js && node --check scripts/protect.mjs && node --check scripts/protection/unlock.js && node --check scripts/protection/service-worker.js && node --check src/views/tiktok-preview.js && node --check src/views/tiktok-feed.js && node --check src/views/instagram-feed.js && node --check src/services/uploads.js",
     "media": "node scripts/media.mjs",
     "previews": "node scripts/previews.mjs",
     "protect": "node scripts/protect.mjs"
