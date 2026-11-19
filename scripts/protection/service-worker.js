@@ -14,6 +14,13 @@ self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim()),
 );
 self.addEventListener("message", (event) => {
+  // Recover control of tabs when some iOS WebViews miss the activate event.
+  if (event.data?.type === "claim-client") {
+    event.waitUntil(self.clients.claim().then(
+      () => event.ports[0]?.postMessage("ready"),
+      () => event.ports[0]?.postMessage("unavailable"),
+    ));
+  }
   if (event.data?.type === "read-session") {
     event.ports[0]?.postMessage(key && manifest ? { key, manifest } : null);
   }
