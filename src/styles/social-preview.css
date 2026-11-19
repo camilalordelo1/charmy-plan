@@ -638,3 +638,6 @@
 .highlight-load-status { position: absolute; z-index: 1; inset: 25% 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; text-align: center; color: white; font: 14px/1.5 Arial, sans-serif; }
 .highlight-load-status[hidden] { display: none; }
 .highlight-load-status button { border: 1px solid #fff8; border-radius: 20px; padding: 10px 16px; background: #242424; color: white; cursor: pointer; }
+
+/* Keep feed artwork readable in the taller TikTok grid. */
+.tiktok-tile > img.reel-cover { object-fit: contain; background: #edeef0; }
