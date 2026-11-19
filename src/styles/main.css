@@ -714,6 +714,7 @@ textarea {
 .media-card a {
   display: inline-block;
   margin-top: 10px;
+  margin-right: 12px;
   color: #76537f;
   font-size: 11px;
 }

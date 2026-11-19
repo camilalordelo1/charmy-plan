@@ -1,4 +1,5 @@
 import { mediaPreviews } from "../data/media-previews.js";
+import { videoPreviews } from "../data/video-previews.js";
 import { esc } from "../utils/html.js";
 let files = [];
 let initialized = false;
@@ -49,20 +50,37 @@ const video = (name) => /\.(mp4|webm|mov|m4v|ogv)$/i.test(name);
 const supported = (name) =>
   /\.(jpe?g|png|gif|webp|avif|svg|heic|heif|mp4|webm|mov|m4v|ogv)$/i.test(name);
 const root = new URL("../../", import.meta.url);
-function previewUrl(file) {
-  const match = Object.entries(mediaPreviews).find(
+const previews = {
+  ...mediaPreviews,
+  ...Object.fromEntries(Object.entries(videoPreviews).map(([file, item]) => [file, item.src])),
+};
+const posters = Object.fromEntries(Object.entries(videoPreviews).map(([file, item]) => [file, item.poster]));
+function previewUrl(file, mapping = previews, fallback = file.url) {
+  const match = Object.entries(mapping).find(
     ([original]) =>
       new URL(original.split("/").map(encodeURIComponent).join("/"), root)
         .href === file.url,
   );
   if (match) return new URL(match[1], root).href;
   if (file.url.startsWith("blob:")) {
-    const matches = Object.entries(mediaPreviews).filter(
+    const matches = Object.entries(mapping).filter(
       ([original]) => original.split("/").pop() === file.name,
     );
     if (matches.length === 1) return new URL(matches[0][1], root).href;
   }
-  return file.url;
+  return fallback;
+}
+function mediaCard(file) {
+  const preview = previewUrl(file);
+  const poster = previewUrl(file, posters, "");
+  const isVideo = video(file.name);
+  const media = isVideo
+    ? `<video controls playsinline preload="metadata" ${poster ? `poster="${esc(poster)}"` : ""} src="${esc(preview)}"></video>`
+    : `<img loading="lazy" ${heic(file.name) ? `data-heic="${esc(file.url)}"` : ""} src="${esc(preview)}" alt="${esc(file.name)}">`;
+  const label = heic(file.name)
+    ? `<small class="media-preview-status">${preview !== file.url ? "Prévia JPEG · original HEIC / HEIF" : "HEIC / HEIF"}</small>`
+    : "";
+  return `<article class="media-card">${media}<div>${label}<strong>${esc(file.name)}</strong><a href="${esc(preview)}" target="_blank" rel="noopener">${isVideo ? "Abrir vídeo" : "Abrir imagem"} ↗</a>${preview !== file.url ? `<a href="${esc(file.url)}" download="${esc(file.name)}">Baixar original</a>` : ""}</div></article>`;
 }
 function renderMedia() {
   const query = document.querySelector("#mediaSearch").value.toLowerCase();
@@ -75,12 +93,7 @@ function renderMedia() {
   document.querySelector("#mediaCount").textContent =
     `${visible.length} arquivo(s)`;
   document.querySelector("#mediaGrid").innerHTML =
-    visible
-      .map(
-        (f) =>
-          `<article class="media-card">${video(f.name) ? `<video controls preload="metadata" src="${esc(f.url)}"></video>` : `<img loading="lazy" ${heic(f.name) ? `data-heic="${esc(f.url)}"` : ""} src="${esc(previewUrl(f))}" alt="${esc(f.name)}">`}<div>${heic(f.name) ? `<small class="media-preview-status">${previewUrl(f) !== f.url ? "Prévia JPEG · original HEIC / HEIF" : "HEIC / HEIF"}</small>` : ""}<strong>${esc(f.name)}</strong><a href="${esc(f.url)}" target="_blank" rel="noopener">Abrir arquivo ↗</a></div></article>`,
-      )
-      .join("") ||
+    visible.map(mediaCard).join("") ||
     '<p class="empty">Nenhum arquivo encontrado. Atualize o índice da pasta img ou selecione a pasta local abaixo.</p>';
   attachHeicPreviews();
 }
