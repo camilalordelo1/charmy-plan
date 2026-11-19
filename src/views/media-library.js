@@ -1,3 +1,4 @@
+import { imagePreview } from "../utils/image-preview.js";
 import { mediaPreviews } from "../data/media-previews.js";
 import { videoPreviews } from "../data/video-previews.js";
 import { artworkLibrary } from "../data/artwork-library.js";
@@ -83,8 +84,8 @@ function mediaCard(file) {
   const poster = previewUrl(file, posters, "");
   const isVideo = video(file.name);
   const media = isVideo
-    ? `<video controls playsinline preload="metadata" ${poster ? `poster="${esc(poster)}"` : ""} src="${esc(preview)}"></video>`
-    : `<a class="media-preview-link" href="${esc(preview)}" target="_blank" rel="noopener" aria-label="Abrir ${esc(file.title || file.name)} em tamanho completo"><img loading="lazy" ${heic(file.name) ? `data-heic="${esc(file.url)}"` : ""} src="${esc(preview)}" alt="${esc(file.alt || file.name)}"></a>`;
+    ? `<video controls playsinline preload="none" ${poster ? `poster="${esc(poster)}"` : ""} src="${esc(preview)}"></video>`
+    : `<a class="media-preview-link" href="${esc(preview)}" target="_blank" rel="noopener" aria-label="Abrir ${esc(file.title || file.name)} em tamanho completo"><img loading="lazy" decoding="async" ${heic(file.name) ? `data-heic="${esc(file.url)}"` : ""} src="${esc(imagePreview(preview, "thumb"))}" alt="${esc(file.alt || file.name)}"></a>`;
   const label = file.art
     ? `<small class="media-art-format">${esc(file.format)}</small>`
     : heic(file.name)

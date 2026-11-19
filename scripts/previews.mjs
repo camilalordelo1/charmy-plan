@@ -56,7 +56,7 @@ async function scan(dir) {
           "-show_entries", "stream=color_transfer", "-of", "json", file,
         ], { encoding: "utf8" }));
         const hdr = ["arib-std-b67", "smpte2084"].includes(probe.streams[0]?.color_transfer);
-        const filter = "scale=1080:1080:force_original_aspect_ratio=decrease:force_divisible_by=2" +
+        const filter = "scale=960:960:force_original_aspect_ratio=decrease:force_divisible_by=2" +
           (hdr ? ",zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p" : "");
         const temporary = path.join(videoOutput, name + ".pending.mp4");
         try {
@@ -64,10 +64,10 @@ async function scan(dir) {
           "-hide_banner", "-loglevel", "error", "-y", "-i", file,
           "-map", "0:v:0", "-map", "0:a:0?",
           "-vf", filter,
-          "-c:v", "libx264", "-preset", "fast", "-crf", "23", "-threads", "2",
+          "-c:v", "libx264", "-preset", "fast", "-crf", "28", "-maxrate", "1200k", "-bufsize", "2400k", "-r", "30", "-threads", "2",
           "-pix_fmt", "yuv420p", "-tag:v", "avc1",
           "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
-          "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart",
+          "-c:a", "aac", "-b:a", "80k", "-movflags", "+faststart",
           "-map_metadata", "-1", "-sn", "-dn", temporary,
           ], { stdio: "pipe" });
           await rename(temporary, preview);

@@ -1,5 +1,10 @@
 let key = null,
   manifest = null;
+// Keep decrypted content only in memory for this unlocked session.
+let decoded = new Map();
+let pending = new Map();
+let decodedBytes = 0;
+const cacheLimit = 96 * 1024 * 1024;
 const base = new URL("./", self.location.href);
 const bytes = (value) => Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
 self.addEventListener("install", () => self.skipWaiting());
@@ -8,6 +13,9 @@ self.addEventListener("activate", (event) =>
 );
 self.addEventListener("message", (event) => {
   if (event.data?.type === "unlock") {
+    decoded = new Map();
+    pending = new Map();
+    decodedBytes = 0;
     key = event.data.key;
     manifest = event.data.manifest;
     event.ports[0]?.postMessage("ready");
@@ -31,6 +39,37 @@ const types = {
   mov: "video/quicktime",
   heic: "image/heic",
 };
+async function decryptedFile(entry, activeKey) {
+  if (decoded.has(entry.file)) {
+    const value = decoded.get(entry.file);
+    decoded.delete(entry.file);
+    decoded.set(entry.file, value);
+    return value;
+  }
+  if (pending.has(entry.file)) return pending.get(entry.file);
+  const activePending = pending;
+  const task = (async () => {
+    // Ciphertext URLs contain a content hash, so the browser may cache them safely.
+    const response = await fetch(new URL(entry.file, base), { cache: "force-cache" });
+    if (!response.ok) throw new Error("File unavailable");
+    const plain = await crypto.subtle.decrypt(
+      { name: "AES-GCM", iv: bytes(entry.iv) }, activeKey, await response.arrayBuffer(),
+    );
+    if (key === activeKey && plain.byteLength <= cacheLimit) {
+      while (decodedBytes + plain.byteLength > cacheLimit && decoded.size) {
+        const oldest = decoded.keys().next().value;
+        decodedBytes -= decoded.get(oldest).byteLength;
+        decoded.delete(oldest);
+      }
+      decoded.set(entry.file, plain);
+      decodedBytes += plain.byteLength;
+    }
+    return plain;
+  })();
+  activePending.set(entry.file, task);
+  try { return await task; }
+  finally { activePending.delete(entry.file); }
+}
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== base.origin || !url.pathname.startsWith(base.pathname))
@@ -44,14 +83,7 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     (async () => {
       try {
-        const response = await fetch(new URL(entry.file, base), {
-          cache: "no-store",
-        });
-        const plain = await crypto.subtle.decrypt(
-          { name: "AES-GCM", iv: bytes(entry.iv) },
-          activeKey,
-          await response.arrayBuffer(),
-        );
+        const plain = await decryptedFile(entry, activeKey);
         const headers = {
           "Content-Type":
             types[name.split(".").pop().toLowerCase()] ||

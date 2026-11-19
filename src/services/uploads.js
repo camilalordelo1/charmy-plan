@@ -1,3 +1,4 @@
+import { postMedia } from "../data/post-media.js";
 const items = new Map();
 let db;
 function database() {
@@ -83,9 +84,9 @@ export async function saveUploadToFolder(item) {
 
 export function isVideoUpload(post) {
   const item = uploaded(post);
-  return Boolean(
+  return item ? Boolean(
     item &&
       (item.type?.startsWith("video/") ||
         /\.(mp4|mov|m4v|webm|ogv|avi|mkv)$/i.test(item.name)),
-  );
+  ) : Boolean(postMedia(post));
 }

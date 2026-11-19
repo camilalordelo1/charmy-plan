@@ -26,4 +26,10 @@ const stories = highlights
   })));
 
 // Use the same current assets as the posts and highlights, including revisions.
-export const artworkLibrary = [...feed, ...stories];
+export const artworkLibrary = [...feed, ...stories, {
+  src: "src/assets/posts/monte-um-look/01-capa.png",
+  title: "09/12 · Monte um look comigo · Capa do Reels",
+  alt: "Monta um look comigo? Uma peça, muitas possibilidades. Apresentadora com top rosa e jeans cargo.",
+  format: "Capa do Reels · 1080 × 1350 px",
+  downloadName: "charmy-capa-reels-2026-12-09.png",
+}];

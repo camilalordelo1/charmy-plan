@@ -11,6 +11,8 @@ import {
 } from "./services/uploads.js";
 await loadUploads();
 import { tiktokFeedMarkup } from "./views/tiktok-feed.js";
+import { imagePreview } from "./utils/image-preview.js";
+import { postMedia } from "./data/post-media.js";
 import { feedMarkup, coverUrl, postCaption } from "./views/instagram-feed.js";
 import { mediaPreviews } from "./data/media-previews.js";
 import { matchesPostCategory } from "./utils/post-filter.js";
@@ -412,9 +414,15 @@ function updatePostPreview(post) {
   const hasCarousel = view !== "tiktok" && mountPostCarousel(image, post);
   const artwork = postArtwork(post);
   const download = $("#postCarouselDownload");
-  download.hidden = !artwork;
+  download.hidden = !artwork && !postMedia(post);
+  if (!artwork && postMedia(post)) {
+    download.href = postMedia(post).cover;
+    download.download = "charmy-capa-reels-2026-12-09.png";
+    download.textContent = "Baixar capa do Reels";
+  }
   if (artwork) {
     download.href = artwork.download;
+    download.download = artwork.download.split("/").pop();
     download.textContent = artwork.slides.length > 1
       ? "Baixar carrossel completo" : "Baixar arte";
   }
@@ -425,7 +433,8 @@ function updatePostPreview(post) {
     if (isVideo) {
       img.controls = true;
       img.playsInline = true;
-      img.preload = "metadata";
+      img.preload = "none";
+      if (postMedia(post)) img.poster = imagePreview(postMedia(post).cover);
     }
     img.src = url;
     img.alt = post.title;

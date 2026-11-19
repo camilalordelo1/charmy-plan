@@ -1,3 +1,4 @@
+import { imagePreview } from "../utils/image-preview.js";
 import { postArtwork } from "../data/post-artworks.js";
 import { mediaPreviews } from "../data/media-previews.js";
 import { uploaded } from "../services/uploads.js";
@@ -40,7 +41,7 @@ export function mountPostCarousel(container, post) {
   });
   function show(target) {
     index = Math.max(0, Math.min(artwork.slides.length - 1, target));
-    image.src = artwork.slides[index].src;
+    image.src = imagePreview(artwork.slides[index].src);
     image.alt = artwork.slides[index].alt;
     previous.disabled = index === 0;
     next.disabled = index === artwork.slides.length - 1;

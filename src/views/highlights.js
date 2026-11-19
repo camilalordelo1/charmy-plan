@@ -1,3 +1,4 @@
+import { imagePreview } from "../utils/image-preview.js";
 import { highlights } from "../data/highlights.js";
 import { esc } from "../utils/html.js";
 const folder = "src/assets/highlights/";
@@ -12,7 +13,7 @@ let touchStart = null;
 const liked = new Set();
 
 export function highlightsMarkup() {
-  return `<section class="profile-highlights" aria-label="Destaques do Instagram"><div class="profile-highlights-row">${highlights.map((item) => `<button type="button" class="profile-highlight" data-highlight="${item.id}" aria-label="Abrir destaque ${esc(item.title)}"><span class="highlight-cover"><img src="${folder + item.file}" alt="Capa de ${esc(item.title)}" width="1254" height="1254" loading="lazy"></span><span class="highlight-label">${esc(item.title)}</span></button>`).join("")}</div><a class="highlight-download-all" href="${folder}capas-destaques.zip" download="charmy-capas-destaques.zip">Baixar capas 1:1 ↓</a></section>`;
+  return `<section class="profile-highlights" aria-label="Destaques do Instagram"><div class="profile-highlights-row">${highlights.map((item) => `<button type="button" class="profile-highlight" data-highlight="${item.id}" aria-label="Abrir destaque ${esc(item.title)}"><span class="highlight-cover"><img src="${imagePreview(folder + item.file, "thumb")}" alt="Capa de ${esc(item.title)}" width="1254" height="1254" loading="lazy"></span><span class="highlight-label">${esc(item.title)}</span></button>`).join("")}</div><a class="highlight-download-all" href="${folder}capas-destaques.zip" download="charmy-capas-destaques.zip">Baixar capas 1:1 ↓</a></section>`;
 }
 function currentSlides() {
   const item = highlights[activeIndex];
@@ -37,7 +38,7 @@ function renderHighlight() {
   elapsed = 0;
   $("#highlightViewer").classList.toggle("has-highlight-stories", Boolean(item.slides?.length));
   const image = $("#highlightViewerImage");
-  image.src = folder + slide.file;
+  image.src = imagePreview(folder + slide.file);
   image.alt = slide.alt;
   image.width = slide.width;
   image.height = slide.height;
