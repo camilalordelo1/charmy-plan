@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: '22'
       - name: Check source
-        run: npm run check && npm run test:session
+        run: npm run check && npm run test:session && npm run test:proposals
       - name: Build static site
         run: npm run build && node scripts/protect.mjs
         env:

@@ -641,3 +641,6 @@
 
 /* Keep feed artwork readable in the taller TikTok grid. */
 .tiktok-tile > img.reel-cover { object-fit: contain; background: #edeef0; }
+
+.post-production-note { margin: 12px 0; padding: 12px 14px; border-radius: 8px; background: #fceef5; color: #653952; font: 13px/1.5 Arial, sans-serif; }
+.post-production-note[hidden] { display: none; }

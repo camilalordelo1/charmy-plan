@@ -14,6 +14,7 @@ import {
 await loadUploads();
 import { tiktokFeedMarkup } from "./views/tiktok-feed.js";
 import { imagePreview } from "./utils/image-preview.js";
+import { postProposal, needsProduction } from "./services/post-proposal.js";
 import { postMedia } from "./data/post-media.js";
 import { feedMarkup, coverUrl, postCaption } from "./views/instagram-feed.js";
 import { mediaPreviews } from "./data/media-previews.js";
@@ -416,7 +417,14 @@ function updatePostPreview(post) {
   const hasCarousel = view !== "tiktok" && mountPostCarousel(image, post);
   const artwork = postArtwork(post);
   const download = $("#postCarouselDownload");
-  download.hidden = !artwork && !postMedia(post);
+  const proposal = postProposal(post);
+  $("#postProductionNote").hidden = !needsProduction(post);
+  download.hidden = !artwork && !postMedia(post) && !proposal;
+  if (proposal) {
+    download.href = proposal.src;
+    download.download = `charmy-capa-sugerida-${post.source || post.id}.png`;
+    download.textContent = "Baixar capa sugerida";
+  }
   if (!artwork && postMedia(post)) {
     download.href = postMedia(post).cover;
     download.download = `charmy-capa-reels-${post.date}.png`;

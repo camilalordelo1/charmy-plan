@@ -1,4 +1,44 @@
 export const imagePreviews = {
+  "src/assets/posts/capas-sugeridas/ano-novo.png": {
+    "thumb": "src/assets/image-previews/f47577f127b87f9caf4d-thumb.webp",
+    "display": "src/assets/image-previews/f47577f127b87f9caf4d-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/bastidores-loja.png": {
+    "thumb": "src/assets/image-previews/6ce9117231604dd5f989-thumb.webp",
+    "display": "src/assets/image-previews/6ce9117231604dd5f989-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/duas-festas.png": {
+    "thumb": "src/assets/image-previews/2c35cfd4d434b9f9b81b-thumb.webp",
+    "display": "src/assets/image-previews/2c35cfd4d434b9f9b81b-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/efeito-charmy.png": {
+    "thumb": "src/assets/image-previews/87acff7df785adcbd409-thumb.webp",
+    "display": "src/assets/image-previews/87acff7df785adcbd409-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/grwm-sabado.png": {
+    "thumb": "src/assets/image-previews/fcf86f08f82e3862f0cd-thumb.webp",
+    "display": "src/assets/image-previews/fcf86f08f82e3862f0cd-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/poder-styling.png": {
+    "thumb": "src/assets/image-previews/4a37e80dff6864a94650-thumb.webp",
+    "display": "src/assets/image-previews/4a37e80dff6864a94650-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/transicao-look.png": {
+    "thumb": "src/assets/image-previews/a59685847139d3f5de42-thumb.webp",
+    "display": "src/assets/image-previews/a59685847139d3f5de42-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/tres-vibes.png": {
+    "thumb": "src/assets/image-previews/12f2c141c701c427e1b3-thumb.webp",
+    "display": "src/assets/image-previews/12f2c141c701c427e1b3-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/vibe-dezembro.png": {
+    "thumb": "src/assets/image-previews/3f45127ad013bf15e8f7-thumb.webp",
+    "display": "src/assets/image-previews/3f45127ad013bf15e8f7-display.webp"
+  },
+  "src/assets/posts/capas-sugeridas/vibe-reveillon.png": {
+    "thumb": "src/assets/image-previews/6e8392eaada4ceadc0ea-thumb.webp",
+    "display": "src/assets/image-previews/6e8392eaada4ceadc0ea-display.webp"
+  },
   "src/assets/posts/detalhes-vestido/01-capa.png": {
     "thumb": "src/assets/image-previews/ba8bf97df2d91f4b6cf6-thumb.webp",
     "display": "src/assets/image-previews/ba8bf97df2d91f4b6cf6-display.webp"

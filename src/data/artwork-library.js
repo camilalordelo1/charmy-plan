@@ -1,3 +1,5 @@
+import { proposedCover } from "./proposed-covers.js";
+import { suggestions } from "./posts.js";
 import { postMedia } from "./post-media.js";
 import { notionPosts } from "./notion-posts.js";
 import { postArtwork } from "./post-artworks.js";
@@ -38,5 +40,17 @@ const reelCovers = notionPosts.flatMap((post) => {
   }];
 });
 
+const proposed = [...notionPosts, ...suggestions].flatMap((post) => {
+  const cover = proposedCover(post);
+  if (!cover) return [];
+  return [{
+    src: cover.src,
+    title: `${post.date.slice(8)}/${post.date.slice(5, 7)} · ${post.title} · Capa sugerida`,
+    alt: cover.alt,
+    format: "Capa sugerida · 1080 × 1350 px · Conteúdo a ser produzido pela loja",
+    downloadName: `charmy-capa-sugerida-${post.source || post.id}.png`,
+  }];
+});
+
 // Use the same current assets as the posts and highlights, including revisions.
-export const artworkLibrary = [...feed, ...stories, ...reelCovers];
+export const artworkLibrary = [...feed, ...stories, ...reelCovers, ...proposed];

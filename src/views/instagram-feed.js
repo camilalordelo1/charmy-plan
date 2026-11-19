@@ -6,14 +6,15 @@ import { postArtwork } from "../data/post-artworks.js";
 import { postMedia } from "../data/post-media.js";
 import { videoPreviews } from "../data/video-previews.js";
 import { imagePreview } from "../utils/image-preview.js";
+import { postProposal } from "../services/post-proposal.js";
 export function postCoverUrl(post) {
   const media = postMedia(post);
   const upload = uploaded(post);
   if (media && (!upload || isVideoUpload(post))) return imagePreview(media.cover, "thumb");
-  return imagePreview(upload?.url || mediaPreviews[post.cover] || postArtwork(post)?.slides[0].src || "", "thumb");
+  return imagePreview(upload?.url || mediaPreviews[post.cover] || postArtwork(post)?.slides[0].src || postProposal(post)?.src || "", "thumb");
 }
 export function coverUrl(post) {
-  return uploaded(post)?.url || postMedia(post)?.src || videoPreviews[post.cover]?.src || imagePreview(mediaPreviews[post.cover] || postArtwork(post)?.slides[0].src || "");
+  return uploaded(post)?.url || postMedia(post)?.src || videoPreviews[post.cover]?.src || imagePreview(mediaPreviews[post.cover] || postArtwork(post)?.slides[0].src || postProposal(post)?.src || "");
 }
 export function postCaption(post) {
   const notes = post.notes || "";
