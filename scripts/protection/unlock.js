@@ -1,6 +1,26 @@
 const form = document.querySelector("form"),
   message = document.querySelector("#message");
 const bytes = (value) => Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
+// Remove only Cache Storage responses belonging to this GitHub Pages project.
+// Browsers do not allow scripts to erase the general HTTP cache; no local user
+// data (drafts, uploads, IndexedDB or localStorage) should be deleted here.
+async function clearProjectCache() {
+  if (!("caches" in globalThis)) return;
+  const scope = new URL("./", location.href);
+  try {
+    for (const cacheName of await caches.keys()) {
+      const cache = await caches.open(cacheName);
+      for (const request of await cache.keys()) {
+        const url = new URL(request.url);
+        if (url.origin === scope.origin && url.pathname.startsWith(scope.pathname))
+          await cache.delete(request);
+      }
+    }
+  } catch {
+    // Access can be restricted in private mode; login must remain usable.
+  }
+}
+const cacheCleanup = clearProjectCache();
 // Bind the eye independently of optional recovery controls. Old cached login
 // pages must continue working when they receive a newer unlock.js.
 const passwordInput = document.querySelector("#password");
@@ -51,6 +71,8 @@ function bounded(promise) {
 async function connectWorker() {
   try {
     const registration = await navigator.serviceWorker.register("service-worker.js", { updateViaCache: "none" });
+    // Explicitly check for a newer worker on every login, even with an old tab.
+    await registration.update?.();
     const updating = registration.installing || registration.waiting;
     if (updating && updating.state !== "activated") {
       await bounded(new Promise((resolve, reject) => {
@@ -90,6 +112,7 @@ form.onsubmit = async (event) => {
   message.textContent = "Desbloqueando…";
   try {
     if (!globalThis.isSecureContext || !globalThis.crypto?.subtle || !("serviceWorker" in navigator)) throw Error("browser");
+    await cacheCleanup;
     // Every publication has a new encryption salt and new ciphertext URLs.
     // A stale CDN manifest can refer to files removed by the latest deployment.
     const manifestUrl = new URL("manifest.json", location.href);
