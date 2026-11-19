@@ -123,7 +123,9 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     (async () => {
       if (!key || !manifest) await restoreSession();
-      if (!key || !manifest?.files[name]) return fetch(event.request);
+      // The public login must be fetched fresh after each publication.
+      if (!key || !manifest?.files[name])
+        return fetch(event.request, { cache: "no-store" });
       const entry = manifest.files[name], activeKey = key;
       try {
         const plain = await decryptedFile(entry, activeKey);
