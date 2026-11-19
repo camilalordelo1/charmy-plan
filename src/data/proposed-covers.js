@@ -105,20 +105,16 @@ const covers = {
   },
   "roteiros-charmy-v1-3": {
     "src": "src/assets/posts/capas-sugeridas/poder-styling.png",
-    "alt": "Capa sugerida de O Poder do Styling: dois looks completos com Body Liz preto, combinando jeans wide leg e tênis branco e azul, ou saia Sophie xadrez, meia-calça transparente e botas de plataforma. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de O Poder do Styling: modelo adolescente de cabelo longo com Body Liz off-white, jeans wide black, cinto de ilhós, corrente, bolsa prateada e tênis de skate preto e branco. Conteúdo a ser produzido pela loja.",
     "title": "O Poder do Styling",
     "products": [
       {
-        "name": "Body Liz - preto",
-        "url": "https://charmozinha.bagypro.com/body-liz-preto-venda-antecipada-envio-dia-040826"
+        "name": "Body Liz - Off",
+        "url": "https://charmozinha.bagypro.com/body-liz-off"
       },
       {
-        "name": "Saia Sophie - xadrez",
-        "url": "https://charmozinha.bagypro.com/saia-sophie-xadrez"
-      },
-      {
-        "name": "Calça Jeans Wide Leg - clara",
-        "url": "https://charmozinha.bagypro.com/calca-jeans-wide-leg-clara"
+        "name": "Calça Jeans Wide black",
+        "url": "https://charmozinha.bagypro.com/calca-jeans-wide-black"
       }
     ]
   },
