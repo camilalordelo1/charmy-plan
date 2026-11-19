@@ -18,7 +18,7 @@ const covers = {
   },
   "charmy-notion-dec-07": {
     "src": "src/assets/posts/capas-sugeridas/transicao-look.png",
-    "alt": "Capa sugerida de Transição de look, com modelos adolescentes ilustrativas e roupas da coleção Natal e Ano Novo. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de Transição de look: adolescente com jeans e tênis branco e azul, e vestido Lorena preto com botas altas de salto e meia-calça transparente. Conteúdo a ser produzido pela loja.",
     "title": "Transição de look",
     "products": [
       {
@@ -56,7 +56,7 @@ const covers = {
   },
   "charmy-notion-dec-10": {
     "src": "src/assets/posts/capas-sugeridas/duas-festas.png",
-    "alt": "Capa sugerida de 1 look para duas festas, com modelos adolescentes ilustrativas e roupas da coleção Natal e Ano Novo. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de 1 look para duas festas: vestido Lorena preto com tênis de skate preto e branco, e versão festival com coturnos e meia-calça preta transparente. Conteúdo a ser produzido pela loja.",
     "title": "1 look para duas festas",
     "products": [
       {
@@ -82,7 +82,7 @@ const covers = {
   },
   "roteiros-charmy-v1-2": {
     "src": "src/assets/posts/capas-sugeridas/tres-vibes.png",
-    "alt": "Capa sugerida de 1 Peça, 3 Vibes: três combinações das peças da coleção Natal e Ano Novo, com calçados, bolsas e acessórios. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de 1 Peça, 3 Vibes: combinações da coleção com tênis de skate preto e branco, botas de plataforma e sandálias anabela brancas com tiras de brilho. Conteúdo a ser produzido pela loja.",
     "title": "1 Peça, 3 Vibes",
     "products": [
       {
@@ -101,7 +101,7 @@ const covers = {
   },
   "roteiros-charmy-v1-3": {
     "src": "src/assets/posts/capas-sugeridas/poder-styling.png",
-    "alt": "Capa sugerida de O Poder do Styling, com modelos adolescentes ilustrativas e roupas da coleção Natal e Ano Novo. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de O Poder do Styling: adolescente com jeans wide leg, top vermelho, camisa branca e tênis branco com detalhes azul-claro. Conteúdo a ser produzido pela loja.",
     "title": "O Poder do Styling",
     "products": [
       {
@@ -120,7 +120,7 @@ const covers = {
   },
   "roteiros-charmy-v1-5": {
     "src": "src/assets/posts/capas-sugeridas/grwm-sabado.png",
-    "alt": "Capa sugerida de GRWM: Rolê de Sábado, com modelos adolescentes ilustrativas e roupas da coleção Natal e Ano Novo. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de GRWM: Rolê de Sábado, com adolescente em body branco, saia Lana preta, meia-calça transparente e botas de plataforma com salto bloco. Conteúdo a ser produzido pela loja.",
     "title": "GRWM: Rolê de Sábado",
     "products": [
       {
@@ -135,7 +135,7 @@ const covers = {
   },
   "roteiros-charmy-v1-6": {
     "src": "src/assets/posts/capas-sugeridas/efeito-charmy.png",
-    "alt": "Capa sugerida de O Efeito Charmy: adolescente de tranças boho em dois looks Lorena, com tênis Puma branco e bota preta de cano alto com salto. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de O Efeito Charmy: adolescente de tranças em looks Lorena, com tênis de lona preto e meia-calça transparente, e botas pretas de cano alto franzido com salto. Conteúdo a ser produzido pela loja.",
     "title": "O Efeito Charmy",
     "products": [
       {
