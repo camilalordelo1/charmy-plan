@@ -1,4 +1,5 @@
 import { generateMedia } from "./media.mjs";
+import { buildArtworkBundle } from "./artwork-bundle.mjs";
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -15,4 +16,5 @@ await writeFile(
 );
 await cp(path.join(root, "img"), path.join(output, "img"), { recursive: true });
 await cp(path.join(root, "src/assets/charmy-logo.png"), path.join(output, "favicon.png"));
+await buildArtworkBundle(root, output);
 console.log("Build concluído: dist/");
