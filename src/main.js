@@ -1,3 +1,4 @@
+import { openHighlight, initializeHighlights } from "./views/highlights.js";
 import { mountTiktokPreview } from "./views/tiktok-preview.js";
 import {
   loadUploads,
@@ -155,6 +156,11 @@ function openEditor(id, date) {
   expandNotes();
 }
 $("#calendar").onclick = (e) => {
+  const highlight = e.target.closest("[data-highlight]");
+  if (highlight) {
+    openHighlight(highlight.dataset.highlight);
+    return;
+  }
   const story = e.target.closest("[data-story]");
   if (story) {
     storyPosts = filtered()
@@ -628,3 +634,5 @@ $("#cancelVideoConversion").onclick = () => videoConversionController?.abort();
 $("#editor").addEventListener("close", () =>
   videoConversionController?.abort(),
 );
+
+initializeHighlights();

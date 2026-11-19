@@ -494,3 +494,155 @@
 #postPreview.native-video-mode #postPreviewImage {
   cursor: auto;
 }
+.profile-highlights {
+  padding: 0 26px 26px;
+}
+.profile-highlights-row {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 5px 3px 12px;
+  scroll-snap-type: x proximity;
+}
+.profile-highlight {
+  flex: 0 0 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  background: transparent;
+  padding: 0;
+  border: 0;
+  color: var(--ink);
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+.highlight-cover {
+  display: block;
+  width: 80px;
+  height: 80px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid #ded6e0;
+  padding: 3px;
+  background: white;
+}
+.highlight-cover img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+}
+.highlight-label {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+}
+.profile-highlight:hover .highlight-cover {
+  border-color: #ba73aa;
+}
+.highlight-download-all {
+  display: inline-block;
+  font-size: 11px;
+  color: #754477;
+  padding: 5px 0;
+}
+#highlightViewer {
+  width: min(500px, calc(100vw - 24px));
+  max-height: 94dvh;
+  padding: 18px;
+}
+.highlight-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.highlight-viewer-header small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.highlight-viewer-header h2 {
+  margin: 5px 0 0;
+  font-size: 22px;
+  color: #754477;
+}
+#closeHighlight {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-size: 26px;
+  width: 40px;
+  height: 40px;
+}
+#highlightViewerImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 62dvh;
+  object-fit: contain;
+  aspect-ratio: 1;
+  border-radius: 6px;
+}
+.highlight-viewer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 14px 0;
+}
+.highlight-viewer-controls button {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #faf5fb;
+  color: #754477;
+  width: 44px;
+  height: 40px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.highlight-viewer-controls button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+#highlightPosition {
+  font-size: 12px;
+  color: var(--muted);
+}
+#downloadHighlight {
+  display: block;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  background: #754477;
+  color: white;
+  font-size: 13px;
+  text-decoration: none;
+}
+@media (max-width: 600px) {
+  .profile-highlights {
+    padding: 0 12px 18px;
+  }
+  .profile-highlights-row {
+    gap: 14px;
+  }
+  .profile-highlight {
+    flex-basis: 74px;
+  }
+  .highlight-cover {
+    width: 68px;
+    height: 68px;
+  }
+  .highlight-label {
+    font-size: 11px;
+  }
+  .highlight-download-all {
+    font-size: 12px;
+    padding: 10px 0;
+  }
+}

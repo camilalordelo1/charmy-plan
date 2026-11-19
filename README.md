@@ -91,3 +91,7 @@ A prévia de TikTok usa controles próprios de reprodução, som e avanço, com 
 O botão **Corrigir vídeo para MP4** usa FFmpeg WebAssembly single-thread para gerar uma cópia H.264 (8 bits/yuv420p) + AAC, mantendo a proporção e limitando o lado maior a 1280 pixels. A conversão é local e iniciada pelo usuário. O original permanece em IndexedDB, e o post passa a usar a cópia compatível. O conversor (~31 MB) só é carregado ao clicar; vídeos grandes podem exigir um computador. É possível cancelar. O botão **Usar controles do navegador** oferece a reprodução nativa como alternativa. Arquivos de vídeo também são identificados pela extensão quando não trazem MIME.
 
 Componentes incluídos: `@ffmpeg/ffmpeg` 0.12.15 (MIT) e `@ffmpeg/core` 0.12.10 (GPL-2.0-or-later), com licenças e metadados em `src/vendor/ffmpeg*`. Código-fonte e instruções de compilação: https://github.com/ffmpegwasm/ffmpeg.wasm.
+
+## Capas de destaques
+
+A prévia do Instagram exibe cinco destaques abaixo da bio, nesta ordem: **Novidades**, **Inspirações**, **Como comprar**, **Dúvidas** e **Tamanhos**. As capas quadradas ficam em `src/assets/highlights/`; a lista e os rótulos estão em `src/data/highlights.js`. As miniaturas usam proporção 1:1, posição central e máscara circular. Um clique abre a capa inteira, com navegação e download individual. **Baixar capas 1:1** reúne as cinco imagens em ZIP para usar no Instagram real. Isso não publica nem modifica o perfil real da marca.

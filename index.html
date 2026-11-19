@@ -313,6 +313,31 @@
       <p id="storyTitle"></p>
       <button type="button" id="editStory">Abrir detalhes do post</button>
     </dialog>
+    <dialog id="highlightViewer" aria-labelledby="highlightViewerTitle">
+      <div class="highlight-viewer-header">
+        <div>
+          <small>Capa do destaque</small>
+          <h2 id="highlightViewerTitle"></h2>
+        </div>
+        <button type="button" id="closeHighlight" aria-label="Fechar destaque">
+          ×
+        </button>
+      </div>
+      <img id="highlightViewerImage" alt="" width="1254" height="1254" />
+      <div class="highlight-viewer-controls">
+        <button
+          type="button"
+          id="previousHighlight"
+          aria-label="Destaque anterior"
+        >
+          ‹</button
+        ><span id="highlightPosition" role="status" aria-live="polite"></span
+        ><button type="button" id="nextHighlight" aria-label="Próximo destaque">
+          ›
+        </button>
+      </div>
+      <a id="downloadHighlight" download>Baixar capa quadrada ↓</a>
+    </dialog>
     <script src="./src/vendor/heic2any.min.js" defer></script>
     <script type="module" src="./src/main.js"></script>
   </body>
