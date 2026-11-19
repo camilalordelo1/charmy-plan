@@ -56,7 +56,16 @@ await mkdir(new URL("vault/", output), { recursive: true });
 for (const [name, data] of encrypted)
   await writeFile(new URL(name, output), data);
 await writeFile(new URL("manifest.json", output), JSON.stringify(manifest));
-for (const file of ["index.html", "unlock.js", "service-worker.js"])
+// Publish login markup and behavior together. Independently cached HTML/JS can
+// otherwise come from different releases on Safari and other mobile browsers.
+const loginPage = await readFile(new URL("scripts/protection/index.html", root), "utf8");
+const unlockScript = await readFile(new URL("scripts/protection/unlock.js", root), "utf8");
+await writeFile(new URL("index.html", output), loginPage.replace(
+  /<script src="unlock\.js[^\"]*"><\/script>/,
+  () => `<script data-unlock="inline-6">${unlockScript.replaceAll("</script", "<\\/script")}</script>`,
+));
+// Retain the compatible external script for already cached older login pages.
+for (const file of ["unlock.js", "service-worker.js"])
   await cp(new URL("scripts/protection/" + file, root), new URL(file, output));
 await writeFile(new URL(".nojekyll", output), "");
 console.log(`Encrypted ${encrypted.length} files with AES-256-GCM.`);

@@ -1,16 +1,31 @@
 const form = document.querySelector("form"),
   message = document.querySelector("#message");
 const bytes = (value) => Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
+// Bind the eye independently of optional recovery controls. Old cached login
+// pages must continue working when they receive a newer unlock.js.
+const passwordInput = document.querySelector("#password");
+const togglePassword = document.querySelector("#togglePassword");
+if (passwordInput && togglePassword) togglePassword.onclick = () => {
+  const visible = passwordInput.type === "password";
+  passwordInput.type = visible ? "text" : "password";
+  const label = visible ? "Ocultar senha" : "Mostrar senha";
+  togglePassword.setAttribute("aria-label", label);
+  togglePassword.title = label;
+  togglePassword.setAttribute("aria-pressed", String(visible));
+  passwordInput.focus();
+};
 const browserHelp = document.querySelector("#browserHelp");
 const linkInput = document.querySelector("#accessLink");
-linkInput.value = new URL("./", location.href).href;
-document.querySelector("#copyAccessLink").onclick = async () => {
+const accessLink = new URL("./", location.href).href;
+if (linkInput) linkInput.value = accessLink;
+const copyAccessLink = document.querySelector("#copyAccessLink");
+if (copyAccessLink) copyAccessLink.onclick = async () => {
   try {
-    await navigator.clipboard.writeText(linkInput.value);
+    await navigator.clipboard.writeText(accessLink);
     message.textContent = "Link copiado. Cole na barra de endereço do navegador.";
   } catch {
-    linkInput.focus();
-    linkInput.select();
+    linkInput?.focus();
+    linkInput?.select();
     message.textContent = "Selecione e copie o link abaixo.";
   }
 };
@@ -71,7 +86,7 @@ form.onsubmit = async (event) => {
   event.preventDefault();
   const button = form.querySelector('button[type="submit"]');
   button.disabled = true;
-  browserHelp.hidden = true;
+  if (browserHelp) browserHelp.hidden = true;
   message.textContent = "Desbloqueando…";
   try {
     if (!globalThis.isSecureContext || !globalThis.crypto?.subtle || !("serviceWorker" in navigator)) throw Error("browser");
@@ -138,19 +153,7 @@ form.onsubmit = async (event) => {
       worker: "A abertura do site não terminou. Tente novamente. Se continuar, feche esta aba e abra o link abaixo em uma aba normal.",
     };
     message.textContent = messages[error.message] || messages.connection;
-    browserHelp.hidden = error.message === "password";
+    if (browserHelp) browserHelp.hidden = error.message === "password";
     button.disabled = false;
   }
-};
-
-const passwordInput = document.querySelector("#password");
-const togglePassword = document.querySelector("#togglePassword");
-togglePassword.onclick = () => {
-  const visible = passwordInput.type === "password";
-  passwordInput.type = visible ? "text" : "password";
-  const label = visible ? "Ocultar senha" : "Mostrar senha";
-  togglePassword.setAttribute("aria-label", label);
-  togglePassword.title = label;
-  togglePassword.setAttribute("aria-pressed", String(visible));
-  passwordInput.focus();
 };
