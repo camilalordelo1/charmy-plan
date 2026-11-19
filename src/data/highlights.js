@@ -2,7 +2,21 @@
 export const highlights = [
   { id: "novidades", title: "Novidades", file: "01-novidades.png" },
   { id: "inspiracoes", title: "Inspirações", file: "02-inspiracoes.png" },
-  { id: "como-comprar", title: "Como comprar", file: "03-como-comprar.png" },
+  {
+    id: "como-comprar",
+    title: "Como comprar",
+    file: "03-como-comprar.png",
+    subtitle: "Compre do seu jeito",
+    slides: [
+      {
+        file: "como-comprar/01-como-comprar.png",
+        title: "Pelo site, Direct ou WhatsApp",
+        alt: "Como comprar na Charmy: acesse o site pelo link na bio, envie uma mensagem para @charmyclube no Direct ou fale pelo WhatsApp (35) 99737-9988.",
+        width: 941,
+        height: 1672,
+      },
+    ],
+  },
   { id: "duvidas", title: "Dúvidas", file: "04-duvidas.png" },
   {
     id: "tamanhos",
