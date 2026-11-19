@@ -18,20 +18,24 @@ const covers = {
   },
   "charmy-notion-dec-07": {
     "src": "src/assets/posts/capas-sugeridas/transicao-look.png",
-    "alt": "Capa sugerida de Transição de look: adolescente com jeans e tênis branco e azul, e vestido Lorena preto com botas altas de salto e meia-calça transparente. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de Transição de look: duas combinações das peças Charmy, com top Mila off white e jeans, ou blusa Gisele preta e saia balonê, acompanhadas de calçados e bolsas. Conteúdo a ser produzido pela loja.",
     "title": "Transição de look",
     "products": [
       {
+        "name": "Tomara Que Caia Mila  - off white",
+        "url": "https://charmozinha.bagypro.com/tomara-que-caia-mila-off-white"
+      },
+      {
+        "name": "Blusa Gisele - preto",
+        "url": "https://charmozinha.bagypro.com/blusa-gisele-preto"
+      },
+      {
+        "name": "Saia balonê - black",
+        "url": "https://charmozinha.bagypro.com/saia-balone-black"
+      },
+      {
         "name": "Calça Jeans Wide Leg - clara",
         "url": "https://charmozinha.bagypro.com/calca-jeans-wide-leg-clara"
-      },
-      {
-        "name": "Top sem alças - vermelho",
-        "url": "https://charmozinha.bagypro.com/top-sem-alcas-vermelho"
-      },
-      {
-        "name": "Lançamento Vestido Lorena - Preto",
-        "url": "https://charmozinha.bagypro.com/vestido-lorena-preto-1"
       }
     ]
   },
@@ -101,35 +105,31 @@ const covers = {
   },
   "roteiros-charmy-v1-3": {
     "src": "src/assets/posts/capas-sugeridas/poder-styling.png",
-    "alt": "Capa sugerida de O Poder do Styling: adolescente com jeans wide leg, top vermelho, camisa branca e tênis branco com detalhes azul-claro. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de O Poder do Styling: dois looks completos com Body Liz preto, combinando jeans wide leg e tênis branco e azul, ou saia Sophie xadrez, meia-calça transparente e botas de plataforma. Conteúdo a ser produzido pela loja.",
     "title": "O Poder do Styling",
     "products": [
       {
+        "name": "Body Liz - preto",
+        "url": "https://charmozinha.bagypro.com/body-liz-preto-venda-antecipada-envio-dia-040826"
+      },
+      {
+        "name": "Saia Sophie - xadrez",
+        "url": "https://charmozinha.bagypro.com/saia-sophie-xadrez"
+      },
+      {
         "name": "Calça Jeans Wide Leg - clara",
         "url": "https://charmozinha.bagypro.com/calca-jeans-wide-leg-clara"
-      },
-      {
-        "name": "Top sem alças - vermelho",
-        "url": "https://charmozinha.bagypro.com/top-sem-alcas-vermelho"
-      },
-      {
-        "name": "Lançamento Mini Saia/short Lana – Black Lace",
-        "url": "https://charmozinha.bagypro.com/mini-saiashort-lana-black-lace"
       }
     ]
   },
   "roteiros-charmy-v1-5": {
     "src": "src/assets/posts/capas-sugeridas/grwm-sabado.png",
-    "alt": "Capa sugerida de GRWM: Rolê de Sábado, com adolescente em body branco, saia Lana preta, meia-calça transparente e botas de plataforma com salto bloco. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de GRWM: Rolê de Sábado, com adolescente no vestido Victoria preto, meia-calça transparente e botas de plataforma com salto bloco. Conteúdo a ser produzido pela loja.",
     "title": "GRWM: Rolê de Sábado",
     "products": [
       {
-        "name": "Lançamento Mini Saia/short Lana – Black Lace",
-        "url": "https://charmozinha.bagypro.com/mini-saiashort-lana-black-lace"
-      },
-      {
-        "name": "Body Manu 2 em 1 - vermelho e branco",
-        "url": "https://charmozinha.bagypro.com/body-manu-2-em-1-vermelho-e-branco-1"
+        "name": "Vestido Victoria - preto",
+        "url": "https://charmozinha.bagypro.com/vestido-ayla-preto"
       }
     ]
   },
