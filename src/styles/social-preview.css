@@ -589,7 +589,7 @@
 .highlight-progress > span { display: block; flex: 1; height: 2px; overflow: hidden; border-radius: 2px; background: #ffffff55; }
 .highlight-progress i { display: block; width: 0; height: 100%; background: white; }
 .highlight-progress .complete i { width: 100%; }
-.highlight-viewer-header { display: flex; align-items: center; gap: 8px; margin: 0; min-width: 0; }
+.highlight-viewer-header { height: auto; border: 0; padding: 0; display: flex; align-items: center; gap: 8px; margin: 0; min-width: 0; }
 .highlight-viewer-header > img { width: 30px; height: 30px; border: 1px solid #fff9; border-radius: 50%; object-fit: contain; background: white; }
 .highlight-account { flex: 1; min-width: 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 7px; text-shadow: 0 1px 4px #000b; }
 .highlight-account strong { font: 600 13px/1.2 Arial, sans-serif; color: white; }
@@ -633,3 +633,8 @@
   #previousHighlight, #nextHighlight { width: 28px; height: 28px; background: #0004; }
   .instagram-story-footer { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
 }
+
+#highlightViewerImage[data-loading="true"] { opacity: 0; }
+.highlight-load-status { position: absolute; z-index: 1; inset: 25% 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; text-align: center; color: white; font: 14px/1.5 Arial, sans-serif; }
+.highlight-load-status[hidden] { display: none; }
+.highlight-load-status button { border: 1px solid #fff8; border-radius: 20px; padding: 10px 16px; background: #242424; color: white; cursor: pointer; }

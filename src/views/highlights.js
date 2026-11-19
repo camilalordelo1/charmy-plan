@@ -1,3 +1,4 @@
+import { reopenProtectedSite } from "../services/protected-session.js";
 import { imagePreview } from "../utils/image-preview.js";
 import { highlights } from "../data/highlights.js";
 import { esc } from "../utils/html.js";
@@ -8,6 +9,8 @@ let activeIndex = 0;
 let activeSlide = 0;
 let elapsed = 0;
 let paused = false;
+let imageReady = false;
+let sessionExpired = false;
 let timer;
 let touchStart = null;
 const liked = new Set();
@@ -38,7 +41,33 @@ function renderHighlight() {
   elapsed = 0;
   $("#highlightViewer").classList.toggle("has-highlight-stories", Boolean(item.slides?.length));
   const image = $("#highlightViewerImage");
-  image.src = imagePreview(folder + slide.file);
+  imageReady = false;
+  const original = folder + slide.file;
+  const preview = imagePreview(original);
+  let usingOriginal = preview === original;
+  image.dataset.loading = "true";
+  $("#highlightLoadStatus").hidden = false;
+  $("#highlightLoadMessage").textContent = "Carregando Story…";
+  $("#retryHighlight").hidden = true;
+  $("#reopenHighlightSite").hidden = true;
+  image.onload = () => {
+    imageReady = true;
+    image.dataset.loading = "false";
+    $("#highlightLoadStatus").hidden = true;
+  };
+  image.onerror = () => {
+    if (!usingOriginal && !sessionExpired) {
+      usingOriginal = true;
+      image.src = original;
+      return;
+    }
+    $("#highlightLoadMessage").textContent = sessionExpired
+      ? "Reabra o site para continuar vendo os Stories."
+      : "Não foi possível carregar este Story.";
+    $("#retryHighlight").hidden = false;
+    $("#reopenHighlightSite").hidden = false;
+  };
+  image.src = preview;
   image.alt = slide.alt;
   image.width = slide.width;
   image.height = slide.height;
@@ -73,7 +102,7 @@ function advance(direction) {
 function startPlayback() {
   clearInterval(timer);
   timer = setInterval(() => {
-    if (!$("#highlightViewer").open || paused || document.hidden) return;
+    if (!$("#highlightViewer").open || paused || !imageReady || document.hidden) return;
     elapsed = Math.min(duration, elapsed + 100);
     const bar = $("#highlightProgress .active i");
     if (bar) bar.style.width = `${(elapsed / duration) * 100}%`;
@@ -94,6 +123,9 @@ export function openHighlight(id) {
 }
 export function initializeHighlights() {
   const dialog = $("#highlightViewer");
+  $("#retryHighlight").onclick = renderHighlight;
+  $("#reopenHighlightSite").onclick = reopenProtectedSite;
+  window.addEventListener("protected-session-expired", () => { sessionExpired = true; });
   $("#closeHighlight").onclick = () => {
     clearInterval(timer);
     dialog.close();

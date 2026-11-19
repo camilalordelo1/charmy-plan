@@ -327,6 +327,11 @@
       <button type="button" id="closeHighlight" aria-label="Fechar destaque">×</button>
       <div class="instagram-story-stage">
         <img id="highlightViewerImage" alt="" width="1080" height="1920" />
+        <div id="highlightLoadStatus" class="highlight-load-status" role="status" aria-live="polite" hidden>
+          <p id="highlightLoadMessage">Carregando Story…</p>
+          <button id="retryHighlight" type="button" hidden>Tentar novamente</button>
+          <button id="reopenHighlightSite" type="button" hidden>Reabrir o site</button>
+        </div>
         <div class="instagram-story-top">
           <div id="highlightProgress" class="highlight-progress" aria-hidden="true"></div>
           <header class="highlight-viewer-header">

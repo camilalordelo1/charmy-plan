@@ -41,7 +41,20 @@ form.onsubmit = async (event) => {
     } catch {
       throw Error("password");
     }
-    await navigator.serviceWorker.register("service-worker.js");
+    const registration = await navigator.serviceWorker.register("service-worker.js");
+    const updating = registration.installing || registration.waiting;
+    if (updating && updating.state !== "activated") {
+      await new Promise((resolve, reject) => {
+        const changed = () => {
+          if (updating.state === "activated" || updating.state === "redundant") {
+            updating.removeEventListener("statechange", changed);
+            updating.state === "activated" ? resolve() : reject(Error("worker"));
+          }
+        };
+        updating.addEventListener("statechange", changed);
+        changed();
+      });
+    }
     await navigator.serviceWorker.ready;
     if (!navigator.serviceWorker.controller)
       await new Promise((resolve) =>
@@ -56,7 +69,7 @@ form.onsubmit = async (event) => {
         clearTimeout(timer);
         resolve();
       };
-      navigator.serviceWorker.controller.postMessage(
+      registration.active.postMessage(
         { type: "unlock", key, manifest },
         [channel.port2],
       );

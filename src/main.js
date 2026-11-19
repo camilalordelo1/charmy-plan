@@ -1,3 +1,5 @@
+import { initializeProtectedSession } from "./services/protected-session.js";
+await initializeProtectedSession();
 import { openHighlight, initializeHighlights } from "./views/highlights.js";
 import { mountPostCarousel } from "./views/post-carousel.js";
 import { postArtwork, applyArtworkFormat } from "./data/post-artworks.js";

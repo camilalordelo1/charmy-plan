@@ -4,6 +4,8 @@ let key = null,
 let decoded = new Map();
 let pending = new Map();
 let decodedBytes = 0;
+let restoring = null;
+let sessionExpired = false;
 const cacheLimit = 96 * 1024 * 1024;
 const base = new URL("./", self.location.href);
 const bytes = (value) => Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
@@ -12,10 +14,22 @@ self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim()),
 );
 self.addEventListener("message", (event) => {
+  if (event.data?.type === "read-session") {
+    event.ports[0]?.postMessage(key && manifest ? { key, manifest } : null);
+  }
+  if (event.data?.type === "lock") {
+    key = null;
+    manifest = null;
+    decoded.clear();
+    decodedBytes = 0;
+    pending.clear();
+    event.ports[0]?.postMessage("ready");
+  }
   if (event.data?.type === "unlock") {
     decoded = new Map();
     pending = new Map();
     decodedBytes = 0;
+    sessionExpired = false;
     key = event.data.key;
     manifest = event.data.manifest;
     event.ports[0]?.postMessage("ready");
@@ -39,6 +53,32 @@ const types = {
   mov: "video/quicktime",
   heic: "image/heic",
 };
+// Workers can be suspended between requests. Recover the non-extractable key
+// from an open, unlocked tab; never persist it or the password to disk.
+async function restoreSession() {
+  if (key && manifest) return;
+  if (restoring) return restoring;
+  restoring = (async () => {
+    const clients = await self.clients.matchAll({ type: "window" });
+    const sessions = await Promise.all(clients.filter(client => client.url.startsWith(base.href)).map(client => new Promise(resolve => {
+      const channel = new MessageChannel();
+      const finish = session => { clearTimeout(timer); channel.port1.close(); resolve(session); };
+      const timer = setTimeout(() => finish(null), 1500);
+      channel.port1.onmessage = event => finish(event.data);
+      client.postMessage({ type: "restore-session" }, [channel.port2]);
+    })));
+    const session = sessions.find(value => value?.key && value?.manifest);
+    if (!key && session) { key = session.key; manifest = session.manifest; }
+  })();
+  try { await restoring; } finally { restoring = null; }
+}
+async function expireSession() {
+  if (sessionExpired) return;
+  sessionExpired = true;
+  for (const client of await self.clients.matchAll({ type: "window" })) {
+    if (client.url.startsWith(base.href)) client.postMessage({ type: "session-expired" });
+  }
+}
 async function decryptedFile(entry, activeKey) {
   if (decoded.has(entry.file)) {
     const value = decoded.get(entry.file);
@@ -77,11 +117,13 @@ self.addEventListener("fetch", (event) => {
   const name =
     decodeURIComponent(url.pathname.slice(base.pathname.length)) ||
     "index.html";
-  if (!key || !manifest?.files[name]) return;
-  const entry = manifest.files[name],
-    activeKey = key;
+  // These files must remain accessible to the password screen and the worker.
+  if (name.startsWith("vault/") || ["manifest.json", "unlock.js", "service-worker.js", "favicon.png"].includes(name)) return;
   event.respondWith(
     (async () => {
+      if (!key || !manifest) await restoreSession();
+      if (!key || !manifest?.files[name]) return fetch(event.request);
+      const entry = manifest.files[name], activeKey = key;
       try {
         const plain = await decryptedFile(entry, activeKey);
         const headers = {
@@ -117,6 +159,7 @@ self.addEventListener("fetch", (event) => {
         }
         return new Response(plain, { headers });
       } catch {
+        await expireSession();
         return new Response(
           "Conteúdo indisponível. Reabra o site para desbloquear.",
           { status: 503 },
