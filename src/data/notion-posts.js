@@ -58,7 +58,7 @@ export const notionPosts = [
     time: "18:00",
     title: "Carrossel de detalhes da peça",
     channel: "Instagram",
-    format: "Stories",
+    format: "Carrossel",
     pillar: "Estilo & identidade",
     status: "Ideia",
     notes:
@@ -71,7 +71,7 @@ export const notionPosts = [
     time: "18:00",
     title: "Arte Charmozinha",
     channel: "Instagram",
-    format: "Reels",
+    format: "Imagem",
     pillar: "Comunidade",
     status: "Ideia",
     notes:
@@ -136,7 +136,7 @@ export const notionPosts = [
     time: "18:00",
     title: "Carrossel institucional",
     channel: "Instagram",
-    format: "Reels",
+    format: "Carrossel",
     pillar: "Estilo & identidade",
     status: "Ideia",
     notes:
@@ -162,7 +162,7 @@ export const notionPosts = [
     time: "18:00",
     title: "Arte Charmozinha",
     channel: "Instagram",
-    format: "Stories",
+    format: "Imagem",
     pillar: "Comunidade",
     status: "Ideia",
     notes:

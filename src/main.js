@@ -1,4 +1,6 @@
 import { openHighlight, initializeHighlights } from "./views/highlights.js";
+import { mountPostCarousel } from "./views/post-carousel.js";
+import { postArtwork, applyArtworkFormat } from "./data/post-artworks.js";
 import { mountTiktokPreview } from "./views/tiktok-preview.js";
 import {
   loadUploads,
@@ -19,7 +21,7 @@ import { loadPosts, savePosts } from "./services/storage.js";
 import { card } from "./views/post-card.js";
 
 const $ = (selector) => document.querySelector(selector);
-let posts = loadPosts([...notionPosts, ...suggestions]);
+let posts = loadPosts([...notionPosts, ...suggestions]).map(applyArtworkFormat);
 let view = "grid";
 let ideas = false;
 let kpis = false;
@@ -274,7 +276,7 @@ $("#importFile").onchange = async (e) => {
     )
       throw Error();
     if (confirm("Substituir o planejamento atual pelo arquivo?")) {
-      posts = incoming.map((p) => ({ ...p, id: crypto.randomUUID() }));
+      posts = incoming.map((p) => applyArtworkFormat({ ...p, id: crypto.randomUUID() }));
       save();
     }
   } catch {
@@ -407,8 +409,17 @@ function updatePostPreview(post) {
   const image = $("#postPreviewImage");
   image.onclick = null;
   image.replaceChildren();
+  const hasCarousel = view !== "tiktok" && mountPostCarousel(image, post);
+  const artwork = postArtwork(post);
+  const download = $("#postCarouselDownload");
+  download.hidden = !artwork;
+  if (artwork) {
+    download.href = artwork.download;
+    download.textContent = artwork.slides.length > 1
+      ? "Baixar carrossel completo" : "Baixar arte";
+  }
   const url = coverUrl(post);
-  if (url) {
+  if (!hasCarousel && url) {
     const isVideo = isVideoUpload(post);
     const img = document.createElement(isVideo ? "video" : "img");
     if (isVideo) {
@@ -419,7 +430,7 @@ function updatePostPreview(post) {
     img.src = url;
     img.alt = post.title;
     image.append(img);
-  } else {
+  } else if (!hasCarousel) {
     const placeholder = document.createElement("div");
     placeholder.className = "feed-placeholder";
     placeholder.textContent = post.title + " · Escolha uma capa em Editar post";

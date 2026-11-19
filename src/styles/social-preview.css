@@ -552,152 +552,84 @@
   color: #754477;
   padding: 5px 0;
 }
-#highlightViewer {
-  width: min(500px, calc(100vw - 24px));
-  max-height: 94dvh;
-  padding: 18px;
-}
-.highlight-viewer-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.highlight-viewer-header small {
-  font-size: 11px;
-  color: var(--muted);
-}
-.highlight-viewer-header h2 {
-  margin: 5px 0 0;
-  font-size: 22px;
-  color: #754477;
-}
-#closeHighlight {
-  background: none;
-  border: 0;
-  cursor: pointer;
-  font-size: 26px;
-  width: 40px;
-  height: 40px;
-}
-#highlightViewerImage {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 62dvh;
-  object-fit: contain;
-  aspect-ratio: 1;
-  border-radius: 6px;
-}
-.highlight-viewer-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 14px 0;
-}
-.highlight-viewer-controls button {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: #faf5fb;
-  color: #754477;
-  width: 44px;
-  height: 40px;
-  font-size: 24px;
-  cursor: pointer;
-}
-.highlight-viewer-controls button:disabled {
-  opacity: 0.35;
-  cursor: default;
-}
-#highlightPosition {
-  font-size: 12px;
-  color: var(--muted);
-}
-#downloadHighlight {
-  display: block;
-  padding: 12px;
-  border-radius: 6px;
-  text-align: center;
-  background: #754477;
-  color: white;
-  font-size: 13px;
-  text-decoration: none;
-}
-@media (max-width: 600px) {
-  .profile-highlights {
-    padding: 0 12px 18px;
-  }
-  .profile-highlights-row {
-    gap: 14px;
-  }
-  .profile-highlight {
-    flex-basis: 74px;
-  }
-  .highlight-cover {
-    width: 68px;
-    height: 68px;
-  }
-  .highlight-label {
-    font-size: 11px;
-  }
-  .highlight-download-all {
-    font-size: 12px;
-    padding: 10px 0;
-  }
-}
-/* Keep size-guide originals intact; only the profile thumbnail is cropped. */
-#highlightViewer.has-highlight-stories {
-  width: min(600px, calc(100vw - 24px));
-}
-#highlightViewer.has-highlight-stories #highlightViewerImage {
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: min(68dvh, 900px);
-  aspect-ratio: 9 / 16;
-  object-fit: contain;
-  margin: 0 auto;
-  border-radius: 4px;
-}
-.highlight-progress {
-  display: flex;
-  gap: 5px;
-  margin-bottom: 10px;
-}
-.highlight-progress span {
-  height: 3px;
-  background: #e9dfea;
-  border-radius: 2px;
-  flex: 1;
-}
-.highlight-progress span.active {
-  background: #9b5795;
-}
-#highlightSlideTitle {
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--muted);
-  margin: 0 0 10px;
-}
-#openHighlightFull {
-  display: block;
-  padding: 8px;
-  text-align: center;
-  font-size: 12px;
-  color: #754477;
-}
-#highlightViewer.has-highlight-stories .highlight-viewer-header {
-  margin-bottom: 10px;
-}
-#highlightViewer.has-highlight-stories .highlight-viewer-controls {
-  margin: 10px 0;
-}
-@media (max-width: 600px) {
-  #highlightViewer.has-highlight-stories {
-    padding: 12px;
-  }
-  #highlightViewer.has-highlight-stories #highlightViewerImage {
-    max-height: 60dvh;
-  }
+/* The simulated profile uses the same centered content width for its bio,
+   highlights and photo grid. Mobile tiles reach the profile edges. */
+#calendar:has(.instagram-feed-page) { overflow-x: clip; background: #fff; }
+.instagram-feed-page { max-width: 980px; margin-inline: auto; padding: 0 30px 28px; }
+.instagram-feed-page .profile-preview { max-width: none; padding: 30px 0; }
+.instagram-feed-page .profile-highlights { padding: 0 0 24px; }
+.instagram-feed-page .instagram-grid { padding: 0; gap: 3px; }
+.instagram-feed-page .feed-tile { aspect-ratio: 4 / 3; }
+#postPreviewImage > img { object-fit: contain; }
+#postCarouselDownload { color: #343237; font-size: 13px; padding: 8px 0; }
+.post-carousel { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #c6c5c7; touch-action: pan-y; }
+#postPreviewImage .post-carousel > img,
+#editor.reading #postPreviewImage .post-carousel > img { display: block; width: 100%; height: 100%; max-height: none; object-fit: contain; }
+.post-carousel > button { position: absolute; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; background: #fffD; color: #333; font: 26px/1 sans-serif; cursor: pointer; }
+.post-carousel .carousel-previous { left: 8px; }
+.post-carousel .carousel-next { right: 8px; }
+.post-carousel > button:disabled { visibility: hidden; }
+.carousel-position { position: absolute; top: 10px; right: 10px; border-radius: 20px; padding: 5px 9px; background: #161616b8; color: white; font-size: 12px; line-height: 1.2; }
+.carousel-dots { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; gap: 1px; }
+.carousel-dots button { width: 24px; height: 24px; background: none; border: 0; padding: 7px; cursor: pointer; }
+.carousel-dots button::before { content: ''; display: block; width: 7px; height: 7px; border-radius: 50%; background: #fff8; box-shadow: 0 0 3px #0006; }
+.carousel-dots button[aria-current='true']::before { background: #fff; }
+
+/* Full-screen Instagram-style highlight viewer. The artwork stays intact. */
+#highlightViewer { position: fixed; inset: 0; width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; border-radius: 0; background: #1a1a1a; color: #fff; overflow: hidden; }
+#highlightViewer[open] { display: grid; place-items: center; }
+#highlightViewer::backdrop { background: #1a1a1a; }
+.instagram-viewer-brand { position: absolute; left: 22px; top: 17px; color: white; font: 28px/1.2 'Brush Script MT', cursive; }
+#closeHighlight { position: absolute; z-index: 6; top: 12px; right: 16px; width: 44px; height: 44px; padding: 0; background: transparent; border: 0; color: white; font: 38px/1 sans-serif; cursor: pointer; }
+.instagram-story-stage { position: relative; height: min(920px, calc(100dvh - 24px)); width: min(calc((100dvh - 24px) * 0.5625), calc(100vw - 120px)); border-radius: 8px; background: #080808; isolation: isolate; }
+#highlightViewerImage,
+#highlightViewer.has-highlight-stories #highlightViewerImage { display: block; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: contain; border-radius: 8px; margin: 0; }
+.instagram-story-top { position: absolute; z-index: 2; inset: 0 0 auto; padding: 10px 12px 24px; background: linear-gradient(#0009, transparent); color: white; border-radius: 8px 8px 0 0; }
+.highlight-progress { display: flex; gap: 4px; margin: 0 0 10px; }
+.highlight-progress > span { display: block; flex: 1; height: 2px; overflow: hidden; border-radius: 2px; background: #ffffff55; }
+.highlight-progress i { display: block; width: 0; height: 100%; background: white; }
+.highlight-progress .complete i { width: 100%; }
+.highlight-viewer-header { display: flex; align-items: center; gap: 8px; margin: 0; min-width: 0; }
+.highlight-viewer-header > img { width: 30px; height: 30px; border: 1px solid #fff9; border-radius: 50%; object-fit: contain; background: white; }
+.highlight-account { flex: 1; min-width: 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 7px; text-shadow: 0 1px 4px #000b; }
+.highlight-account strong { font: 600 13px/1.2 Arial, sans-serif; color: white; }
+.highlight-account small { font: 12px/1.2 Arial, sans-serif; color: #e0e0e0; }
+.highlight-viewer-header button { flex: 0 0 28px; height: 30px; padding: 4px; background: transparent; border: 0; color: white; cursor: pointer; }
+#highlightMenuToggle { font-size: 23px; line-height: 1; font-weight: bold; }
+#pauseHighlight svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+#highlightMenu { position: absolute; z-index: 5; top: 65px; right: 12px; padding: 6px; border-radius: 8px; background: #242424f5; box-shadow: 0 5px 24px #0006; }
+#highlightMenu a { display: block; padding: 12px 14px; color: white; text-decoration: none; font-size: 14px; line-height: 1.3; }
+#highlightMenu a:hover { background: #ffffff15; border-radius: 4px; }
+#previousHighlight, #nextHighlight { position: absolute; z-index: 3; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; padding: 0; background: #ffffff35; color: white; border: 0; border-radius: 50%; font: 29px/1 Arial, sans-serif; cursor: pointer; }
+#previousHighlight { left: -48px; }
+#nextHighlight { right: -48px; }
+#previousHighlight:disabled, #nextHighlight:disabled { visibility: hidden; }
+.instagram-story-footer { position: absolute; z-index: 2; inset: auto 0 0; display: flex; align-items: center; gap: 12px; padding: 28px 12px 16px; border-radius: 0 0 8px 8px; background: linear-gradient(transparent, #000a); }
+.instagram-story-footer a { text-decoration: none; color: white; }
+.highlight-reply { flex: 1; min-width: 0; border: 1px solid #ffffffa8; border-radius: 24px; padding: 11px 14px; font: 12px/1.2 Arial, sans-serif; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+#likeHighlight, .highlight-instagram-link { display: grid; place-items: center; width: 28px; height: 32px; padding: 2px; background: transparent; border: 0; color: white; cursor: pointer; }
+.instagram-story-footer svg { width: 23px; height: 23px; stroke: currentColor; stroke-width: 1.7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+#likeHighlight[aria-pressed='true'] svg { fill: #ff3040; stroke: #ff3040; }
+.viewer-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+#highlightViewer :focus-visible { outline: 2px solid white; outline-offset: 3px; }
+@media (max-width: 650px) {
+  .instagram-feed-page { padding: 0 0 16px; }
+  .instagram-feed-page .profile-preview { padding: 22px 12px; }
+  .instagram-feed-page .profile-highlights { padding: 0 12px 18px; }
+  .profile-highlights-row { gap: 12px; }
+  .profile-highlight { flex: 0 0 calc((100% - 36px) / 4); }
+  .highlight-cover { width: min(68px, 100%); height: auto; }
+  .highlight-label { font-size: 11px; white-space: normal; }
+  .highlight-download-all { font-size: 12px; padding: 8px 0; }
+  .instagram-feed-page .instagram-grid { gap: 2px; }
+  .instagram-viewer-brand { display: none; }
+  #closeHighlight { z-index: 7; top: max(22px, env(safe-area-inset-top)); right: 8px; width: 32px; height: 32px; font-size: 30px; text-shadow: 0 1px 5px #000b; }
+  .highlight-viewer-header { padding-right: 30px; }
+  .instagram-story-stage { width: 100%; height: 100dvh; max-width: calc(100dvh * 0.5625); border-radius: 0; }
+  #highlightViewerImage, #highlightViewer.has-highlight-stories #highlightViewerImage { border-radius: 0; }
+  .instagram-story-top { padding-top: max(10px, env(safe-area-inset-top)); }
+  #previousHighlight { left: 5px; }
+  #nextHighlight { right: 5px; }
+  #previousHighlight, #nextHighlight { width: 28px; height: 28px; background: #0004; }
+  .instagram-story-footer { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
 }

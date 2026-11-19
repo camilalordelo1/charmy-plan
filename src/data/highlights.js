@@ -1,7 +1,27 @@
 // Display order and cover/category association supplied by the project owner.
 export const highlights = [
-  { id: "novidades", title: "Novidades", file: "01-novidades.png" },
-  { id: "inspiracoes", title: "Inspirações", file: "02-inspiracoes.png" },
+  {
+    id: "novidades",
+    title: "Novidades",
+    file: "01-novidades.png",
+    subtitle: "Peças do Clube Charmy",
+    slides: [
+      {
+        file: "novidades/01-seu-look.png",
+        title: "Seu look, sua versão",
+        alt: "Clube Charmy: look com camisa branca, body preto, jeans azul e cinto de correntes. Seu look, sua versão.",
+        width: 941,
+        height: 1672,
+      },
+      {
+        file: "novidades/02-duas-vibes.png",
+        title: "Um detalhe, duas vibes",
+        alt: "Saias de babados do Clube Charmy nas cores branca e preta, com detalhe ampliado do acabamento. Qual combina mais com você?",
+        width: 941,
+        height: 1672,
+      },
+    ],
+  },
   {
     id: "como-comprar",
     title: "Como comprar",
@@ -17,7 +37,28 @@ export const highlights = [
       },
     ],
   },
-  { id: "duvidas", title: "Dúvidas", file: "04-duvidas.png" },
+  {
+    id: "duvidas",
+    title: "Dúvidas",
+    file: "04-duvidas.png",
+    subtitle: "Clube Charmy responde",
+    slides: [
+      {
+        file: "duvidas/01-localizacao.png",
+        title: "Onde fica a Charmy?",
+        alt: "A Charmy fica na Praça Quintino Bocaiuva, 33, Centro, Varginha, Minas Gerais.",
+        width: 941,
+        height: 1672,
+      },
+      {
+        file: "duvidas/02-pagamento.png",
+        title: "Como posso pagar?",
+        alt: "Formas de pagamento: cartão de crédito em até 6x, Pix ou boleto.",
+        width: 941,
+        height: 1672,
+      },
+    ],
+  },
   {
     id: "tamanhos",
     title: "Tamanhos",

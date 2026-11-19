@@ -196,6 +196,7 @@
           </div>
         </section>
         <div class="post-upload-actions">
+          <a id="postCarouselDownload" download hidden>Baixar carrossel completo</a>
           <button type="button" id="uploadPost">
             ＋ Adicionar foto ou vídeo</button
           ><button type="button" id="saveMediaFolder" hidden>
@@ -321,39 +322,36 @@
       <button type="button" id="editStory">Abrir detalhes do post</button>
     </dialog>
     <dialog id="highlightViewer" aria-labelledby="highlightViewerTitle">
-      <div class="highlight-viewer-header">
-        <div>
-          <small id="highlightViewerKicker">Capa do destaque</small>
-          <h2 id="highlightViewerTitle"></h2>
+      <span class="instagram-viewer-brand" aria-hidden="true">Instagram</span>
+      <button type="button" id="closeHighlight" aria-label="Fechar destaque">×</button>
+      <div class="instagram-story-stage">
+        <img id="highlightViewerImage" alt="" width="1080" height="1920" />
+        <div class="instagram-story-top">
+          <div id="highlightProgress" class="highlight-progress" aria-hidden="true"></div>
+          <header class="highlight-viewer-header">
+            <img src="src/assets/charmy-logo.png" alt="" width="32" height="32" />
+            <div class="highlight-account">
+              <strong id="highlightViewerTitle"></strong>
+              <small id="highlightViewerKicker"></small>
+            </div>
+            <button type="button" id="pauseHighlight" aria-label="Pausar Stories" aria-pressed="false"></button>
+            <button type="button" id="highlightMenuToggle" aria-label="Opções do destaque" aria-expanded="false" aria-controls="highlightMenu">···</button>
+          </header>
         </div>
-        <button type="button" id="closeHighlight" aria-label="Fechar destaque">
-          ×
-        </button>
+        <div id="highlightMenu" hidden>
+          <a id="openHighlightFull" target="_blank" rel="noopener">Ver imagem completa</a>
+          <a id="downloadHighlight" download>Baixar esta arte</a>
+        </div>
+        <button type="button" id="previousHighlight" aria-label="Tela anterior">‹</button>
+        <button type="button" id="nextHighlight" aria-label="Próxima tela">›</button>
+        <div class="instagram-story-footer">
+          <a class="highlight-reply" href="https://www.instagram.com/charmyclube/" target="_blank" rel="noopener" aria-label="Conversar com a Charmy no Instagram">Responder a charmyclube…</a>
+          <button type="button" id="likeHighlight" aria-label="Curtir este Story" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button>
+          <a class="highlight-instagram-link" href="https://www.instagram.com/charmyclube/" target="_blank" rel="noopener" aria-label="Abrir o perfil da Charmy no Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4 20-7ZM22 2 11 13"/></svg></a>
+        </div>
+        <p id="highlightSlideTitle" class="viewer-sr-only"></p>
+        <span id="highlightPosition" class="viewer-sr-only" role="status" aria-live="polite"></span>
       </div>
-      <div
-        id="highlightProgress"
-        class="highlight-progress"
-        aria-hidden="true"
-        hidden
-      ></div>
-      <p id="highlightSlideTitle" hidden></p>
-      <img id="highlightViewerImage" alt="" width="1254" height="1254" />
-      <div class="highlight-viewer-controls">
-        <button
-          type="button"
-          id="previousHighlight"
-          aria-label="Destaque anterior"
-        >
-          ‹</button
-        ><span id="highlightPosition" role="status" aria-live="polite"></span
-        ><button type="button" id="nextHighlight" aria-label="Próximo destaque">
-          ›
-        </button>
-      </div>
-      <a id="openHighlightFull" target="_blank" rel="noopener" hidden
-        >Ampliar leitura ↗</a
-      >
-      <a id="downloadHighlight" download>Baixar capa quadrada ↓</a>
     </dialog>
     <script src="./src/vendor/heic2any.min.js" defer></script>
     <script type="module" src="./src/main.js"></script>
