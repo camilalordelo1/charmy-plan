@@ -52,6 +52,7 @@ const types = {
   wasm: "application/wasm",
   mov: "video/quicktime",
   heic: "image/heic",
+  zip: "application/zip",
 };
 // Workers can be suspended between requests. Recover the non-extractable key
 // from an open, unlocked tab; never persist it or the password to disk.

@@ -77,6 +77,10 @@
         font-size: 13px;
         min-height: 42px;
       }
+      #browserHelp { border-top: 1px solid #eaddec; padding-top: 12px; }
+      #browserHelp[hidden] { display: none; }
+      #browserHelp p { font-size: 13px; }
+      #accessLink { font-size: 13px; }
       input:focus-visible,
       button:focus-visible {
         outline: 3px solid #eea8d8;
@@ -105,7 +109,12 @@
         <button type="submit">Desbloquear</button>
         <p id="message" role="status" aria-live="polite"></p>
       </form>
+      <div id="browserHelp" hidden>
+        <p>No iPhone, abra o Safari ou Chrome diretamente e cole este endereço na barra de endereços. Não é preciso mudar a senha.</p>
+        <input id="accessLink" type="url" aria-label="Link do planejamento" readonly />
+        <button id="copyAccessLink" type="button">Copiar link do planejamento</button>
+      </div>
     </main>
-    <script src="unlock.js?v=cache-4"></script>
+    <script src="unlock.js?v=access-5"></script>
   </body>
 </html>
