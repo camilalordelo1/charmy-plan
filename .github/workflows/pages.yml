@@ -27,8 +27,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check source
-        run: npm run check && npm run test:session && npm run test:proposals && node tests/unlock.mjs
+      - name: Check JavaScript syntax
+        run: npm run check
+      - name: Test protected session
+        run: npm run test:session
+      - name: Test post proposals
+        run: npm run test:proposals
+      - name: Test login and encrypted publication
+        run: node tests/unlock.mjs
       - name: Build static site
         run: npm run build && node scripts/protect.mjs
         env:
