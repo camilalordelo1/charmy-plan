@@ -6,13 +6,14 @@ const js = await readFile(new URL("../unlock.js", import.meta.url), "utf8");
 const loginHtml = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const plannerHtml = await readFile(new URL("../planner.html", import.meta.url), "utf8");
 const build = await readFile(new URL("../scripts/build.mjs", import.meta.url), "utf8");
-assert.match(loginHtml, /<form>/);
-assert.match(loginHtml, /unlock\\.js\\?v=plain-1/);
-assert.match(plannerHtml, /src\\/main\\.js/);
-assert.match(plannerHtml, /charmy:access/);
-assert.match(build, /planner\\.html/);
-assert.doesNotMatch(build, /protect\\.mjs/);
-assert.doesNotMatch(js, /crypto\\.subtle|serviceWorker\\.register/);
+assert(loginHtml.includes("<form>"));
+assert(loginHtml.includes("unlock.js?v=plain-1"));
+assert(plannerHtml.includes("src/main.js"));
+assert(plannerHtml.includes("charmy:access"));
+assert(build.includes("planner.html"));
+assert(!build.includes("protect.mjs"));
+assert(!js.includes("crypto.subtle"));
+assert(!js.includes("serviceWorker.register"));
 
 function scenario(password, blockStorage = false) {
   const input = { value: password, type: "password", focus() {}, setAttribute() {} };
