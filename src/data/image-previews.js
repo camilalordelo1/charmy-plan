@@ -15,6 +15,10 @@ export const imagePreviews = {
     "thumb": "src/assets/image-previews/180be80aba9f41324040-thumb.webp",
     "display": "src/assets/image-previews/180be80aba9f41324040-display.webp"
   },
+  "src/assets/posts/look-natal/01-capa.png": {
+    "thumb": "src/assets/image-previews/d0b4a068fd2e3d850547-thumb.webp",
+    "display": "src/assets/image-previews/d0b4a068fd2e3d850547-display.webp"
+  },
   "src/assets/posts/monte-um-look/01-capa.png": {
     "thumb": "src/assets/image-previews/56c9c1d163d3b48b26d4-thumb.webp",
     "display": "src/assets/image-previews/56c9c1d163d3b48b26d4-display.webp"
@@ -38,6 +42,10 @@ export const imagePreviews = {
   "src/assets/posts/troca-de-look/01-arte.png": {
     "thumb": "src/assets/image-previews/d69edf94336690d92d0c-thumb.webp",
     "display": "src/assets/image-previews/d69edf94336690d92d0c-display.webp"
+  },
+  "src/assets/posts/uma-peca-tres-looks/01-capa.png": {
+    "thumb": "src/assets/image-previews/46ea23641791e9a4507c-thumb.webp",
+    "display": "src/assets/image-previews/46ea23641791e9a4507c-display.webp"
   },
   "src/assets/highlights/01-novidades.png": {
     "thumb": "src/assets/image-previews/fde2e32724cc1e0ec603-thumb.webp",

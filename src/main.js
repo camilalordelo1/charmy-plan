@@ -419,7 +419,7 @@ function updatePostPreview(post) {
   download.hidden = !artwork && !postMedia(post);
   if (!artwork && postMedia(post)) {
     download.href = postMedia(post).cover;
-    download.download = "charmy-capa-reels-2026-12-09.png";
+    download.download = `charmy-capa-reels-${post.date}.png`;
     download.textContent = "Baixar capa do Reels";
   }
   if (artwork) {

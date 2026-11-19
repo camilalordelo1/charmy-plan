@@ -1,3 +1,4 @@
+import { postMedia } from "./post-media.js";
 import { notionPosts } from "./notion-posts.js";
 import { postArtwork } from "./post-artworks.js";
 import { highlights } from "./highlights.js";
@@ -25,11 +26,17 @@ const stories = highlights
     downloadName: `charmy-story-${item.id}-${index + 1}.png`,
   })));
 
+const reelCovers = notionPosts.flatMap((post) => {
+  const media = postMedia(post);
+  if (!media) return [];
+  return [{
+    src: media.cover,
+    title: `${post.date.slice(8)}/${post.date.slice(5, 7)} · ${post.title} · Capa do Reels`,
+    alt: media.alt,
+    format: "Capa do Reels · 1080 × 1350 px",
+    downloadName: `charmy-capa-reels-${post.date}.png`,
+  }];
+});
+
 // Use the same current assets as the posts and highlights, including revisions.
-export const artworkLibrary = [...feed, ...stories, {
-  src: "src/assets/posts/monte-um-look/01-capa.png",
-  title: "09/12 · Monte um look comigo · Capa do Reels",
-  alt: "Monta um look comigo? Uma peça, muitas possibilidades. Apresentadora com top rosa e jeans cargo.",
-  format: "Capa do Reels · 1080 × 1350 px",
-  downloadName: "charmy-capa-reels-2026-12-09.png",
-}];
+export const artworkLibrary = [...feed, ...stories, ...reelCovers];
