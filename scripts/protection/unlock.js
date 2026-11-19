@@ -191,7 +191,7 @@ form.onsubmit = async (event) => {
       password: "Senha incorreta. Tente novamente.",
       connection: "Não conseguimos carregar o acesso. Confira a conexão e toque em Desbloquear para tentar novamente.",
       browser: "Este navegador bloqueou a abertura do planejamento. Copie o link abaixo e abra em uma aba normal, fora do aplicativo e da navegação privada.",
-      worker: "O navegador aberto pelo aplicativo pode impedir a ativação necessária para este site protegido. Copie o link abaixo e abra diretamente no Safari ou Chrome. Se já estiver no Safari, feche a aba e tente novamente.",
+      worker: "A abertura do site não terminou. O navegador aberto pelo aplicativo pode impedir a ativação necessária para este site protegido. Copie o link abaixo e abra diretamente no Safari ou Chrome. Se já estiver no Safari, feche a aba e tente novamente.",
     };
     message.textContent = messages[error.message] || messages.connection;
     if (browserHelp) browserHelp.hidden = error.message === "password";
