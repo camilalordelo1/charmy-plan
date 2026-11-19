@@ -7,7 +7,9 @@ Planejamento de posts para **dezembro de 2026**, inspirado na apresentação da 
 Front-end estático organizado em módulos ES, com separação de responsabilidades:
 
 ```text
-index.html                 Estrutura da página e entrada do site
+index.html                 Tela de login simples (sem criptografia)
+planner.html               Página do calendário editorial
+unlock.js                  Verificação visual da senha e redirecionamento
 src/
   main.js                  Inicialização, estado e eventos da aplicação
   data/posts.js            Sugestões iniciais de conteúdo
@@ -27,7 +29,7 @@ package.json               Comandos do projeto
 2. Com a extensão **Live Server** instalada, clique com o botão direito no `index.html` **da raiz**.
 3. Selecione **Open with Live Server**.
 
-Edite os arquivos em `src/` e o `index.html` da raiz. Para desenvolver com Live Server, não é necessário Python, Node ou instalar dependências. Módulos JavaScript precisam ser servidos por HTTP; abrir o HTML diretamente por `file://` não funciona.
+Edite os arquivos em `src/`, `planner.html` (calendário) e `index.html` (login). Para desenvolver com Live Server, não é necessário Python, Node ou instalar dependências. Módulos JavaScript precisam ser servidos por HTTP; abrir o HTML diretamente por `file://` não funciona.
 
 ## Gerar a versão para publicação
 
@@ -38,7 +40,7 @@ npm run check
 npm run build
 ```
 
-Não é necessário `npm install`: o projeto não usa dependências externas de build. O comando de build copia a entrada e os módulos para `dist/`, que é gerada e ignorada pelo Git. Não edite essa pasta diretamente.
+Não é necessário `npm install`: o projeto não usa dependências externas de build. O comando de build copia o login, o planejamento e os módulos para `dist/`, que é gerada e ignorada pelo Git. Não edite essa pasta diretamente.
 
 ## Funcionalidades e dados
 
@@ -99,3 +101,7 @@ A prévia do Instagram exibe cinco destaques abaixo da bio, nesta ordem: **Novid
 O destaque **Tamanhos** contém as quatro artes originais do arquivo `Guia de tamanhos charmy (2).zip`, preservadas byte a byte em `src/assets/highlights/tamanhos/`. A sequência é: convite ao guia → como medir → comparação com a tabela de cada peça → contato pelo WhatsApp. A capa quadrada de régua permanece no perfil; ao clicar, o guia abre em retrato com as imagens completas, progresso, navegação por botões/setas, download da tela e **Ampliar leitura**. Os demais destaques mantêm suas capas.
 
 O destaque **Como comprar** abre uma arte própria com identidade Charmy (listras em lilás claro, rosa, estrelas e tipografia preta), apresentando site pelo link na bio, Direct para @charmyclube e WhatsApp (35) 99737-9988. O arquivo fica em `src/assets/highlights/como-comprar/01-como-comprar.png` e pode ser ampliado ou baixado pelo visualizador. O cabeçalho foi compactado: a frase de apoio integra a mesma linha/bloco de “Planejar. Criar. Conectar.”, acima do título menor.
+
+## Acesso simples no GitHub Pages
+
+O link raiz abre um formulário que aceita a senha configurada no arquivo `unlock.js` e leva a `planner.html` nesta aba. O acesso usa `sessionStorage` só durante a sessão do navegador. **Não há criptografia nem autenticação de servidor.** O repositório e os arquivos do GitHub Pages são públicos, portanto essa senha não protege dados confidenciais. O login retira registros do Service Worker do sistema antigo quando o navegador permitir; os rascunhos e uploads mantidos no armazenamento local não são apagados.

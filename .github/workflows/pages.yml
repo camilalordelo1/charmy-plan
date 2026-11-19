@@ -29,16 +29,12 @@ jobs:
           node-version: '22'
       - name: Check JavaScript syntax
         run: npm run check
-      - name: Test protected session
-        run: npm run test:session
       - name: Test post proposals
         run: npm run test:proposals
-      - name: Test login and encrypted publication
-        run: node tests/unlock.mjs
+      - name: Test simple password login
+        run: npm run test:login
       - name: Build static site
-        run: npm run build && node scripts/protect.mjs
-        env:
-          SITE_PASSWORD: ${{ secrets.SITE_PASSWORD }}
+        run: npm run build
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site

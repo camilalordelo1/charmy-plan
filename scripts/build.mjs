@@ -14,6 +14,9 @@ await writeFile(
   path.join(output, "index.html"),
   await readFile(path.join(root, "index.html")),
 );
+await cp(path.join(root, "planner.html"), path.join(output, "planner.html"));
+await cp(path.join(root, "unlock.js"), path.join(output, "unlock.js"));
+await writeFile(path.join(output, ".nojekyll"), "");
 await cp(path.join(root, "img"), path.join(output, "img"), { recursive: true });
 await cp(path.join(root, "src/assets/charmy-logo.png"), path.join(output, "favicon.png"));
 await buildArtworkBundle(root, output);

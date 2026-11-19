@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CHARMY⭐</title>
+    <script>
+      // Client-side navigation guard only; public GitHub Pages files remain accessible.
+      try {
+        if (sessionStorage.getItem("charmy:access") !== "ok") {
+          location.replace("./");
+        }
+      } catch {
+        location.replace("./");
+      }
+    </script>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/styles/social-preview.css" />
+  </head>
+  <body>
+    <aside>
+      <a class="brand" href="#">Charmy<span>CONTENT STUDIO ✳</span></a>
+      <div class="workspace">PLANEJAMENTO 2026</div>
+      <nav>
+        <button
+          class="active"
+          id="calendarNav"
+          aria-label="Calendário editorial"
+          aria-current="page"
+        >
+          ▦ <span>Calendário editorial</span></button
+        ><button id="kpisNav" aria-label="KPIs">◷ <span>KPIs</span></button
+        ><button id="ideasNav" aria-label="Banco de ideias">
+          ✧ <span>Banco de ideias</span>
+        </button>
+        <button id="mediaNav" aria-label="Banco de imagens e vídeos">
+          ▧ <span>Banco de imagens/vídeos</span>
+        </button>
+      </nav>
+      <div class="sidebottom">
+        <span class="avatar">C</span>
+        <div>Projeto Charmy<small>Publicidade e Propaganda</small></div>
+      </div>
+    </aside>
+    <main>
+      <section class="hero">
+        <div>
+          <p class="hero-intro">
+            <span class="eyebrow">PLANEJAR. CRIAR. CONECTAR.</span
+            ><span class="hero-subtitle"
+              >Um mês de ideias para vestir histórias e criar conexões.</span
+            >
+          </p>
+          <h1>
+            Dezembro <i>em pauta.</i
+            ><span class="star" aria-hidden="true">✦</span>
+          </h1>
+        </div>
+        <button class="primary" id="new">＋ Novo post</button>
+      </section>
+      <section id="kpisPanel" aria-labelledby="kpisTitle" hidden>
+        <div class="toolbar">
+          <div>
+            <h2 id="kpisTitle">KPIs</h2>
+            <p>Indicadores do planejamento · Dezembro de 2026</p>
+          </div>
+        </div>
+        <div class="stats">
+          <div>
+            <span>POSTS PLANEJADOS</span><strong id="total">0</strong
+            ><small>ideias ganhando forma</small>
+          </div>
+          <div>
+            <span>APROVADOS</span><strong id="approved">0</strong
+            ><small>prontos para brilhar ✧</small>
+          </div>
+          <div class="monthNote">
+            <i>O seu jeito.<br />A sua Charmy.</i
+            ><span>CONTEÚDO QUE APROXIMA ♡</span>
+          </div>
+        </div>
+      </section>
+      <section class="planner" id="calendarPanel">
+        <div class="toolbar">
+          <div>
+            <h2 id="viewTitle">Calendário editorial</h2>
+            <p id="viewDescription">Cada post, uma nova conexão.</p>
+          </div>
+          <div class="calendar-controls">
+            <div class="filterControls">
+              <input
+                id="search"
+                placeholder="Buscar conteúdo…"
+                aria-label="Buscar conteúdo"
+              /><select
+                id="channel"
+                aria-label="Filtrar por canal ou comunidade"
+              >
+                <option value="">Todos</option>
+                <option>TikTok</option>
+                <option>Comunidade</option>
+                <option>Instagram</option></select
+              ><select id="status" aria-label="Filtrar por status">
+                <option value="">Todos os status</option>
+                <option>Ideia</option>
+                <option>Em produção</option>
+                <option>Aprovado</option>
+                <option>Publicado</option>
+              </select>
+            </div>
+            <div class="views">
+              <button class="selected" id="gridView">▦ Mês</button
+              ><button id="listView">☷ Lista</button
+              ><button id="feedView">▦ Feed Instagram</button
+              ><button id="tiktokView">♪ Feed TikTok</button>
+            </div>
+          </div>
+        </div>
+        <div id="calendar"></div>
+        <div class="legend">
+          <span><b class="dot idea"></b> Ideia</span
+          ><span><b class="dot prod"></b> Em produção</span
+          ><span><b class="dot approved"></b> Aprovado</span
+          ><span><b class="dot published"></b> Publicado</span
+          ><small>Clique em um dia para criar ou em um post para editar.</small>
+        </div>
+      </section>
+      <section id="mediaPanel" hidden aria-labelledby="mediaTitle">
+        <div class="toolbar">
+          <div>
+            <h2 id="mediaTitle">Banco de imagens/vídeos</h2>
+            <p>Fotos, vídeos e artes da Charmy para visualizar e baixar.</p>
+            <a href="src/assets/downloads/charmy-todas-as-artes.zip" download="charmy-todas-as-artes.zip">Baixar todas as artes (ZIP) ↓</a>
+          </div>
+          <button id="refreshMedia">Atualizar</button>
+        </div>
+        <div class="filterControls">
+          <input
+            id="mediaSearch"
+            aria-label="Buscar mídia"
+            placeholder="Buscar mídia ou post…"
+          /><select id="mediaType" aria-label="Tipo de mídia">
+            <option value="">Todas as mídias</option>
+            <option value="image">Imagens</option>
+            <option value="video">Vídeos</option>
+            <option value="art">Artes criadas</option></select
+          ><span id="mediaCount" aria-live="polite"></span>
+        </div>
+        <div id="mediaGrid" class="media-grid"></div>
+        <p class="localnote">
+          Se os arquivos não aparecerem, selecione sua pasta img para visualizar
+          neste navegador.
+          <button id="selectMediaFolder">Selecionar pasta img</button
+          ><input
+            id="mediaFolder"
+            type="file"
+            webkitdirectory
+            multiple
+            hidden
+          />
+        </p>
+      </section>
+      <footer>
+        FEITO DE IDEIAS, ESTILO E PERSONALIDADE. <span>Charmy ♡</span>
+      </footer>
+      <p class="localnote">
+        Rascunhos de sugestão · Alterações salvas neste navegador. Exporte para
+        guardar uma cópia.
+        <button id="addNotion">Adicionar posts do Notion</button
+        ><button id="addScripts">Adicionar roteiros do PDF</button
+        ><button id="export">Exportar JSON ↗</button
+        ><button id="import">Importar</button
+        ><input type="file" id="importFile" accept="application/json" hidden />
+      </p>
+    </main>
+    <dialog id="editor" aria-labelledby="modalTitle">
+      <form id="form">
+        <div class="dialoghead">
+          <div>
+            <div class="eyebrow">VAMOS CRIAR ALGO ESPECIAL?</div>
+            <h2 id="modalTitle">Novo post</h2>
+          </div>
+          <button type="button" id="close" aria-label="Fechar">×</button>
+        </div>
+        <label class="post-title-field"
+          >Título do conteúdo<input
+            name="title"
+            required
+            maxlength="120"
+            placeholder="Qual é a ideia da vez?"
+        /></label>
+        <section id="postPreview" hidden aria-label="Prévia do post">
+          <div class="post-preview-account">
+            <img
+              class="profile-logo"
+              src="src/assets/charmy-logo.png"
+              alt="Logo Charmy"
+            /><strong>charmyclube</strong><span>•••</span>
+          </div>
+          <div id="postPreviewImage"></div>
+          <div class="post-preview-body">
+            <div class="preview-social" aria-hidden="true">
+              ♡　♧　⌁ <span>♧</span>
+            </div>
+            <p id="postPreviewCaption"></p>
+            <small>Simulação visual · Não publicado</small>
+          </div>
+        </section>
+        <p id="postProductionNote" class="post-production-note" role="note" hidden>* Conteúdo a ser produzido pela loja. Capa sugerida.</p>
+        <div class="post-upload-actions">
+          <a id="postCarouselDownload" download hidden>Baixar carrossel completo</a>
+          <button type="button" id="uploadPost">
+            ＋ Adicionar foto ou vídeo</button
+          ><button type="button" id="saveMediaFolder" hidden>
+            Salvar na pasta img</button
+          ><button type="button" id="convertPostVideo" hidden>
+            Corrigir vídeo para MP4</button
+          ><button type="button" id="cancelVideoConversion" hidden>
+            Cancelar conversão</button
+          ><button type="button" id="nativePlayerButton" hidden>
+            Usar controles do navegador</button
+          ><input
+            id="postUploadFile"
+            type="file"
+            accept="image/*,video/*,.heic,.heif"
+            hidden
+          />
+          <p id="postUploadStatus" role="status">
+            Uploads ficam salvos neste navegador. Use a opção de pasta para
+            guardar uma cópia local.
+          </p>
+        </div>
+        <div class="editor-layout">
+          <section class="editor-content" aria-label="Conteúdo do post">
+            <details id="briefingDetails">
+              <summary>Ver roteiro e briefing completo</summary>
+              <label
+                >Roteiro, legenda e briefing<span class="field-hint"
+                  >Texto completo do post.</span
+                ><textarea
+                  name="notes"
+                  rows="20"
+                  placeholder="Objetivo, referências, legenda e chamada para ação…"
+                ></textarea>
+              </label>
+            </details>
+          </section>
+          <section class="editor-details" aria-labelledby="detailsTitle">
+            <h3 id="detailsTitle">Publicação</h3>
+            <label
+              >Capa do post<select name="cover" id="postCover">
+                <option value="">Sem imagem selecionada</option>
+              </select></label
+            >
+            <div class="formrow">
+              <label
+                >Data<input
+                  name="date"
+                  type="date"
+                  min="2026-12-01"
+                  max="2026-12-31"
+                  required /></label
+              ><label>Horário<input name="time" type="time" required /></label>
+            </div>
+            <div class="formrow">
+              <label
+                >Canal<select name="channel">
+                  <option>Instagram</option>
+                  <option>TikTok</option>
+                  <option>WhatsApp</option>
+                </select></label
+              ><label
+                >Formato<select name="format">
+                  <option>Reels</option>
+                  <option>Carrossel</option>
+                  <option>Stories</option>
+                  <option>Vídeo</option>
+                  <option>Imagem</option>
+                </select></label
+              >
+            </div>
+            <div class="formrow">
+              <label
+                >Status<select name="status">
+                  <option>Ideia</option>
+                  <option>Em produção</option>
+                  <option>Aprovado</option>
+                  <option>Publicado</option>
+                </select></label
+              ><label
+                >Linha editorial<select name="pillar">
+                  <option>Estilo & identidade</option>
+                  <option>Comunidade</option>
+                  <option>Bastidores</option>
+                  <option>Produto</option>
+                </select></label
+              >
+            </div>
+          </section>
+        </div>
+        <div class="actions">
+          <button type="button" id="delete">Excluir post</button>
+          <div class="editor-buttons">
+            <button type="button" id="cancelEdit">Cancelar edição</button
+            ><button class="primary" type="button" id="editPost">
+              Editar post</button
+            ><button class="primary" id="savePost" type="submit">
+              Salvar post ↗
+            </button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="storyViewer" aria-label="Visualização de Stories">
+      <div class="story-progress"></div>
+      <div class="story-header">
+        <div class="story-account">
+          <strong>charmyclube</strong><time id="storyDate"></time>
+        </div>
+        <span id="storyPosition" aria-live="polite"></span
+        ><button type="button" id="closeStory" aria-label="Fechar Stories">
+          ×
+        </button>
+      </div>
+      <div id="storyMedia"></div>
+      <div class="story-nav">
+        <button type="button" id="prevStory" aria-label="Story anterior">
+          ‹</button
+        ><button type="button" id="nextStory" aria-label="Próximo Story">
+          ›
+        </button>
+      </div>
+      <p id="storyTitle"></p>
+      <button type="button" id="editStory">Abrir detalhes do post</button>
+    </dialog>
+    <dialog id="highlightViewer" aria-labelledby="highlightViewerTitle">
+      <span class="instagram-viewer-brand" aria-hidden="true">Instagram</span>
+      <button type="button" id="closeHighlight" aria-label="Fechar destaque">×</button>
+      <div class="instagram-story-stage">
+        <img id="highlightViewerImage" alt="" width="1080" height="1920" />
+        <div id="highlightLoadStatus" class="highlight-load-status" role="status" aria-live="polite" hidden>
+          <p id="highlightLoadMessage">Carregando Story…</p>
+          <button id="retryHighlight" type="button" hidden>Tentar novamente</button>
+          <button id="reopenHighlightSite" type="button" hidden>Reabrir o site</button>
+        </div>
+        <div class="instagram-story-top">
+          <div id="highlightProgress" class="highlight-progress" aria-hidden="true"></div>
+          <header class="highlight-viewer-header">
+            <img src="src/assets/charmy-logo.png" alt="" width="32" height="32" />
+            <div class="highlight-account">
+              <strong id="highlightViewerTitle"></strong>
+              <small id="highlightViewerKicker"></small>
+            </div>
+            <button type="button" id="pauseHighlight" aria-label="Pausar Stories" aria-pressed="false"></button>
+            <button type="button" id="highlightMenuToggle" aria-label="Opções do destaque" aria-expanded="false" aria-controls="highlightMenu">···</button>
+          </header>
+        </div>
+        <div id="highlightMenu" hidden>
+          <a id="openHighlightFull" target="_blank" rel="noopener">Ver imagem completa</a>
+          <a id="downloadHighlight" download>Baixar esta arte</a>
+        </div>
+        <button type="button" id="previousHighlight" aria-label="Tela anterior">‹</button>
+        <button type="button" id="nextHighlight" aria-label="Próxima tela">›</button>
+        <div class="instagram-story-footer">
+          <a class="highlight-reply" href="https://www.instagram.com/charmyclube/" target="_blank" rel="noopener" aria-label="Conversar com a Charmy no Instagram">Responder a charmyclube…</a>
+          <button type="button" id="likeHighlight" aria-label="Curtir este Story" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></button>
+          <a class="highlight-instagram-link" href="https://www.instagram.com/charmyclube/" target="_blank" rel="noopener" aria-label="Abrir o perfil da Charmy no Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4 20-7ZM22 2 11 13"/></svg></a>
+        </div>
+        <p id="highlightSlideTitle" class="viewer-sr-only"></p>
+        <span id="highlightPosition" class="viewer-sr-only" role="status" aria-live="polite"></span>
+      </div>
+    </dialog>
+    <script src="./src/vendor/heic2any.min.js" defer></script>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

@@ -6,12 +6,11 @@
   "description": "Calendário editorial da Charmy para dezembro de 2026",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check src/main.js && node --check src/data/posts.js && node --check src/services/storage.js && node --check src/views/post-card.js && node --check src/utils/html.js && node --check scripts/build.mjs && node --check scripts/media.mjs && node --check src/views/media-library.js && node --check scripts/protect.mjs && node --check scripts/protection/unlock.js && node --check scripts/protection/service-worker.js && node --check src/views/tiktok-preview.js && node --check src/views/tiktok-feed.js && node --check src/views/instagram-feed.js && node --check src/services/uploads.js && node --check src/services/video-conversion.js && node --check src/data/highlights.js && node --check src/views/highlights.js && node --check src/data/post-artworks.js && node --check src/views/post-carousel.js && node --check scripts/previews.mjs && node --check src/data/video-previews.js && node --check src/data/artwork-library.js && node --check scripts/image-previews.mjs && node --check src/data/post-media.js && node --check src/data/image-previews.js && node --check src/utils/image-preview.js && node --check src/services/protected-session.js && node --check src/data/proposed-covers.js && node --check src/services/post-proposal.js",
+    "check": "node --check src/main.js && node --check src/data/posts.js && node --check src/services/storage.js && node --check src/views/post-card.js && node --check src/utils/html.js && node --check scripts/build.mjs && node --check scripts/media.mjs && node --check src/views/media-library.js && node --check src/views/tiktok-preview.js && node --check src/views/tiktok-feed.js && node --check src/views/instagram-feed.js && node --check src/services/uploads.js && node --check src/services/video-conversion.js && node --check src/data/highlights.js && node --check src/views/highlights.js && node --check src/data/post-artworks.js && node --check src/views/post-carousel.js && node --check scripts/previews.mjs && node --check src/data/video-previews.js && node --check src/data/artwork-library.js && node --check scripts/image-previews.mjs && node --check src/data/post-media.js && node --check src/data/image-previews.js && node --check src/utils/image-preview.js && node --check src/data/proposed-covers.js && node --check src/services/post-proposal.js && node --check unlock.js",
     "media": "node scripts/media.mjs",
     "previews": "node scripts/previews.mjs",
-    "protect": "node scripts/protect.mjs",
     "image-previews": "node scripts/image-previews.mjs",
-    "test:session": "node tests/protected-session.mjs",
-    "test:proposals": "node tests/proposed-covers.mjs"
+    "test:proposals": "node tests/proposed-covers.mjs",
+    "test:login": "node tests/unlock.mjs"
   }
 }
