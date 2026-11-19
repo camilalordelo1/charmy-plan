@@ -1,4 +1,12 @@
 export const videoPreviews = {
+  "img/1-base-3-looks.mp4": {
+    "src": "src/assets/video-previews/8c01fb78be4df10f1b08.mp4",
+    "poster": "src/assets/video-previews/8c01fb78be4df10f1b08.jpg"
+  },
+  "img/Dezembro-chegou.mp4": {
+    "src": "src/assets/video-previews/67c876909c60c414b8b4.mp4",
+    "poster": "src/assets/video-previews/67c876909c60c414b8b4.jpg"
+  },
   "img/IMG_6546.mp4": {
     "src": "src/assets/video-previews/e0bbbb4bef2065354305.mp4",
     "poster": "src/assets/video-previews/e0bbbb4bef2065354305.jpg"
