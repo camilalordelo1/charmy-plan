@@ -718,6 +718,18 @@ textarea {
   color: #76537f;
   font-size: 11px;
 }
+.media-card > a.media-preview-link {
+  display: block;
+  margin: 0;
+  line-height: 0;
+}
+.media-art-format {
+  display: block;
+  margin-bottom: 6px;
+  color: #76537f;
+  font-size: 12px;
+  line-height: 1.4;
+}
 #mediaPanel > .toolbar {
   padding-left: 0;
 }

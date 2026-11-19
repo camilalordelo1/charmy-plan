@@ -1,11 +1,13 @@
 import { mediaPreviews } from "../data/media-previews.js";
 import { videoPreviews } from "../data/video-previews.js";
+import { artworkLibrary } from "../data/artwork-library.js";
 import { esc } from "../utils/html.js";
 let files = [];
 let initialized = false;
 const previewCache = new Map();
 let conversionQueue = Promise.resolve();
 const heic = (name) => /\.(heic|heif)$/i.test(name);
+const searchable = (value) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
 function attachHeicPreviews() {
   for (const image of document.querySelectorAll("#mediaGrid img[data-heic]")) {
@@ -50,6 +52,12 @@ const video = (name) => /\.(mp4|webm|mov|m4v|ogv)$/i.test(name);
 const supported = (name) =>
   /\.(jpe?g|png|gif|webp|avif|svg|heic|heif|mp4|webm|mov|m4v|ogv)$/i.test(name);
 const root = new URL("../../", import.meta.url);
+const artworkFiles = artworkLibrary.map((item) => ({
+  ...item,
+  name: item.src.split("/").pop(),
+  url: new URL(item.src, root).href,
+  art: true,
+}));
 const previews = {
   ...mediaPreviews,
   ...Object.fromEntries(Object.entries(videoPreviews).map(([file, item]) => [file, item.src])),
@@ -76,19 +84,27 @@ function mediaCard(file) {
   const isVideo = video(file.name);
   const media = isVideo
     ? `<video controls playsinline preload="metadata" ${poster ? `poster="${esc(poster)}"` : ""} src="${esc(preview)}"></video>`
-    : `<img loading="lazy" ${heic(file.name) ? `data-heic="${esc(file.url)}"` : ""} src="${esc(preview)}" alt="${esc(file.name)}">`;
-  const label = heic(file.name)
+    : `<a class="media-preview-link" href="${esc(preview)}" target="_blank" rel="noopener" aria-label="Abrir ${esc(file.title || file.name)} em tamanho completo"><img loading="lazy" ${heic(file.name) ? `data-heic="${esc(file.url)}"` : ""} src="${esc(preview)}" alt="${esc(file.alt || file.name)}"></a>`;
+  const label = file.art
+    ? `<small class="media-art-format">${esc(file.format)}</small>`
+    : heic(file.name)
     ? `<small class="media-preview-status">${preview !== file.url ? "Prévia JPEG · original HEIC / HEIF" : "HEIC / HEIF"}</small>`
     : "";
-  return `<article class="media-card">${media}<div>${label}<strong>${esc(file.name)}</strong><a href="${esc(preview)}" target="_blank" rel="noopener">${isVideo ? "Abrir vídeo" : "Abrir imagem"} ↗</a>${preview !== file.url ? `<a href="${esc(file.url)}" download="${esc(file.name)}">Baixar original</a>` : ""}</div></article>`;
+  const download = file.art
+    ? `<a href="${esc(file.url)}" download="${esc(file.downloadName)}">Baixar arte</a>`
+    : preview !== file.url
+      ? `<a href="${esc(file.url)}" download="${esc(file.name)}">Baixar original</a>`
+      : "";
+  return `<article class="media-card${file.art ? " media-art-card" : ""}">${media}<div>${label}<strong>${esc(file.title || file.name)}</strong><a href="${esc(preview)}" target="_blank" rel="noopener">${isVideo ? "Abrir vídeo" : "Abrir imagem"} ↗</a>${download}</div></article>`;
 }
 function renderMedia() {
-  const query = document.querySelector("#mediaSearch").value.toLowerCase();
+  const query = searchable(document.querySelector("#mediaSearch").value);
   const type = document.querySelector("#mediaType").value;
-  const visible = files.filter(
+  const combined = [...new Map([...files, ...artworkFiles].map((file) => [file.url, file])).values()];
+  const visible = combined.filter(
     (f) =>
-      f.name.toLowerCase().includes(query) &&
-      (!type || (video(f.name) ? "video" : "image") === type),
+      searchable(`${f.name} ${f.title || ""} ${f.alt || ""}`).includes(query) &&
+      (!type || (type === "art" ? f.art === true : (video(f.name) ? "video" : "image") === type)),
   );
   document.querySelector("#mediaCount").textContent =
     `${visible.length} arquivo(s)`;

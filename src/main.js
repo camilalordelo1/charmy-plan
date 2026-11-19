@@ -647,3 +647,13 @@ $("#editor").addEventListener("close", () =>
 );
 
 initializeHighlights();
+
+function openArtworkLibraryFromHash() {
+  if (window.location?.hash !== "#artes") return;
+  $("#mediaNav").click();
+  $("#mediaSearch").value = "";
+  $("#mediaType").value = "art";
+  $("#mediaType").onchange?.();
+}
+window.addEventListener("hashchange", openArtworkLibraryFromHash);
+openArtworkLibraryFromHash();
