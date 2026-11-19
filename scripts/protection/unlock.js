@@ -87,15 +87,33 @@ async function connectWorker() {
     }
     await bounded(navigator.serviceWorker.ready);
     if (!navigator.serviceWorker.controller) {
-      await bounded(new Promise((resolve) => {
-        const changed = () => {
-          if (!navigator.serviceWorker.controller) return;
-          navigator.serviceWorker.removeEventListener("controllerchange", changed);
-          resolve();
-        };
-        navigator.serviceWorker.addEventListener("controllerchange", changed);
-        changed();
-      }));
+      // Certain iOS browser views can miss the initial claim during activation.
+      // Ask the active worker to claim this tab again before timing out.
+      if (registration.active) {
+        try {
+          await bounded(new Promise((resolve) => {
+            const channel = new MessageChannel();
+            const timer = setTimeout(() => { channel.port1.close(); resolve(); }, 2500);
+            channel.port1.onmessage = () => {
+              clearTimeout(timer);
+              channel.port1.close();
+              resolve();
+            };
+            registration.active.postMessage({ type: "claim-client" }, [channel.port2]);
+          }));
+        } catch { /* Continue with normal controller detection. */ }
+      }
+      if (!navigator.serviceWorker.controller) {
+        await bounded(new Promise((resolve) => {
+          const changed = () => {
+            if (!navigator.serviceWorker.controller) return;
+            navigator.serviceWorker.removeEventListener("controllerchange", changed);
+            resolve();
+          };
+          navigator.serviceWorker.addEventListener("controllerchange", changed);
+          changed();
+        }));
+      }
     }
     // Unlock the worker actually controlling this tab. During an update it can
     // differ from registration.active; sending the key to the other one loops login.
@@ -173,7 +191,7 @@ form.onsubmit = async (event) => {
       password: "Senha incorreta. Tente novamente.",
       connection: "Não conseguimos carregar o acesso. Confira a conexão e toque em Desbloquear para tentar novamente.",
       browser: "Este navegador bloqueou a abertura do planejamento. Copie o link abaixo e abra em uma aba normal, fora do aplicativo e da navegação privada.",
-      worker: "A abertura do site não terminou. Tente novamente. Se continuar, feche esta aba e abra o link abaixo em uma aba normal.",
+      worker: "O navegador aberto pelo aplicativo pode impedir a ativação necessária para este site protegido. Copie o link abaixo e abra diretamente no Safari ou Chrome. Se já estiver no Safari, feche a aba e tente novamente.",
     };
     message.textContent = messages[error.message] || messages.connection;
     if (browserHelp) browserHelp.hidden = error.message === "password";
