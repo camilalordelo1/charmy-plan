@@ -135,7 +135,7 @@ const covers = {
   },
   "roteiros-charmy-v1-6": {
     "src": "src/assets/posts/capas-sugeridas/efeito-charmy.png",
-    "alt": "Capa sugerida de O Efeito Charmy, com modelos adolescentes ilustrativas e roupas da coleção Natal e Ano Novo. Conteúdo a ser produzido pela loja.",
+    "alt": "Capa sugerida de O Efeito Charmy: adolescente de tranças boho em dois looks Lorena, com tênis Puma branco e bota preta de cano alto com salto. Conteúdo a ser produzido pela loja.",
     "title": "O Efeito Charmy",
     "products": [
       {
