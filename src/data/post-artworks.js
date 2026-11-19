@@ -4,8 +4,8 @@ function artwork(folder, format, replaceFormat, title, images, zip) {
     format,
     replaceFormat,
     title,
-    width: 4,
-    height: 3,
+    width: 1080,
+    height: 1350,
     download: path + (zip || images[0][0]),
     slides: images.map(([file, alt]) => ({ src: path + file, alt })),
   };

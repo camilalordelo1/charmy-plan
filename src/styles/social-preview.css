@@ -559,12 +559,12 @@
 .instagram-feed-page .profile-preview { max-width: none; padding: 30px 0; }
 .instagram-feed-page .profile-highlights { padding: 0 0 24px; }
 .instagram-feed-page .instagram-grid { padding: 0; gap: 3px; }
-.instagram-feed-page .feed-tile { aspect-ratio: 4 / 3; }
+.instagram-feed-page .feed-tile { aspect-ratio: 4 / 5; }
 #postPreviewImage > img { object-fit: contain; }
 #postCarouselDownload { color: #343237; font-size: 13px; padding: 8px 0; }
-.post-carousel { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #c6c5c7; touch-action: pan-y; }
+.post-carousel { position: relative; width: 100%; aspect-ratio: 4 / 5; max-height: 48dvh; background: #c6c5c7; touch-action: pan-y; }
 #postPreviewImage .post-carousel > img,
-#editor.reading #postPreviewImage .post-carousel > img { display: block; width: 100%; height: 100%; max-height: none; object-fit: contain; }
+#editor.reading #postPreviewImage .post-carousel > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-height: none; object-fit: contain; }
 .post-carousel > button { position: absolute; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; padding: 0; border: 0; border-radius: 50%; background: #fffD; color: #333; font: 26px/1 sans-serif; cursor: pointer; }
 .post-carousel .carousel-previous { left: 8px; }
 .post-carousel .carousel-next { right: 8px; }
