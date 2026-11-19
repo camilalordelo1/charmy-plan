@@ -646,3 +646,58 @@
     padding: 10px 0;
   }
 }
+/* Keep size-guide originals intact; only the profile thumbnail is cropped. */
+#highlightViewer.has-highlight-stories {
+  width: min(600px, calc(100vw - 24px));
+}
+#highlightViewer.has-highlight-stories #highlightViewerImage {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(68dvh, 900px);
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+.highlight-progress {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.highlight-progress span {
+  height: 3px;
+  background: #e9dfea;
+  border-radius: 2px;
+  flex: 1;
+}
+.highlight-progress span.active {
+  background: #9b5795;
+}
+#highlightSlideTitle {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+#openHighlightFull {
+  display: block;
+  padding: 8px;
+  text-align: center;
+  font-size: 12px;
+  color: #754477;
+}
+#highlightViewer.has-highlight-stories .highlight-viewer-header {
+  margin-bottom: 10px;
+}
+#highlightViewer.has-highlight-stories .highlight-viewer-controls {
+  margin: 10px 0;
+}
+@media (max-width: 600px) {
+  #highlightViewer.has-highlight-stories {
+    padding: 12px;
+  }
+  #highlightViewer.has-highlight-stories #highlightViewerImage {
+    max-height: 60dvh;
+  }
+}

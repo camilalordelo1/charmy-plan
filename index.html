@@ -316,13 +316,20 @@
     <dialog id="highlightViewer" aria-labelledby="highlightViewerTitle">
       <div class="highlight-viewer-header">
         <div>
-          <small>Capa do destaque</small>
+          <small id="highlightViewerKicker">Capa do destaque</small>
           <h2 id="highlightViewerTitle"></h2>
         </div>
         <button type="button" id="closeHighlight" aria-label="Fechar destaque">
           ×
         </button>
       </div>
+      <div
+        id="highlightProgress"
+        class="highlight-progress"
+        aria-hidden="true"
+        hidden
+      ></div>
+      <p id="highlightSlideTitle" hidden></p>
       <img id="highlightViewerImage" alt="" width="1254" height="1254" />
       <div class="highlight-viewer-controls">
         <button
@@ -336,6 +343,9 @@
           ›
         </button>
       </div>
+      <a id="openHighlightFull" target="_blank" rel="noopener" hidden
+        >Ampliar leitura ↗</a
+      >
       <a id="downloadHighlight" download>Baixar capa quadrada ↓</a>
     </dialog>
     <script src="./src/vendor/heic2any.min.js" defer></script>

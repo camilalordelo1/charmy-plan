@@ -95,3 +95,5 @@ Componentes incluídos: `@ffmpeg/ffmpeg` 0.12.15 (MIT) e `@ffmpeg/core` 0.12.10 
 ## Capas de destaques
 
 A prévia do Instagram exibe cinco destaques abaixo da bio, nesta ordem: **Novidades**, **Inspirações**, **Como comprar**, **Dúvidas** e **Tamanhos**. As capas quadradas ficam em `src/assets/highlights/`; a lista e os rótulos estão em `src/data/highlights.js`. As miniaturas usam proporção 1:1, posição central e máscara circular. Um clique abre a capa inteira, com navegação e download individual. **Baixar capas 1:1** reúne as cinco imagens em ZIP para usar no Instagram real. Isso não publica nem modifica o perfil real da marca.
+
+O destaque **Tamanhos** contém as quatro artes originais do arquivo `Guia de tamanhos charmy (2).zip`, preservadas byte a byte em `src/assets/highlights/tamanhos/`. A sequência é: convite ao guia → como medir → comparação com a tabela de cada peça → contato pelo WhatsApp. A capa quadrada de régua permanece no perfil; ao clicar, o guia abre em retrato com as imagens completas, progresso, navegação por botões/setas, download da tela e **Ampliar leitura**. Os demais destaques mantêm suas capas.
