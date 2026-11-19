@@ -1539,6 +1539,20 @@ main,
   margin: 0 0 8px;
   color: var(--muted);
 }
+.tiktok-profile .tiktok-bio {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 12px auto 8px;
+  max-width: 420px;
+}
+.tiktok-bio-link {
+  display: block;
+  color: #754477;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  margin-bottom: 12px;
+}
 .tiktok-profile small {
   color: var(--muted);
 }
