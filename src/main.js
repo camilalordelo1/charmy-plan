@@ -1,5 +1,6 @@
 import { openHighlight, initializeHighlights } from "./views/highlights.js";
 import { mountPostCarousel } from "./views/post-carousel.js";
+import { createPostViewer } from "./views/post-viewer.js";
 import { postArtwork, applyArtworkFormat } from "./data/post-artworks.js";
 import { mountTiktokPreview } from "./views/tiktok-preview.js";
 import {
@@ -32,9 +33,8 @@ let media = false;
 let editing = null;
 let editEnabled = false;
 let draftUploadId = "";
-let storyPosts = [];
-let storyIndex = 0;
 let videoConversionController = null;
+const postViewer = createPostViewer(post => openEditor(post.id));
 
 function save() {
   try {
@@ -168,16 +168,15 @@ $("#calendar").onclick = (e) => {
   }
   const story = e.target.closest("[data-story]");
   if (story) {
-    storyPosts = filtered()
+    const storyPosts = filtered()
       .filter((p) => p.format === "Stories")
       .sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
-    storyIndex = storyPosts.findIndex((p) => p.id === story.dataset.story);
-    showStory();
+    postViewer.open(storyPosts.find(p => p.id === story.dataset.story), storyPosts);
     return;
   }
 
   const post = e.target.closest("[data-id]");
-  if (post) return openEditor(post.dataset.id);
+  if (post) return postViewer.open(posts.find(p => p.id === post.dataset.id));
   const day = e.target.closest("[data-date]");
   if (day) openEditor(null, day.dataset.date);
 };
@@ -532,67 +531,6 @@ $("#saveMediaFolder").onclick = async () => {
         "Não foi possível gravar. Verifique a permissão da pasta.";
   }
 };
-function showStory() {
-  const post = storyPosts[storyIndex];
-  if (!post) return;
-  const container = $("#storyMedia");
-  container.querySelector("video")?.pause();
-  container.replaceChildren();
-  const url = coverUrl(post);
-  if (url) {
-    const video = isVideoUpload(post);
-    const element = document.createElement(video ? "video" : "img");
-    element.src = url;
-    if (video) {
-      element.controls = true;
-      element.playsInline = true;
-    } else element.alt = post.title;
-    container.append(element);
-  } else
-    container.textContent =
-      post.title + " · Adicione a mídia em detalhes do post";
-  const dateText = post.date.split("-").reverse().join("/");
-  $("#storyDate").dateTime = post.date;
-  $("#storyDate").textContent = dateText + (post.time ? " · " + post.time : "");
-  $("#storyPosition").textContent = `${storyIndex + 1} de ${storyPosts.length}`;
-  $("#storyTitle").textContent =
-    post.title + " · " + post.date.slice(8) + "/12";
-  $("#prevStory").disabled = storyIndex === 0;
-  $("#nextStory").disabled = storyIndex === storyPosts.length - 1;
-  $(".story-progress").textContent = storyPosts
-    .map((_, i) => (i === storyIndex ? "━━━━" : "────"))
-    .join(" ");
-  if (!$("#storyViewer").open) $("#storyViewer").showModal();
-}
-$("#prevStory").onclick = () => {
-  if (storyIndex > 0) {
-    storyIndex--;
-    showStory();
-  }
-};
-$("#nextStory").onclick = () => {
-  if (storyIndex < storyPosts.length - 1) {
-    storyIndex++;
-    showStory();
-  }
-};
-$("#closeStory").onclick = () => {
-  $("#storyViewer").close();
-  $("#storyMedia").querySelector("video")?.pause();
-};
-$("#storyViewer").addEventListener("close", () =>
-  $("#storyMedia").querySelector("video")?.pause(),
-);
-$("#storyViewer").addEventListener("keydown", (e) => {
-  if (e.key === "ArrowRight") $("#nextStory").click();
-  if (e.key === "ArrowLeft") $("#prevStory").click();
-});
-$("#editStory").onclick = () => {
-  const post = storyPosts[storyIndex];
-  $("#storyViewer").close();
-  openEditor(post.id);
-};
-
 $("#editor").addEventListener("close", () =>
   $("#postPreviewImage").querySelector("video")?.pause(),
 );

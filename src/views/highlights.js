@@ -1,4 +1,3 @@
-import { reopenProtectedSite } from "../services/protected-session.js";
 import { imagePreview } from "../utils/image-preview.js";
 import { highlights } from "../data/highlights.js";
 import { esc } from "../utils/html.js";
@@ -10,7 +9,6 @@ let activeSlide = 0;
 let elapsed = 0;
 let paused = false;
 let imageReady = false;
-let sessionExpired = false;
 let timer;
 let touchStart = null;
 const liked = new Set();
@@ -56,14 +54,12 @@ function renderHighlight() {
     $("#highlightLoadStatus").hidden = true;
   };
   image.onerror = () => {
-    if (!usingOriginal && !sessionExpired) {
+    if (!usingOriginal) {
       usingOriginal = true;
       image.src = original;
       return;
     }
-    $("#highlightLoadMessage").textContent = sessionExpired
-      ? "Reabra o site para continuar vendo os Stories."
-      : "Não foi possível carregar este Story.";
+    $("#highlightLoadMessage").textContent = "Não foi possível carregar este Story.";
     $("#retryHighlight").hidden = false;
     $("#reopenHighlightSite").hidden = false;
   };
@@ -124,8 +120,7 @@ export function openHighlight(id) {
 export function initializeHighlights() {
   const dialog = $("#highlightViewer");
   $("#retryHighlight").onclick = renderHighlight;
-  $("#reopenHighlightSite").onclick = reopenProtectedSite;
-  window.addEventListener("protected-session-expired", () => { sessionExpired = true; });
+  $("#reopenHighlightSite").onclick = () => window.location.reload();
   $("#closeHighlight").onclick = () => {
     clearInterval(timer);
     dialog.close();

@@ -22,52 +22,6 @@
 .profile-stories-trigger:hover .profile-avatar {
   box-shadow: 0 0 0 3px #a73bc1;
 }
-#storyViewer {
-  width: min(820px, calc(100vw - 24px));
-  padding: 16px;
-}
-#storyViewer .story-header {
-  gap: 12px;
-}
-.story-account {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-}
-#storyDate {
-  font-size: 12px;
-  color: #e1d0e7;
-}
-#storyPosition {
-  margin-left: auto;
-  font-size: 12px;
-  color: #d5c6d9;
-  white-space: nowrap;
-}
-#storyViewer #storyMedia {
-  position: relative;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  max-height: none;
-  min-height: 0;
-  padding: 16px;
-}
-#storyViewer #storyMedia img,
-#storyViewer #storyMedia video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  max-height: none;
-}
-#storyViewer #editStory {
-  width: 100%;
-  min-height: 42px;
-}
-
 #editor.reading.tiktok-dialog.tiktok-landscape {
   width: 1120px;
 }
@@ -442,19 +396,7 @@
   #editor.reading.tiktok-dialog.tiktok-landscape #form {
     grid-template-columns: minmax(0, 1fr);
   }
-  #storyViewer {
-    padding: 10px;
-  }
-  .story-header strong {
-    font-size: 13px;
-  }
-  #storyDate,
-  #storyPosition {
-    font-size: 10px;
-  }
-  #storyViewer #storyMedia {
-    aspect-ratio: 16 / 9;
-  }
+
 }
 /* Leave the media itself clickable; only interactive controls intercept taps. */
 .tt-ui {

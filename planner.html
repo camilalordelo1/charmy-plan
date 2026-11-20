@@ -17,6 +17,7 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="./src/styles/main.css" />
     <link rel="stylesheet" href="./src/styles/social-preview.css" />
+    <link rel="stylesheet" href="./src/styles/post-viewer.css" />
   </head>
   <body>
     <aside>
@@ -312,27 +313,19 @@
         </div>
       </form>
     </dialog>
-    <dialog id="storyViewer" aria-label="Visualização de Stories">
-      <div class="story-progress"></div>
-      <div class="story-header">
-        <div class="story-account">
-          <strong>charmyclube</strong><time id="storyDate"></time>
+    <dialog id="postViewer" aria-labelledby="postViewerTitle">
+      <div class="post-viewer-shell">
+        <h2 id="postViewerTitle" class="post-viewer-sr-only"></h2>
+        <button id="closePostViewer" type="button" aria-label="Fechar prévia">×</button>
+        <div id="postViewerProgress" aria-hidden="true" hidden></div>
+        <div id="postViewerMedia"></div>
+        <div class="post-viewer-controls">
+          <button id="previousPostViewer" type="button" aria-label="Story anterior" hidden>‹</button>
+          <span id="postViewerPosition" role="status" aria-live="polite" hidden></span>
+          <button id="nextPostViewer" type="button" aria-label="Próximo Story" hidden>›</button>
+          <button id="postViewerInfo" type="button">Ver infos</button>
         </div>
-        <span id="storyPosition" aria-live="polite"></span
-        ><button type="button" id="closeStory" aria-label="Fechar Stories">
-          ×
-        </button>
       </div>
-      <div id="storyMedia"></div>
-      <div class="story-nav">
-        <button type="button" id="prevStory" aria-label="Story anterior">
-          ‹</button
-        ><button type="button" id="nextStory" aria-label="Próximo Story">
-          ›
-        </button>
-      </div>
-      <p id="storyTitle"></p>
-      <button type="button" id="editStory">Abrir detalhes do post</button>
     </dialog>
     <dialog id="highlightViewer" aria-labelledby="highlightViewerTitle">
       <span class="instagram-viewer-brand" aria-hidden="true">Instagram</span>
