@@ -35,7 +35,7 @@ const artworks = {
   ),
   "charmy-notion-dec-13": artwork(
     "troca-de-look", "Imagem", "Stories", "Arte da Charmozinha sobre trocar o look",
-    [["01-arte.png", "Charmozinha: Eu, 5 minutos antes de sair: vou trocar só a blusa. Troca o look inteiro."]],
+    [["01-arte.png", "Charmozinha em um POV: 5 minutos antes de sair, decido trocar só uma peça… e mudo o look inteiro, com blusa, jeans, bolsa e tênis."]],
   ),
 };
 
