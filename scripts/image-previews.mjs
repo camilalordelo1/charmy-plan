@@ -1,6 +1,6 @@
-import { readdir, mkdir, writeFile } from 'node:fs/promises';
+import { readdir, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
-import { createHash } from 'node:crypto';
+import { imagePreviewPaths } from './image-preview-paths.mjs';
 import { fileURLToPath } from 'node:url';
 const root=fileURLToPath(new URL('../', import.meta.url));
 const files=[];
@@ -8,6 +8,7 @@ async function scan(dir){for(const f of await readdir(root+dir,{withFileTypes:tr
 for(const dir of ['src/assets/posts','src/assets/highlights','src/assets/previews']) await scan(dir);
 await mkdir(root+'src/assets/image-previews',{recursive:true});
 const map={};
-for(const file of files){const id=createHash('sha256').update(file).digest('hex').slice(0,20);map[file]={};for(const [size,width,quality] of [['thumb',400,76],['display',1080,84]]){const target=`src/assets/image-previews/${id}-${size}.webp`;execFileSync('magick',[root+file,'-auto-orient','-resize',`${width}x${width}>`,'-strip','-quality',String(quality),root+target]);map[file][size]=target;}}
+// New artwork bytes get new preview URLs. Keep legacy files for already open tabs.
+for(const file of files){map[file]=imagePreviewPaths(file,await readFile(root+file));for(const [size,width,quality] of [['thumb',400,76],['display',1080,84]]){const target=map[file][size];execFileSync('magick',[root+file,'-auto-orient','-resize',`${width}x${width}>`,'-strip','-quality',String(quality),root+target]);}}
 await writeFile(root+'src/data/image-previews.js','export const imagePreviews = '+JSON.stringify(map,null,2)+';\n');
 console.log(`Optimized ${files.length} images`);

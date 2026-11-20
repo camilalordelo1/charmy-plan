@@ -33,6 +33,8 @@ jobs:
         run: npm run test:proposals
       - name: Test simple password login
         run: npm run test:login
+      - name: Test artwork cache refresh
+        run: node tests/artwork-cache.mjs
       - name: Build static site
         run: npm run build
       - name: Configure Pages
