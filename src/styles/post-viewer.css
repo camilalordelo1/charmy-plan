@@ -15,6 +15,17 @@ body.post-viewer-open { overflow: hidden; }
   width: min(calc(100vw - 24px), calc((100vh - 112px) * .5625));
   width: min(calc(100vw - 24px), calc((100dvh - 112px) * .5625));
 }
+#postViewer[data-format="story"].has-production-summary {
+  width: min(calc(100vw - 24px), calc((100vh - 184px) * .5625));
+  width: min(calc(100vw - 24px), calc((100dvh - 184px) * .5625));
+}
+#postViewerSummary {
+  margin: 10px 0 0;
+  color: #eee;
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
 #postViewer::backdrop { background: rgba(0, 0, 0, .84); backdrop-filter: blur(4px); }
 .post-viewer-shell { position: relative; }
 #postViewerMedia {

@@ -1,6 +1,6 @@
 import { openHighlight, initializeHighlights } from "./views/highlights.js";
 import { mountPostCarousel } from "./views/post-carousel.js";
-import { createPostViewer } from "./views/post-viewer.js";
+import { createPostViewer } from "./views/post-viewer.js?v=caption-2";
 import { postArtwork, applyArtworkFormat } from "./data/post-artworks.js";
 import { mountTiktokPreview } from "./views/tiktok-preview.js";
 import {

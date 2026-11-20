@@ -25,13 +25,20 @@ export function createPostViewer(onInfo) {
       </div></div>`;
     document.body.append(dialog);
   }
-  if (!document.querySelector('link[href*="post-viewer.css"]')) {
-    const style = document.createElement("link");
-    style.rel = "stylesheet";
-    style.href = new URL("../styles/post-viewer.css", import.meta.url).href;
-    document.head.append(style);
-  }
+  const existingStyle = document.querySelector('link[href*="post-viewer.css"]');
+  const style = existingStyle || document.createElement("link");
+  style.rel = "stylesheet";
+  style.href = new URL("../styles/post-viewer.css?v=caption-2", import.meta.url).href;
+  if (!existingStyle) document.head.append(style);
   const stage = dialog.querySelector("#postViewerMedia");
+  let summary = dialog.querySelector("#postViewerSummary");
+  if (!summary) {
+    summary = document.createElement("p");
+    summary.id = "postViewerSummary";
+    summary.hidden = true;
+    summary.setAttribute("role", "note");
+    stage.after(summary);
+  }
   const title = dialog.querySelector("#postViewerTitle");
   const previous = dialog.querySelector("#previousPostViewer");
   const next = dialog.querySelector("#nextPostViewer");
@@ -46,6 +53,13 @@ export function createPostViewer(onInfo) {
     const post = posts[index];
     const story = post.format === "Stories";
     const video = isVideoUpload(post);
+    const url = coverUrl(post);
+    const pendingStory = story && !url;
+    const script = (post.notes || "").match(/(?:^|\n)ROTEIRO\s*\n([\s\S]*?)(?=\n(?:LEGENDA|CTA)\s*\n|$)/)?.[1]?.trim();
+    const firstParagraph = script?.split(/\n\s*\n/)[0].replace(/^Quadro:\s*/i, "").replace(/^[“"]|[”"]$/g, "").replace(/\s+/g, " ").trim();
+    summary.textContent = pendingStory ? `A produzir: ${firstParagraph || post.title}` : "";
+    summary.hidden = !pendingStory;
+    dialog.classList.toggle("has-production-summary", pendingStory);
     dialog.dataset.format = story || video ? "story" : "feed";
     title.textContent = post.title;
     previous.hidden = next.hidden = posts.length < 2;
@@ -61,7 +75,6 @@ export function createPostViewer(onInfo) {
       progress.append(segment);
     }
     if (!story && mountPostCarousel(stage, post)) return;
-    const url = coverUrl(post);
     if (!url) {
       const empty = document.createElement("p");
       empty.className = "post-viewer-empty";
