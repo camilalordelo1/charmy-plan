@@ -5,7 +5,32 @@ import { postMedia } from "../data/post-media.js";
 import { imagePreview } from "../utils/image-preview.js";
 
 export function createPostViewer(onInfo) {
-  const dialog = document.querySelector("#postViewer");
+  // A tab can retain older planner HTML while receiving the updated module.
+  // Build the new viewer when it is missing instead of breaking initialization.
+  let dialog = document.querySelector("#postViewer");
+  if (!dialog) {
+    dialog = document.createElement("dialog");
+    dialog.id = "postViewer";
+    dialog.setAttribute("aria-labelledby", "postViewerTitle");
+    dialog.innerHTML = `<div class="post-viewer-shell">
+      <h2 id="postViewerTitle" class="post-viewer-sr-only"></h2>
+      <button id="closePostViewer" type="button" aria-label="Fechar prévia">×</button>
+      <div id="postViewerProgress" aria-hidden="true" hidden></div>
+      <div id="postViewerMedia"></div>
+      <div class="post-viewer-controls">
+        <button id="previousPostViewer" type="button" aria-label="Story anterior" hidden>‹</button>
+        <span id="postViewerPosition" role="status" aria-live="polite" hidden></span>
+        <button id="nextPostViewer" type="button" aria-label="Próximo Story" hidden>›</button>
+        <button id="postViewerInfo" type="button">Ver infos</button>
+      </div></div>`;
+    document.body.append(dialog);
+  }
+  if (!document.querySelector('link[href*="post-viewer.css"]')) {
+    const style = document.createElement("link");
+    style.rel = "stylesheet";
+    style.href = new URL("../styles/post-viewer.css", import.meta.url).href;
+    document.head.append(style);
+  }
   const stage = dialog.querySelector("#postViewerMedia");
   const title = dialog.querySelector("#postViewerTitle");
   const previous = dialog.querySelector("#previousPostViewer");
